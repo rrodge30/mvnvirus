@@ -22,6 +22,11 @@ class Examinations extends MY_Controller {
 		$this->_view('questionairelist',array('idsubject'=> $data,'data'=>$questionaireList));
 	}
 
+    public function examinestart(){
+		$this->load->model('mdl_Examinations');
+		$examinestart = $this->mdl_Examinations->examinestart($_POST);
+	}
+
     public function subjectclassinformation($data=false){
 		
 		$this->load->model('mdl_Examinations');

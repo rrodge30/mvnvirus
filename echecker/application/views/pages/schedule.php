@@ -3,7 +3,7 @@
 ?>
 
 
-<button rel='tooltip' data-original-title='Add' class='pull-right btn-add-schedule btn btn-success' type='button' name='create' onclick='return false;'>
+<button data-toggle='tooltip' data-placement='top' title='Add Schedule' class='pull-right btn-add-schedule btn btn-success' type='button' name='create' onclick='return false;'>
     <i class='material-icons'>add</i>
 </button>
 <table id="table-scheduleList-main" class="table table-striped">        
@@ -14,7 +14,6 @@
             <td class="text-center font-roboto color-a2">DAY</td>
             <td class="text-center font-roboto color-a2">TIME START</td>
             <td class="text-center font-roboto color-a2">TIME END</td>
-            <td class="text-center font-roboto color-a2">STATUS</td>
             <td class="text-center font-roboto color-a2">ACTION</td>
         </tr>
     </thead>
@@ -34,12 +33,11 @@
                     <td class='text-center font-roboto color-a2'>$day</td>
                     <td class='text-center font-roboto color-a2'>$time_start</td>
                     <td class='text-center font-roboto color-a2'>$time_end</td>
-                    <td class='text-center font-roboto color-a2'>$status</td>
                     <td class='text-center font-roboto color-a2'>
-                        <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-schedule btn btn-info' type='button' name='update' onclick='return false;'>
+                        <button data-id='$id' data-toggle='tooltip' data-placement='top' title='Update' class='btn-update-schedule btn btn-info' type='button' name='update' onclick='return false;'>
                             <i class='material-icons'>update</i>
                         </button>
-                        <button href='schedules/deleteschedule' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-schedule btn btn-danger' type='submit' name='deleteschedule' onclick='return false;'>
+                        <button href='schedules/deleteschedule' data-id='$id' data-toggle='tooltip' data-placement='top' title='Delete' class='btn-delete-schedule btn btn-danger' type='submit' name='deleteschedule' onclick='return false;'>
                             <i class='material-icons'>delete</i>
                         </button>
                     </td>

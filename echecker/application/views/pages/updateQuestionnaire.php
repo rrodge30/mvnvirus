@@ -106,7 +106,7 @@
                         <span class="input-group-addon" id="basic-addon1">Total Items</span>
                         <input readonly="readonly" type="text" class="form-control use" aria-describedby="basic-addon1" id="total-points-input" name="total_points">
                     </div>
-                    <button rel='tooltip' data-original-title='Add' class='pull-right btn-add-question-type btn btn-success' type='button' name='create' onclick='return false;'>
+                    <button data-toggle='tooltip' data-placement='top' title='Add Questionnaire Category' class='pull-right btn-add-question-type btn btn-success' type='button' name='create' onclick='return false;'>
                         <i class='material-icons'>add</i>
                     </button>
                     
@@ -210,11 +210,13 @@
                                 </div>';
                         
                     }
+                    /*
                     echo '<span class="span-next-item'.$i.' item-'.$j.'">
                             <button class="btn-success btn pull-right btn-next-item'.$i.' item-'.$j.'">
                                 <span class="material-icons">playlist_add_check</span>
                             </button>
                         </span>';
+                        */
                             //content end
                     echo '</center>
                         </div>';

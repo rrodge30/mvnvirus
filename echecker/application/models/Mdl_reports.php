@@ -16,14 +16,14 @@ class Mdl_reports extends CI_Model {
                 ->join('subjecttbl','questionairetbl.idsubject = subjecttbl.idsubject','left')
                 ->where('user_questionairetbl.idusers',$userID)
                 ->where('questionairetbl.idsubject',$data)
-                ->order_by('questionairetbl.idquestionaire','ASC')
+                ->group_by('user_questionairetbl.questionaire_id')
                 ->get('user_questionairetbl');
         }
         if($_SESSION["users"]["user_level"] == "2"){ 
             $query=$this->db->join('questionairetbl','user_questionairetbl.questionaire_id = questionairetbl.idquestionaire','left')
             ->join('subjecttbl','questionairetbl.idsubject = subjecttbl.idsubject','left')
-            ->order_by('questionairetbl.idquestionaire','ASC')
             ->where('questionairetbl.idsubject',$data)
+            ->group_by('user_questionairetbl.questionaire_id')
             ->get('user_questionairetbl');
         }
         return $query->result_array();
@@ -42,6 +42,7 @@ class Mdl_reports extends CI_Model {
         }
        
     }
+
     public function reportstudentquestionnaireinfo($data=false){
         
         if($_SESSION["users"]["user_level"] == "2"){ 
@@ -52,14 +53,135 @@ class Mdl_reports extends CI_Model {
                 ->get('user_questionairetbl');
                 return $query->result_array();
         }
+       return false;
+    }
+
+    public function getAllTeacherListDepartmentSessionBase(){
+        
+        $query = $this->db->join('teacher_informationtbl','users.idusers = teacher_informationtbl.id','left')
+                ->where('teacher_informationtbl.department',$_SESSION["users"][0]["department"])
+                ->where('teacher_informationtbl.position','1')
+                ->where('users.user_level',"2")
+                ->group_by('users.idusers')
+                ->get('users');
+        if($departmentTeacherData = $query->result_array()){
+            foreach($departmentTeacherData as $key=>$value){
+                $query = $this->db->where('UID',$value["idusers"])
+                            ->group_by('iduser_department')
+                            ->get('user_departmenttbl');
+                if($teacherSubjectCount = $query->result_array()){
+                    $departmentTeacherData[$key]["subjectcount"] = count($teacherSubjectCount); 
+                }else{
+                    $departmentTeacherData[$key]["subjectcount"] = "0";
+                }
+            }
+            return $departmentTeacherData;
+        }
+        
+        return false;
+    }
+
+    public function reportteachersubjectList($data){
+        
+        $query=$this->db->join('subjecttbl','user_subjecttbl.idsubject = subjecttbl.idsubject')
+                ->join('subject_scheduletbl','subjecttbl.schedule = subject_scheduletbl.idschedule','left')
+            ->where('UID',$data["idusers"])
+        ->get('user_subjecttbl');
+        return $query->result_array();
+        
+    }
+ 
+    public function studentquestionnaireinfo($data){
+        $examData = array();
+        
+        $query=$this->db->join('user_questionairetbl','questionairetbl.idquestionaire = user_questionairetbl.questionaire_id','left')
+            ->where('idquestionaire',$data["idquestionaire"])
+            ->get('questionairetbl');
+        if($questionaireData = $query->result_array()){
+            
+            foreach($questionaireData[0] as $key => $value){
+                $examData[$key] = $value;
+            }
+            $query = $this->db->where('idquestionaire',$data["idquestionaire"])
+                ->get('questionaire_typetbl');
+            if($questionaireTypeData = $query->result_array()){ 
+
+                foreach($questionaireTypeData as $key => $value){
+                    $examData["questionaire_type"][$key] = $value;
+
+                    $query = $this->db->where('idquestionaire_type',$examData["questionaire_type"][$key]["idquestionairetype"])
+                    ->get('questiontbl');
+                    if($questionData = $query->result_array()){
+                        for($i=0;$i<count($questionData);$i++){
+                            
+                            
+                            $examData["questionaire_type"][$key]["question"][$i] = $questionData[$i];
+
+                            $query = $this->db->join('user_answertbl','question_user_answertbl.iduseranswer = user_answertbl.iduseranswer')
+                                                    ->where('question_user_answertbl.idquestion',$questionData[$i]["idquestion"])
+                                                    ->where('user_answertbl.iduser',$data["idusers"])
+                                                ->get("question_user_answertbl");
+                            
+                            if($userAnswer = $query->result_array()){
+                                
+                                $examData["questionaire_type"][$key]["question"][$i]["user_answer"] = $userAnswer;
+                                
+                            }
+
+                            if($examData["questionaire_type"][$key]["questionaire_type"] == "0"){
+                                $query = $this->db->where('idquestion',$examData["questionaire_type"][$key]["question"][$i]["idquestion"])
+                                ->get('question_choicestbl');
+                                
+                                if($choicesData = $query->result_array()){
+                                    for($j=0;$j<count($choicesData);$j++){
+                                        $examData["questionaire_type"][$key]["question"][$i]["choices"][$j] = $choicesData[$j];
+                                        
+                                    }
+                                }
+
+                            }
+                            
+                            $query = $this->db->where('idquestion',$examData["questionaire_type"][$key]["question"][$i]["idquestion"])
+                            ->get('question_answertbl');
+                            if($answerData = $query->result_array()){
+                                
+                                for($j=0;$j<count($answerData);$j++){
+                                    $examData["questionaire_type"][$key]["question"][$i]["answer"][$j] = $answerData[$j];
+                                }
+                                
+                            }else{
+                                $examData["questionaire_type"][$key]["question"][$i]["answer"][0]["answer"] = "";
+                                $examData["questionaire_type"][$key]["question"][$i]["answer"][0]["idquestion_answer"] = "";
+                            }
+                            
+                        }
+                    }
+                }
+                
+            }
+            
+        }  
+        
+        return $examData;
        
+        
+    }
+
+    public function studentquestionnairelist($data){
+        
+        $query=$this->db->join('questionairetbl','user_questionairetbl.questionaire_id = questionairetbl.idquestionaire')
+            ->join('subjecttbl', 'questionairetbl.idsubject = subjecttbl.idsubject')
+            ->where('questionairetbl.idsubject',$data["idsubject"])
+            ->where('user_questionairetbl.idusers',$data["idusers"])
+            ->group_by('user_questionairetbl.iduserquestionaire')
+        ->get('user_questionairetbl');
+        return $query->result_array();
+        
     }
 
     public function reportstudentlistquestionnaire($data=false){
-        
+        $userData = array();
         $query = $this->db->join('subjecttbl','user_subjecttbl.idsubject = subjecttbl.idsubject')
-                        ->join('questionairetbl','subjecttbl.idsubject = questionairetbl.idsubject')
-                        ->join('user_questionairetbl','questionairetbl.idquestionaire = user_questionairetbl.questionaire_id')
                         ->join('users','user_subjecttbl.UID = users.idusers','left')
                         ->join('student_informationtbl','users.idusers = student_informationtbl.id','left')
                         ->join('user_departmenttbl','users.idusers = user_departmenttbl.UID','left')
@@ -67,11 +189,40 @@ class Mdl_reports extends CI_Model {
                         ->join('user_coursetbl','users.idusers = user_coursetbl.iduser_course','left')
                         ->join('coursetbl','user_coursetbl.idcourse = coursetbl.idcourse','left')
                         ->group_by('user_subjecttbl.UID')
-                ->where('user_subjecttbl.idsubject',$data)
+                ->where('user_subjecttbl.idsubject',$data["idsubject"])
                 ->where('users.user_level',"1")
                 ->get('user_subjecttbl');
 
-        return $query->result_array();
+        $userData = $query->result_array();
+        
+        if($userData){
+            foreach($userData as $key => $value){
+                $query = $this->db->join('questionairetbl','user_questionairetbl.questionaire_id = questionairetbl.idquestionaire')
+                        ->where('user_questionairetbl.idusers',$value["idusers"])
+                        ->where('user_questionairetbl.questionaire_id',$data["idquestionaire"])
+                        ->group_by('iduserquestionaire')
+                        ->get('user_questionairetbl');
+                
+                if($userQuestionnaireData = $query->row_array()){
+                    foreach($userQuestionnaireData as $i => $iValue){
+                        $userData[$key][$i] = $iValue;
+                    }
+                    $userData[0]["questionaire_total_score"] = $userQuestionnaireData["questionaire_total_score"];
+                }else{
+                    $userQuestionnaireColumns = array("iduserquestionaire","idusers","questionaire_id","user_total_score","idquestionaire");
+                    foreach($userQuestionnaireColumns as $i => $iValue){
+                        $userData[$key][$iValue] = "0";
+                    }
+                }
+                
+            }
+            
+        }else{
+            return array("",false);
+        }
+       
+        return $userData;
+        
     }
     public function updatequestionscore($data=false){
       
@@ -102,6 +253,87 @@ class Mdl_reports extends CI_Model {
         }
         
         return array("Error Updating",false);
+    }
+
+    //USER SESSION BASE
+    public function getQuestionnaireInfoById($data=false){
+        
+        $examData = array();
+        
+        $query=$this->db->where('idquestionaire',$data)
+            ->get('questionairetbl');
+        if($questionaireData = $query->result_array()){
+            $query = $this->db->where('questionaire_id', $data)
+                            ->where('idusers',$_SESSION["users"]["idusers"])
+                            ->get('user_questionairetbl');
+            $userQuestionaireData = $query->result_array();
+            foreach($questionaireData[0] as $key => $value){
+                $examData[$key] = $value;
+            }
+            if($userQuestionaireData){
+                $examData["user_questionaire"] = $userQuestionaireData;
+            }
+            $query = $this->db->where('idquestionaire',$data)
+                ->get('questionaire_typetbl');
+            if($questionaireTypeData = $query->result_array()){ 
+
+                foreach($questionaireTypeData as $key => $value){
+                    $examData["questionaire_type"][$key] = $value;
+
+                    $query = $this->db->where('idquestionaire_type',$examData["questionaire_type"][$key]["idquestionairetype"])
+                    ->get('questiontbl');
+                    if($questionData = $query->result_array()){
+                        for($i=0;$i<count($questionData);$i++){
+                           
+                            
+                            $examData["questionaire_type"][$key]["question"][$i] = $questionData[$i];
+
+                            $query = $this->db->join('user_answertbl','question_user_answertbl.iduseranswer = user_answertbl.iduseranswer')
+                                                  ->where('question_user_answertbl.idquestion',$questionData[$i]["idquestion"])
+                                                  ->where('user_answertbl.iduser',$_SESSION["users"]["idusers"])
+                                                ->get("question_user_answertbl");
+                            
+                            if($userAnswer = $query->result_array()){
+                                
+                                $examData["questionaire_type"][$key]["question"][$i]["user_answer"] = $userAnswer;
+                                
+                            }
+
+                            if($examData["questionaire_type"][$key]["questionaire_type"] == "0"){
+                                $query = $this->db->where('idquestion',$examData["questionaire_type"][$key]["question"][$i]["idquestion"])
+                                ->get('question_choicestbl');
+                                
+                                if($choicesData = $query->result_array()){
+                                    for($j=0;$j<count($choicesData);$j++){
+                                        $examData["questionaire_type"][$key]["question"][$i]["choices"][$j] = $choicesData[$j];
+                                        
+                                    }
+                                }
+
+                            }
+                            
+                            $query = $this->db->where('idquestion',$examData["questionaire_type"][$key]["question"][$i]["idquestion"])
+                            ->get('question_answertbl');
+                            if($answerData = $query->result_array()){
+                                
+                                for($j=0;$j<count($answerData);$j++){
+                                    $examData["questionaire_type"][$key]["question"][$i]["answer"][$j] = $answerData[$j];
+                                }
+                                
+                            }else{
+                                $examData["questionaire_type"][$key]["question"][$i]["answer"][0]["answer"] = "";
+                                $examData["questionaire_type"][$key]["question"][$i]["answer"][0]["idquestion_answer"] = "";
+                            }
+                            
+                        }
+                    }
+                }
+                
+            }
+           
+        }  
+        
+        return $examData;
     }
 
 }

@@ -13,6 +13,7 @@
             <td class="text-center font-roboto color-a2">DATE</td>
             <td class="text-center font-roboto color-a2">TIME</td>
             <td class="text-center font-roboto color-a2">SUBJECT CODE</td>
+            <td class="text-center font-roboto color-a2">TEACHER</td>
             <td class="text-center font-roboto color-a2">ACTION</td>
 
         </tr>
@@ -24,11 +25,13 @@
                     $id = $questionnaire['idquestionaire'];
                     $title = $questionnaire['questionaire_title'];
                     $description = $questionnaire['questionaire_description'];
-                    $date = $questionnaire['questionaire_date'];
+                    $date = $questionnaire['questionaire_date'];    
                     $time = $questionnaire['questionaire_time'];
                     $subject = $questionnaire['subject_code'];
+                    $firstname = $questionnaire['firstname'];
+                    $middlename = $questionnaire['middlename'];
+                    $lastname = $questionnaire['lastname'];
                     
-                
                 echo "
                     <tr>
                         <td class='text-center font-roboto color-a2'>$id</td>
@@ -37,9 +40,10 @@
                         <td class='text-center font-roboto color-a2'>$date</td>
                         <td class='text-center font-roboto color-a2'>$time</td>
                         <td class='text-center font-roboto color-a2'>$subject</td>
+                        <td class='text-center font-roboto color-a2'>$lastname, $firstname $middlename</td>
                         <td class='text-center font-roboto color-a2'>
                             
-                            <a href='notifications/viewquestionnaire/$id' rel='tooltip' data-original-title='View' class='btn-view-questionnaire btn btn-info' name='view'>
+                            <a href='notifications/viewquestionnaire/$id' data-toggle='tooltip' data-placement='top' title='View Questionnaires' class='btn-view-questionnaire btn btn-info' name='view'>
                                 <i class='material-icons'>remove_red_eye</i>
                             </a>
                           

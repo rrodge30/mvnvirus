@@ -1,19 +1,19 @@
 $(document).ready(function(){
-
-
-    // COUNTDOWN
+    //TOOL TIP
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+        $.material.init();
+    })
     
-    // Set the date we're counting down to
-    
 
-    //COUNTDOWN END
+    //TOOL TIP END
     $('.time-hours-minute-duration').durationPicker({
         
           langs: 'en',
         
           formatter: function (s) {
         
-            return s;
+            return s;   
         
           },
     
@@ -2030,6 +2030,12 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
         var tabContent = '<div role="tabpanel" class="tab-pane fade" id="tab-add-question'+nextTab+'" data-id="'+nextTab+'" data-questiontype="'+inputTypeValue+'">'
                         +'<div class="container">'
                         +'<div class="row">'
+                        +'<input type="hidden" id="category-title-tabNo'+nextTab+'" value="'+inputTitleValue+'">'
+                        +'<input type="hidden" id="question-quantity-tabNo'+nextTab+'" value="'+inputAnswerQuantityValue+'">'
+                        +'<input type="hidden" id="item-points-tabNo'+nextTab+'" value="'+inputNumberOfPointsValue+'">'
+                        +'<input type="hidden" id="item-quantity-tabNo'+nextTab+'" value="'+inputNumerOfItemsValue+'">'
+                        +'<input type="hidden" id="total-item-tabNo'+nextTab+'" value="'+totalPointsValue+'">'
+                        
                         +'<div class="col-md-10 bhoechie-tab-container template'+nextTab+'">'
                             +'<div class="col-md-2 bhoechie-tab-menu template'+nextTab+'">'
                                 +'<div class="list-group">';
@@ -2048,11 +2054,7 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
             tabContent += '<div class="bhoechie-tab-content '+((i==0) ? 'active':'')+'">'
                 +'<center id="add-answer'+nextTab+'-'+i+'">'
                     //content
-                    +'<input type="hidden" id="category-title-tabNo'+i+'" value="'+inputTitleValue+'">'
-                    +'<input type="hidden" id="question-quantity-tabNo'+i+'" value="'+inputAnswerQuantityValue+'">'
-                    +'<input type="hidden" id="item-points-tabNo'+i+'" value="'+inputNumberOfPointsValue+'">'
-                    +'<input type="hidden" id="item-quantity-tabNo'+i+'" value="'+inputNumerOfItemsValue+'">'
-                    +'<input type="hidden" id="total-item-tabNo'+i+'" value="'+totalPointsValue+'">'
+                    
                     
                     +'<div class="col-md-12" style="margin: 5px;">'
                             +'<h1 class="glyphicon glyphicon-question-sign" style="font-size:4em;color:#55518a"></h1>'
@@ -2453,16 +2455,87 @@ function goToFullScreen(){
         
         if (isConfirm) {
             
-            //var el = document.getElementById('examine-content');
-            //fullScreenToggle(el);
-            //$(el).attr('style','width:100% !important;height:100% !important;');
             
-            document.body.className += " no-scroll";
             $('#agreement-container').hide();
-            $('#examine-container').show();
+            $('div#modal-static-examine').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+            $('div#modal-static-examine').modal('show');
+            var idquestionaire = $('#input-idquestionaire').val();
+            $.ajax({
+                url:'examinations/examinestart',
+                data:{idquestionaire:idquestionaire},
+                dataType:"json",
+                method:"POST",
+                success:function(data){
+                   
+                }
+                
+            });
+
             //COUNTDOWN TIMER
+            var clock;
             
-            var countDownDate = (new Date(Date.now()).getTime() + (parseInt($("#countdownduration").val()+2)*100));
+            clock = $('.clock').FlipClock({
+                
+                    
+                clockFace: 'DailyCounter',
+                autoStart: false,
+                callbacks: {
+                   
+                    stop: function() {
+                        swal("Expired", "Time's Up !", "error");
+                        var contentTabHeader = $('ul > li.tab-examine');
+                        var dataAnswers = [];
+                        dataAnswers = {
+                            'idquestionaire' : $('#input-idquestionaire').val()
+                        }
+                        for(i=0;i<contentTabHeader.length;i++){
+                            dataAnswers[i] = [];
+                            dataAnswers[i] = {};
+                            var itemsCount = $('div.btmenu-template'+i+'>div.list-group > a').length;
+                            for(j=0;j<itemsCount;j++){
+                                dataAnswers[i][j] = [];
+                                dataAnswers[i][j] = {
+                                    'idquestion':$('#input-idquestion-tabno'+i+'-'+j+'').val()
+                                };
+                                if($('.answer'+i+'-'+j+'').data('type') == 0){
+                                    dataAnswers[i][j][0] = $('.answer'+i+'-'+j+':checked').val();
+                                    
+                                }else{
+                                    dataAnswers[i][j][0] = $('.answer'+i+'-'+j+'').val();
+                                    
+                                }
+                                
+                            }
+                        }
+                        
+                        
+                        $.ajax({
+                            url:'examinations/submitexamine',
+                            data:{data:dataAnswers},
+                            dataType:"json",
+                            method:"POST",
+                            success:function(data){
+                                if(data[1] == true){
+                                    swal("success", "Your Examination Has Been Submitted.", "success");
+                                    window.location.replace('examinations');
+                                }else{
+                                    swal("Cancelled", "Error Delete Record.", "error");
+                                }
+                            }
+                            
+                        });
+                    }
+                }
+            });
+                
+            clock.setTime(parseInt($("#countdownduration").val()));
+            clock.setCountdown(true);
+            clock.start();
+            /*
+            var countDownDate = (new Date(Date.now()).getTime() + (+2)*100);
             
             
             // Update the count down every 1 second
@@ -2489,51 +2562,11 @@ function goToFullScreen(){
                     
                     clearInterval(x);
                     document.getElementById("demo").innerHTML = "EXPIRED";
-                    swal("Expired", "Time's Up !", "error");
-                    var contentTabHeader = $('ul > li.tab-examine');
-                    var dataAnswers = [];
-                    dataAnswers = {
-                        'idquestionaire' : $('#input-idquestionaire').val()
-                    }
-                    for(i=0;i<contentTabHeader.length;i++){
-                        dataAnswers[i] = [];
-                        dataAnswers[i] = {};
-                        var itemsCount = $('div.btmenu-template'+i+'>div.list-group > a').length;
-                        for(j=0;j<itemsCount;j++){
-                            dataAnswers[i][j] = [];
-                            dataAnswers[i][j] = {
-                                'idquestion':$('#input-idquestion-tabno'+i+'-'+j+'').val()
-                            };
-                            if($('.answer'+i+'-'+j+'').data('type') == 0){
-                                dataAnswers[i][j][0] = $('.answer'+i+'-'+j+':checked').val();
-                                
-                            }else{
-                                dataAnswers[i][j][0] = $('.answer'+i+'-'+j+'').val();
-                                
-                            }
-                            
-                        }
-                    }
                     
-                    
-                    $.ajax({
-                        url:'examinations/submitexamine',
-                        data:{data:dataAnswers},
-                        dataType:"json",
-                        method:"POST",
-                        success:function(data){
-                            if(data[1] == true){
-                                swal("success", "Your Examination Has Been Submitted.", "success");
-                                window.location.replace('examinations');
-                            }else{
-                                swal("Cancelled", "Error Delete Record.", "error");
-                            }
-                        }
-                        
-                    });
                 }
             }, 1000);
             //COUNTDOWN TIMER END
+            */
         } else {
             swal("Cancelled", "Cancelled", "error");
         }

@@ -1,9 +1,9 @@
 <?php
-    /*
+/*
     echo "<pre>";
     print_r($data);
     echo "</pre>";
-    */
+  */  
 ?>
 
 
@@ -99,15 +99,7 @@
                         </div>
                         <div class="col-md-10">
                             <p class="category" id="reports-user-total-score">
-                                <?php
-                                if($_SESSION["users"]["user_level"] == "1"){
-                                    echo $data["user_questionaire"][0]["user_total_score"];
-                                }else{
-                                    echo $data["questionaire_total_score"];
-                                }
-                                
-                                
-                                ?>
+                                <?=$data["user_total_score"]?>
                             </p>
                         </div>
                     </div>
@@ -331,31 +323,15 @@
                                                                                 </div>
                                                                                 
                                                                                 ';
-                                                                                if($_SESSION["users"]["user_level"] == "1"){
-                                                                                    $dataIdUserQuestionnaire = $data["user_questionaire"][0]["iduserquestionaire"];
-                                                                                }else{
-                                                                                    $dataIdUserQuestionnaire = $data["iduserquestionaire"];
-                                                                                }
-                                                                                
+                                                                                $dataIdUserQuestionnaire = $data["iduserquestionaire"];
                                                                                 
                                                                                 $dataQuestionItemPoints = $data["questionaire_type"][$key]["questionaire_type_item_points"];
                                                                                 $dataIdquestion = $data["questionaire_type"][$key]["question"][$i]["idquestion"];
-                                                                                if($_SESSION["users"]["user_level"] == "1"){
-                                                                                    $dataIdusers = $_SESSION["users"]["idusers"];
-                                                                                }else{
-                                                                                    $dataIdusers = $data["idusers"];
-                                                                                }
+                                                                                $dataIdusers = $data["idusers"];
                                                                                 if(($data["questionaire_type"][$key]["question"][$i]["user_answer"] !== null) && !empty($data["questionaire_type"][$key]["question"][$i]["user_answer"])){
                                                                                     $dataIdQuestionnaireUserAnswer = $data["questionaire_type"][$key]["question"][$i]["user_answer"][0]["idquestionuseranswer"];
                                                                                     $dataQuestionScore = $data["questionaire_type"][$key]["question"][$i]["user_answer"][0]["question_score"];
-                                                                                    if($_SESSION["users"]["user_level"] == "2"){
-                                                                                        echo '<div class="form-group col-md-12">
-                                                                                                    <button class="data-toggle=tooltip data-placement=top title=Delete btn-report-update-essay-score btn pull-right col-md-5" type="button" data-idusers="'.$dataIdusers.'" data-idquestion="'.$dataIdquestion.'" data-itempoints="'.$dataQuestionItemPoints.'" data-questionscore="'.$dataQuestionScore.'" data-idquestionuseranswer="'.$dataIdQuestionnaireUserAnswer.'" data-iduserquestionaire="'.$dataIdUserQuestionnaire.'">
-                                                                                                        <span class="material-icons">create</span>CHANGE SCORE
-                                                                                                    </button>
-                                                                                            </div>';
-                                                                                    }
-                                                                                
+                                                                                   
                                                                                 }
                                                                              
 

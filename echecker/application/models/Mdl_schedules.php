@@ -77,7 +77,7 @@ class Mdl_schedules extends CI_Model {
         $isScheduleNotAvailable = $this->db->where('idschedule',$data)->limit(1)->get('subject_scheduletbl');
         $getIsScheduleAvailable = $isScheduleNotAvailable->row_array();
         if($getIsScheduleAvailable['status'] != 'available'){
-            return array("Cannot Delete Unavailable Schedule", false);
+            return array("Cannot Delete available Schedule", false);
         }
         $query=$this->db->where('idschedule',$data)
                     ->delete('subject_scheduletbl');

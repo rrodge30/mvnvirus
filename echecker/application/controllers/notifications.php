@@ -28,6 +28,6 @@ class Notifications extends MY_Controller {
 		$questionaireInfo = $this->mdl_notifications->approvequestionnaire($_POST["id"]);
 		echo json_encode($questionaireInfo);
 	}
-
+ 
 
 }

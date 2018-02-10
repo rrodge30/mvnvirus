@@ -1,5 +1,6 @@
 <?php
 
+if($data){
 ?>
 
 <div class="row">
@@ -142,14 +143,14 @@
                                                                                         <h6>ANSWER:</h6>
                                                                                     </label>
                                                                                 </div>';
-                                                                            for($j=0;$j<count($data["questionaire_type"][$key]["question"][$i]["answer"]);$j++){
-                                                                                echo '<div class="radio">
-                                                                                        <label>
-                                                                                            <input type="radio" class="answer'.$key.'-'.$i.'" name="answer'.$key.'-'.$i.'" 
-                                                                                            '.$data["questionaire_type"][$key]["question"][$i]["answer"][$j]["answer"].'
-                                                                                        </label>
-                                                                                    </div>';   
-                                                                            }    
+                                                                            
+                                                                            echo '<div class="radio">
+                                                                                    <label>
+                                                                                        <input type="radio" class="answer'.$key.'-'.$i.'" name="answer'.$key.'-'.$i.'">
+                                                                                        '.$data["questionaire_type"][$key]["question"][$i]["answer"][0]["answer"].'
+                                                                                    </label>
+                                                                                </div>';   
+                                                                               
                                                                         echo '</div>';
                                                                     }
 
@@ -206,3 +207,7 @@
     </div>
                        
 </div>
+
+<?php
+}
+?>

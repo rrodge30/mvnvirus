@@ -10,7 +10,14 @@ class Login extends MY_Controller {
 
 	public function index()
 	{
-		$this->_view('login');
+        $this->load->model('mdl_Users');
+        $query = $this->mdl_Users->isAdminExist();
+        if($query){
+            $this->_view('login');
+        }else{
+            $this->_view('registeradmin');
+        }
+		
 	}
 
     public function authenticateLogin(){

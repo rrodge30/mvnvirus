@@ -1,5 +1,5 @@
 <?php
-print_r($data);
+//print_r($data);
    
 ?>
 
@@ -64,14 +64,20 @@ print_r($data);
                                 
                         echo "<td class='text-center font-roboto color-a2'>";
                         if($_SESSION["users"]["user_level"] == "1"){
-                            echo "<a rel='tooltip' data-original-title='View Questionnaires' class='btn-view-questionaire btn btn-info' href='reports/reportquestionnaireinfo/$id'>
+                            echo "<a data-toggle='tooltip' data-placement='top' title='View Questionnaire Result' class='btn-view-questionaire btn btn-info' href='reports/reportquestionnaireinfo/$id'>
                                     <i class='material-icons'>remove_red_eye</i>
                                 </a>";
 
                         }else{
-                            echo "<a rel='tooltip' data-original-title='View Questionnaires' class='btn-view-questionaire btn btn-info' href='reports/reportstudentlistquestionnaire/$idsubject'>
-                                <i class='material-icons'>remove_red_eye</i>
-                            </a>";
+                            echo "
+                                <form action='reports/reportstudentlistquestionnaire' method='GET' id='frm-reportstudentlistquestionnaire$id'>
+                                    <input type='hidden' name='idsubject' value='$idsubject'>
+                                    <input type='hidden' name='idquestionaire' value='$id'>
+                                    <button data-toggle='tooltip' data-placement='top' type='submit' form='frm-reportstudentlistquestionnaire$id' title='View Student List' class='btn-view-questionaire btn btn-info'>
+                                        <i class='material-icons'>remove_red_eye</i>
+                                    </button>
+                                </form>
+                            ";
                         }
                                                      
                         

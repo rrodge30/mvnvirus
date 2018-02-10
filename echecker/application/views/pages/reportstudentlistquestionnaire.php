@@ -1,13 +1,27 @@
 <?php
+   /*echo "<pre>";
    print_r($data);
+   echo "</pre>";
+   */
 ?>
 
 
 <?php 
     if(isset($data[0]['subject_code'])){ 
 ?>
-<h6><i><b>SUBJECT CODE:</b> <?=$data[0]['subject_code'];?></i></h6>
+<h6><i><b>SUBJECT CODE :</b> <?=$data[0]['subject_code'];?></i></h6>
 <h6><i><b>DESCRIPTION :</b> <?=$data[0]['subject_description'];?></i></h6>
+<h6><i><b>TOTAL SCORE :</b> 
+<?php
+    if(isset($data[0]["questionaire_total_score"])){
+        echo $data[0]["questionaire_total_score"];
+    }else{
+        echo "0";
+    }
+?>
+</i></h6>
+
+
 <?php 
     }//dont erase this
 ?>
@@ -29,7 +43,7 @@
         <?php
             if($data){
                 foreach($data as $u){
-                    $id = $u['idusers'];
+                    $id = $u['UID'];
                     $idsubject = $u["idsubject"];
                     $code = $u['code'];
                     $firstname = $u['firstname'];
@@ -47,14 +61,28 @@
                                 <td class='text-center'>$lastname, $firstname $middlename</td>
                                 <td class='text-center'>$department</td>
                                 <td class='text-center'>$score</td>
-                                <td class='text-center'>
-                                  
-                                        <a href='reports/reportstudentquestionnaireinfo/$idquestionaire' rel='tooltip' data-original-title='Update' class='btn-view-student-subject-questionnaires btn btn-info' type='submit' name='viewStudentSubjectQuestionnaires'>
+                                <td class='text-center'>";
+                                if($idquestionaire == "0"){
+                                    echo "
+                                    <form action='reports/reportstudentquestionnaireinfo' id='frm-reportstudentquestionnaireinfo$id'>
+                                        <input type='hidden' name='idquestionaire' value='$idquestionaire'>
+                                        <input type='hidden' name='idusers' value='$id'>
+                                        <button disabled data-toggle='tooltip' data-placement='top' title='Unable to view,you have not take examination yet.' class='btn-view-student-subject-questionnaires btn btn-info' type='submit' form='frm-reportstudentquestionnaireinfo$id'>
+                                            <i class='material-icons'>close</i>
+                                        </button>
+                                    </form>";
+                                }else{
+                                    echo "
+                                    <form action='reports/reportstudentquestionnaireinfo' id='frm-reportstudentquestionnaireinfo$id'>
+                                        <input type='hidden' name='idquestionaire' value='$idquestionaire'>
+                                        <input type='hidden' name='idusers' value='$id'>
+                                        <button data-toggle='tooltip' data-placement='top' title='View Questionnaire' class='btn-view-student-subject-questionnaires btn btn-info' type='submit' form='frm-reportstudentquestionnaireinfo$id'>
                                             <i class='material-icons'>remove_red_eye</i>
-                                        </a>
-                                 
-                                   
-                                </td>
+                                        </button>
+                                    </form>";
+                                }
+                                    
+                        echo "  </td>
                             </tr>
                         ";
                     }

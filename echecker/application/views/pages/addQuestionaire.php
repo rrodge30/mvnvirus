@@ -87,7 +87,7 @@
                         <span class="input-group-addon" id="basic-addon1">Total Items</span>
                         <input readonly="readonly" type="text" class="form-control use" aria-describedby="basic-addon1" required="required" id="total-points-input" name="total_points">
                     </div>
-                    <button rel='tooltip' data-original-title='Add' class='pull-right btn-add-question-type btn btn-success' type='button' name='create' onclick='return false;'>
+                    <button data-toggle='tooltip' data-placement='top' title='Add Questionnaire Type' class='pull-right btn-add-question-type btn btn-success' type='button' name='create' onclick='return false;'>
                         <i class='material-icons'>add</i>
                     </button>
                     

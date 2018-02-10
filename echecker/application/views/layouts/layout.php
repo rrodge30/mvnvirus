@@ -6,7 +6,7 @@
         case '1':
             $m_subjects="";
             $m_users="";
-            $m_reports="1";
+            $m_reports="";
             $m_departments="";
             $m_courses="";
             $m_examination="1";
@@ -28,7 +28,7 @@
         case '99':  
             $m_subjects="1";
             $m_users="1";
-            $m_reports="1";
+            $m_reports="";
             $m_departments="1";
             $m_courses="1";
             $m_examination="";
@@ -49,7 +49,20 @@
             $users='active';
             break;
         case 'reports':
-            $examinations='active';
+            if($_SESSION["users"]["user_level"] != "99"){
+                if($_SESSION["users"]["user_level"] == "1"){
+                    $examinations='active';
+                }
+                if($_SESSION["users"]["user_level"] == "2"){
+                    if($_SESSION["users"][0]["position"] == "1"){
+                        $examinations='active';
+                    }
+                    
+                }
+                
+                
+            }
+            $reports='active';
             break;
         case 'departments':
             $departments='active';
@@ -93,6 +106,7 @@
                         </a>
                     </li>
                     <?php
+                 
                     if($m_subjects == '1'){
                     
                     echo '<li class="'.$subjects.'">
@@ -161,7 +175,7 @@
                                 </li>';
                     }
 
-                    if($m_reports == '1'){
+                    if(($m_reports == '1') && ($_SESSION['users'][0]['position'] == "2")){
                         
                         echo '<li class="'.$reports.'">
                                     <a href="reports">

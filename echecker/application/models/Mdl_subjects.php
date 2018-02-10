@@ -79,7 +79,7 @@ class Mdl_subjects extends CI_Model {
             if(isset($data['schedule'])){
                 $last_insert = $this->db->insert_id();
 
-                $isUpdated = $this->db->set('status','unavailable')
+                $isUpdated = $this->db->set('status','available')
                                     ->where('idschedule',$data['schedule'])
                                     ->update('subject_scheduletbl');
                 if($isUpdated){
@@ -124,7 +124,7 @@ class Mdl_subjects extends CI_Model {
               
                 if($getSubject['schedule'] != $data['schedule']){
                     if($this->db->set('status','available')->where('idschedule',$getSubject['schedule'])->update('subject_scheduletbl')){
-                        if($this->db->set('status','unavailable')->where('idschedule',$data['schedule'])->update('subject_scheduletbl')){
+                        if($this->db->set('status','available')->where('idschedule',$data['schedule'])->update('subject_scheduletbl')){
                             return array("",true);
                         }else{
                             return array("Error in Updating new Schedule", false); 

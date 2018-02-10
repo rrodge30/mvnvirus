@@ -28,7 +28,7 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="tab-professorlist">
-                <button rel='tooltip' data-original-title='Add' class='pull-right btn-add-teacher btn btn-success' type='button' name='create' onclick='return false;'>
+                <button data-toggle='tooltip' data-placement='top' title='Add Teacher' class='pull-right btn-add-teacher btn btn-success' type='button' name='create' onclick='return false;'>
                     <i class='material-icons'>add</i>
                 </button>
                 
@@ -54,7 +54,8 @@
                                         $firstname = $u['firstname'];
                                         $middlename = $u['middlename'];
                                         $lastname = $u['lastname'];
-                                        $position = $u['position'];
+                                        $position = (($u['position'] == "1") ? "Regular Teacher" : "Dean");
+
                                         $department = $u['department_name'];
                                         $user_level = $u['user_level'];
                                         if($user_level == '2'){
@@ -66,10 +67,10 @@
                                                     <td class='text-center'>$position</td>
                                                     <td class='text-center'>$department</td>
                                                     <td class='text-center'>
-                                                        <button data-id='$id' data-level='$user_level' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;' data-isadmin='1'>
+                                                        <button data-id='$id' data-level='$user_level' data-toggle='tooltip' data-placement='top' title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;' data-isadmin='1'>
                                                             <i class='material-icons'>create</i>
                                                         </button>
-                                                        <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
+                                                        <button href='users/deleteuser' data-id='$id' rel='tooltip' data-toggle='tooltip' data-placement='top' title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
                                                             <i class='material-icons'>delete</i>
                                                         </button>
                                                     </td>
@@ -84,7 +85,7 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab-studentlist">
                     <div class="row">
-                        <button rel='tooltip' data-original-title='Add' class='pull-right btn-add-student btn btn-success' type='button' name='create' onclick='return false;' data-isadmin='1'>
+                        <button data-toggle='tooltip' data-placement='top' title='Add Student' class='pull-right btn-add-student btn btn-success' type='button' name='create' onclick='return false;' data-isadmin='1'>
                             <i class='material-icons'>add</i>
                         </button>
                         <table id="table-studentslist" class="table table-striped" style='width:100%;'>        
@@ -122,10 +123,10 @@
                                                         <td class='text-center'>$course</td>
                                                         <td class='text-center'>$year_level</td>
                                                         <td class='text-center'>
-                                                            <button data-id='$id' data-level='$user_level' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;' data-isadmin='1'>
+                                                            <button data-id='$id' data-level='$user_level' data-toggle='tooltip' data-placement='top' title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;' data-isadmin='1'>
                                                                 <i class='material-icons'>create</i>
                                                             </button>
-                                                            <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
+                                                            <button href='users/deleteuser' data-id='$id' data-toggle='tooltip' data-placement='top' title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
                                                                 <i class='material-icons'>delete</i>
                                                             </button>
                                                         </td>

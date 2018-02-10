@@ -11,7 +11,7 @@
 ?>
 <div class="row">
 <h5><b>STUDENT LIST:</b></h5>
-<button rel='tooltip' data-original-title='Add' class='pull-right btn-add-student btn btn-success' type='button' name='create' onclick='return false;' data-isadmin='0' data-idsubject='<?=$data[0]['idsubject'];?>'>
+<button data-toggle='tooltip' data-placement='top' title='Add Student' class='pull-right btn-add-student btn btn-success' type='button' name='create' onclick='return false;' data-isadmin='0' data-idsubject='<?=$data[0]['idsubject'];?>'>
     <i class='material-icons'>add</i>
 </button>
 <table id="table-studentslist" class="table table-striped" style='width:100%;'>        
@@ -49,10 +49,10 @@
                                 <td class='text-center'>$course</td>
                                 <td class='text-center'>$year_level</td>
                                 <td class='text-center'>
-                                    <button data-id='$id' data-level='$user_level' rel='tooltip' data-original-title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;' data-isadmin='0' data-idsubject='".$data[0]["idsubject"]."'>
+                                    <button data-id='$id' data-level='$user_level' data-toggle='tooltip' data-placement='top' title='Update' class='btn-update-user btn btn-info' type='button' name='update' onclick='return false;' data-isadmin='0' data-idsubject='".$data[0]["idsubject"]."'>
                                         <i class='material-icons'>create</i>
                                     </button>
-                                    <button href='users/deleteuser' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
+                                    <button href='users/deleteuser' data-id='$id' data-toggle='tooltip' data-placement='top' title='Delete' class='btn-delete-user btn btn-danger' type='submit' name='deleteUser' onclick='return false;'>
                                         <i class='material-icons'>delete</i>
                                     </button>
                                 </td>

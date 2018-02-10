@@ -1,21 +1,18 @@
 <?php
-    
-    /*Array ( [0] => Array ( [iduserquestionaire] => 9 [idusers] => 70 [questionaire_id] => 35 [user_total_score] => 7.3333333333333 [idquestionaire] => 35 [idclass] => 0 [idsubject] => 14 [questionaire_title] => zxvzxc [questionaire_description] => vxzcvxzvxcvzxcv [questionaire_status] => approved [approved_user] => [approved_date] => 2018-02-04 22:32:01 [questionaire_score] => [questionaire_total_score] => [questionaire_duration] => 3600 [questionaire_remarks] => [questionaire_date] => 02-03-18 [questionaire_time] => 22:15 [questionaire_instruction] =>
-zxvzxvx
-
-[questionaire_type_id] => 0 [subject_code] => IT 999 [subject_description] => Project Management [schedule] => 14 [units] => 3 [status] => ) )*/ 
+//print_r($data);
+   
 ?>
-    
+
 <div class="user-subject-list">
 
     <?php 
         if($data){
-            if(isset($data["subject_code"]) && isset($data["subject_description"])){
+            if(isset($data[0]["subject_code"]) && isset($data[0]["subject_description"])){
                 echo '<div class="row">
-                        <span>Subject Code:</span><span>'.$data["subject_code"].'</span>
+                        <span>Subject Code:</span><span>'.$data[0]["subject_code"].'</span>
                     </div>
                     <div class="row">
-                            <span>Subject Description:</span><span>'.$data["subject_description"].'</span>
+                            <span>Subject Description:</span><span>'.$data[0]["subject_description"].'</span>
                     </div>';
             }
         }
@@ -30,7 +27,10 @@ zxvzxvx
                 <td class="text-center font-roboto color-a2">DESCRIPTION</td>
                 <td class="text-center font-roboto color-a2">DATE</td>
                 <td class="text-center font-roboto color-a2">TOTAL SCORE</td>
-                <td class="text-center font-roboto color-a2">SCORE</td>   
+                <td class="text-center font-roboto color-a2">SCORE</td>
+              
+                
+                
                 <td class="text-center font-roboto color-a2">ACTION</td>
             </tr>
         </thead>
@@ -45,7 +45,8 @@ zxvzxvx
                             $date = $questionaire['questionaire_date'];
                             $total_score = $questionaire['questionaire_total_score'];
                             $score = $questionaire['user_total_score'];
-                            
+                            $idsubject = $questionaire['idsubject'];
+                            $idusers = $questionaire['idusers'];
 
                         echo "
                             <tr>
@@ -56,14 +57,20 @@ zxvzxvx
                                 <td class='text-center font-roboto color-a2'>$total_score</td>
                                 <td class='text-center font-roboto color-a2'>$score</td>";
                                 
-                        echo "<td class='text-center font-roboto color-a2'>
+                         
                                 
-                                <a data-toggle='tooltip' data-placement='top' title='View Questionnaire Result' class='btn-view-questionaire btn btn-info' href='reports/reportquestionnaireinfo/$id'>
+                        echo "<td class='text-center font-roboto color-a2'>";
+                    
+                        echo "
+                            <form action='reports/studentquestionnaireinfo' method='GET' id='frm-studentquestionnaireinfo'>
+                                <input type='hidden' name='idusers' value='$idusers'>
+                                <input type='hidden' name='idquestionaire' value='$id'>
+                                <button data-toggle='tooltip' data-placement='top' title='View Questionnaire result' type='submit' form='frm-studentquestionnaireinfo' class='btn btn-info'>
                                     <i class='material-icons'>remove_red_eye</i>
-                                </a>";
-                     
-                        
-    
+                                </button>
+                            </form>
+                            ";
+
                         echo " 
                                     
                                 </td>

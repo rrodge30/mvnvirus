@@ -1,11 +1,5 @@
-<?php
-    
-    /*Array ( [0] => Array ( [iduserquestionaire] => 9 [idusers] => 70 [questionaire_id] => 35 [user_total_score] => 7.3333333333333 [idquestionaire] => 35 [idclass] => 0 [idsubject] => 14 [questionaire_title] => zxvzxc [questionaire_description] => vxzcvxzvxcvzxcv [questionaire_status] => approved [approved_user] => [approved_date] => 2018-02-04 22:32:01 [questionaire_score] => [questionaire_total_score] => [questionaire_duration] => 3600 [questionaire_remarks] => [questionaire_date] => 02-03-18 [questionaire_time] => 22:15 [questionaire_instruction] =>
-zxvzxvx
 
-[questionaire_type_id] => 0 [subject_code] => IT 999 [subject_description] => Project Management [schedule] => 14 [units] => 3 [status] => ) )*/ 
-?>
-    
+
 <div class="user-subject-list">
 
     <?php 
@@ -30,7 +24,13 @@ zxvzxvx
                 <td class="text-center font-roboto color-a2">DESCRIPTION</td>
                 <td class="text-center font-roboto color-a2">DATE</td>
                 <td class="text-center font-roboto color-a2">TOTAL SCORE</td>
-                <td class="text-center font-roboto color-a2">SCORE</td>   
+                <?php
+                    if($_SESSION["users"]["user_level"] == "1"){
+                        echo '<td class="text-center font-roboto color-a2">SCORE</td>';
+                    }
+                ?>
+                
+                
                 <td class="text-center font-roboto color-a2">ACTION</td>
             </tr>
         </thead>
@@ -45,7 +45,7 @@ zxvzxvx
                             $date = $questionaire['questionaire_date'];
                             $total_score = $questionaire['questionaire_total_score'];
                             $score = $questionaire['user_total_score'];
-                            
+                            $idsubject = $questionaire['idsubject'];
 
                         echo "
                             <tr>
@@ -53,15 +53,24 @@ zxvzxvx
                                 <td class='text-center font-roboto color-a2'>$title</td>
                                 <td class='text-center font-roboto color-a2'>$description</td>
                                 <td class='text-center font-roboto color-a2'>$date</td>
-                                <td class='text-center font-roboto color-a2'>$total_score</td>
-                                <td class='text-center font-roboto color-a2'>$score</td>";
+                                <td class='text-center font-roboto color-a2'>$total_score</td>";
+                                if($_SESSION["users"]["user_level"] == "1"){
+                                    echo "<td class='text-center font-roboto color-a2'>$score</td>";
+                                }
+                         
                                 
-                        echo "<td class='text-center font-roboto color-a2'>
-                                
-                                <a data-toggle='tooltip' data-placement='top' title='View Questionnaire Result' class='btn-view-questionaire btn btn-info' href='reports/reportquestionnaireinfo/$id'>
+                        echo "<td class='text-center font-roboto color-a2'>";
+                        if($_SESSION["users"]["user_level"] == "1"){
+                            echo "<a data-toggle='tooltip' data-placement='top' title='View Questionnaire Result' class='btn-view-questionaire btn btn-info' href='reports/reportquestionnaireinfo/$id'>
                                     <i class='material-icons'>remove_red_eye</i>
                                 </a>";
-                     
+
+                        }else{
+                            echo "<a data-toggle='tooltip' data-placement='top' title='View Student List' class='btn-view-questionaire btn btn-info' href='reports/reportstudentlistquestionnaire/$idsubject'>
+                                <i class='material-icons'>remove_red_eye</i>
+                            </a>";
+                        }
+                                                     
                         
     
                         echo " 

@@ -1,7 +1,7 @@
 <?php
 
 ?>
-<button rel='tooltip' data-original-title='Add' class='pull-right btn-add-department btn btn-success' type='button' name='create' onclick='return false;'>
+<button data-toggle='tooltip' data-placement='top' title='Add Department' class='pull-right btn-add-department btn btn-success' type='button' name='create' onclick='return false;'>
     <i class='material-icons'>add</i>
 </button>
 <table id="table-departmentlist" class="table table-striped">        
@@ -29,10 +29,10 @@
                     <td class='text-center font-roboto color-a2'>$description</td>
                     <td class='text-center font-roboto color-a2'>
                         
-                        <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-department btn btn-info' type='button' name='update' onclick='return false;'>
+                        <button data-id='$id' data-toggle='tooltip' data-placement='top' title='Update' class='btn-update-department btn btn-info' type='button' name='update' onclick='return false;'>
                             <i class='material-icons'>update</i>
                         </button>
-                        <button href='departments/deletedepartment' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-department btn btn-danger' type='submit' name='deletedepartment' onclick='return false;'>
+                        <button href='departments/deletedepartment' data-id='$id' data-toggle='tooltip' data-placement='top' title='Delete' class='btn-delete-department btn btn-danger' type='submit' name='deletedepartment' onclick='return false;'>
                             <i class='material-icons'>delete</i>
                         </button>
                     

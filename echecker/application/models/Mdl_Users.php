@@ -57,6 +57,11 @@ class Mdl_Users extends CI_Model {
                     ->get('users');
         return $query->result_array();
     }
+    public function isAdminExist(){
+        $query=$this->db->where('users.user_level', "99")
+                    ->get('users');
+        return $query->result_array();
+    }
 
     public function getAllStudentsList(){
         $query=$this->db->join('user_leveltbl','user_leveltbl.user_level = users.user_level','left')
@@ -65,6 +70,7 @@ class Mdl_Users extends CI_Model {
                     ->join('student_informationtbl','student_informationtbl.id = users.idusers','left')
                     ->join('user_departmenttbl','users.idusers = user_departmenttbl.UID','left')
                     ->join('departmenttbl','user_departmenttbl.iddepartment = departmenttbl.iddepartment','left')
+                    ->group_by('users.idusers')
                     ->where('users.user_level','1')
                     ->get('users');
         return $query->result_array();
@@ -76,29 +82,29 @@ class Mdl_Users extends CI_Model {
                     ->join('user_departmenttbl','users.idusers = user_departmenttbl.UID','left')
                     ->join('departmenttbl','user_departmenttbl.iddepartment = departmenttbl.iddepartment','left')
                     ->where('users.user_level', '2')
+                    ->group_by('users.idusers')
                     ->get('users');
         return $query->result_array();
     }
     public function postregisteradmin($data=false){
-        print_r($data);
-        return false;
-        if($data["pass"] != $data["confirmPas"]){
+       
+        if($data["pass"] != $data["confirmPass"]){
             return array("password did not match",false);
         }
         
         $userLevelData = array(
-                            [0] => array(
+                            0 => array(
                                         'user_level'=>"99",
                                         'userlevel_name'=>'admin'
-                                    )
-                            [1] => array(
+                            ),
+                            1 => array(
                                         'user_level'=>"1",
                                         'userlevel_name'=>'student'
-                                    )
-                            [2] => array(
+                            ),
+                            2 => array(
                                         'user_level'=>"2",
                                         'userlevel_name'=>'teacher'
-                                    )
+                            ),
                         );
         foreach($userLevelData as $key=>$value){
             $isUserLevelInserted = $this->db->insert('user_leveltbl',$value);
@@ -109,9 +115,9 @@ class Mdl_Users extends CI_Model {
         
         unset($data["confirmPass"]);
 
-        $data["user_level"] == "99";
-        $data["status"] == "active";
-        $data["code"] == "administrator";
+        $data["user_level"] = "99";
+        $data["status"] = "active";
+        $data["code"] = "administrator";
         $isUserAdminInserted = $this->db->insert('users',$data);
         if($isUserAdminInserted){
             $last_insert = $this->db->insert_id();
@@ -132,7 +138,7 @@ class Mdl_Users extends CI_Model {
     }
 
     public function insertUsers($data=array()){
-      
+        
         if((array_key_exists('department',$data)) && (array_key_exists('position',$data)) && (array_key_exists('user_level',$data)) ){
             if($data["user_level"] == "2" && $data["position"] == "2"){// 2 if dean
                 $query = $this->db->join('teacher_informationtbl','users.idusers = teacher_informationtbl.id')
@@ -144,20 +150,26 @@ class Mdl_Users extends CI_Model {
                     return false;
                 }
             }
-
+            
         }
+        
         $data['idsubject'] = explode(",", $data['idsubject']);
         $isDataValid = false;
         $studentDataIndex = array('firstname','middlename','lastname','year_level','department');
         $teacherDataIndex = array('firstname','middlename','lastname','position','department');
         
         if($data['user_level'] == 1 || $data['user_level'] == 2){
+            
             if($data['user'] != "" && $data['pass'] != "" && $data['firstname'] != "" && $data['lastname'] != ""){
+                
                 if($this->db->where('user_level', $data['user_level'])->get('user_leveltbl')){
+                    
                     $isUserCodeDuplicate = $this->db->where('code',$data['code'])->get('users');
+                    
                     if($isUserCodeDuplicate->num_rows > 0){
                         return false;
                     }else{
+                        
                         $isDataValid = true;
                         $userInfo = array(  'code'=>$data['code'],
                                             'user'=>$data['user'],
@@ -165,9 +177,11 @@ class Mdl_Users extends CI_Model {
                                             'user_level'=>$data['user_level'],
                                             'status'=>'inactive'
                                         );
+
+                                        
                         $this->db->insert('users',$userInfo);
                         $last_insert = $this->db->insert_id();
-
+                        
                         if($data['user_level'] == 1){
                             $studentInfo['id'] = $last_insert;
                             for($i = 0; $i< count($studentDataIndex); $i++){
@@ -179,7 +193,7 @@ class Mdl_Users extends CI_Model {
                             if(!($this->db->insert('student_informationtbl',$studentInfo))){
                                 return false;
                             }
-                            
+                        
                         }else if($data['user_level'] == 2){
                             $teacherInfo['id'] = $last_insert;
                             for($i = 0; $i < count($teacherDataIndex); $i++){
@@ -271,6 +285,7 @@ class Mdl_Users extends CI_Model {
                             ->join('coursetbl','user_coursetbl.idcourse = coursetbl.idcourse','left')
                             ->join('user_departmenttbl','users.idusers = user_departmenttbl.UID','left')
                             ->join('user_subjecttbl','users.idusers = user_subjecttbl.UID','left')
+                            ->group_by('users.idusers')
                             ->get('users');
         $userInfo = $getQuery->row_array();
         if($userInfo['user_level'] == 1){
@@ -309,63 +324,122 @@ class Mdl_Users extends CI_Model {
         $isSubjectAcquiredQuery = $this->db->join('users','user_subjecttbl.UID = users.idusers')
                                     ->get('user_subjecttbl');
         $isSubjectAcquired = $isSubjectAcquiredQuery->result_array();
-        if(count($isSubjectAcquired) > 0){
-            foreach($isSubjectAcquired as $key=>$value){
-                $userSubjectAcquiredId['idsubject'][$key] = $value['idsubject'];
-                $userSubjectAcquiredId['user_level'][$key] = $value['user_level'];
-            }
-            
-        }
-        if(count($userSubjectData) > 0){
-            $userSubjectsID = array();
-            for($i=0;$i<count($userSubjectData);$i++){
-                $userSubjectsID[$i] = $userSubjectData[$i]['idsubject'];
-              
-            }
-            
-            for($i = 0; $i < count($subjectList); $i++){
-                
-                if(in_array($subjectList[$i]['idsubject'],$userSubjectsID)){
-                    $subjectList[$i]['state'] = "subjectsList";
-                }else{
-                    
-                    if(!in_array($subjectList[$i]['idsubject'],$userSubjectAcquiredId['idsubject'])){
-                    
-                        $subjectList[$i]['state'] = "availableSubjects";
-            
-                    }else{
-                        if($userSubjectAcquiredId['user_level'][$i] == "2"){
-                            array_splice($subjectList,$i,1);
-                            $i--;
-                        }else{
-                            $subjectList[$i]['state'] = "availableSubjects";
-                        }
-                        
-                    }
-                    
-                    
+        if($userSubjectQuery){
+            if(count($isSubjectAcquired) > 0){
+                foreach($isSubjectAcquired as $key=>$value){
+                    $userSubjectAcquiredId['idsubject'][$key] = $value['idsubject'];
+                    $userSubjectAcquiredId['user_level'][$key] = $value['user_level'];
                 }
+                
             }
-           
-        }else{
-            for($i=0;$i < count($subjectList);$i++){
-                if(!in_array($subjectList[$i]['idsubject'],$userSubjectAcquiredId)){
+            if(count($userSubjectData) > 0){
+                $userSubjectsID = array();
+                for($i=0;$i<count($userSubjectData);$i++){
+                    $userSubjectsID[$i] = $userSubjectData[$i]['idsubject'];
+                  
+                }
+                
+                for($i = 0; $i < count($subjectList); $i++){
                     
-                        $subjectList[$i]['state'] = "availableSubjects";
-            
+                    if(in_array($subjectList[$i]['idsubject'],$userSubjectsID)){
+                        $subjectList[$i]['state'] = "subjectsList";
                     }else{
-                        if($userSubjectAcquiredId['user_level'][$i] == "2"){
-                            array_splice($subjectList,$i,1);
-                            $i--;
-                        }else{
+                        
+                        if(!in_array($subjectList[$i]['idsubject'],$userSubjectAcquiredId['idsubject'])){
+                        
                             $subjectList[$i]['state'] = "availableSubjects";
+                
+                        }else{
+                            if($userSubjectAcquiredId['user_level'][$i] == "2"){
+                                array_splice($subjectList,$i,1);
+                                $i--;
+                            }else{
+                                $subjectList[$i]['state'] = "availableSubjects";
+                            }
+                            
                         }
                         
+                        
                     }
+                }
+               
+            }else{
+                for($i=0;$i < count($subjectList);$i++){
+                    if(!in_array($subjectList[$i]['idsubject'],$userSubjectAcquiredId)){
+                        
+                            $subjectList[$i]['state'] = "availableSubjects";
+                
+                        }else{
+                            if($userSubjectAcquiredId['user_level'][$i] == "2"){
+                                array_splice($subjectList,$i,1);
+                                $i--;
+                            }else{
+                                $subjectList[$i]['state'] = "availableSubjects";
+                            }
+                            
+                        }
+                }
+                
             }
-            
+        }else{
+            if(count($isSubjectAcquired) > 0){
+                foreach($isSubjectAcquired as $key=>$value){
+                    $userSubjectAcquiredId['idsubject'][$key] = $value['idsubject'];
+                    $userSubjectAcquiredId['user_level'][$key] = $value['user_level'];
+                }
+                
+            }
+            if(count($userSubjectData) > 0){
+                $userSubjectsID = array();
+                for($i=0;$i<count($userSubjectData);$i++){
+                    $userSubjectsID[$i] = $userSubjectData[$i]['idsubject'];
+                  
+                }
+                
+                for($i = 0; $i < count($subjectList); $i++){
+                    
+                    if(in_array($subjectList[$i]['idsubject'],$userSubjectsID)){
+                        $subjectList[$i]['state'] = "availableSubjects";
+                    }else{
+                        
+                        if(!in_array($subjectList[$i]['idsubject'],$userSubjectAcquiredId['idsubject'])){
+                        
+                            $subjectList[$i]['state'] = "availableSubjects";
+                
+                        }else{
+                            if($userSubjectAcquiredId['user_level'][$i] == "2"){
+                                array_splice($subjectList,$i,1);
+                                $i--;
+                            }else{
+                                $subjectList[$i]['state'] = "availableSubjects";
+                            }
+                            
+                        }
+                        
+                        
+                    }
+                }
+               
+            }else{
+                for($i=0;$i < count($subjectList);$i++){
+                    if(!in_array($subjectList[$i]['idsubject'],$userSubjectAcquiredId)){
+                        
+                            $subjectList[$i]['state'] = "availableSubjects";
+                
+                        }else{
+                            if($userSubjectAcquiredId['user_level'][$i] == "2"){
+                                array_splice($subjectList,$i,1);
+                                $i--;
+                            }else{
+                                $subjectList[$i]['state'] = "availableSubjects";
+                            }
+                            
+                        }
+                }
+                
+            }
         }
-
+        
         
         return $subjectList;
     }

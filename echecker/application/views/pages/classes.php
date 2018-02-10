@@ -1,7 +1,7 @@
 <?php
 
 ?>
-<button rel='tooltip' data-original-title='Add' class='pull-right btn-add-classes-subject btn btn-success' type='button' name='create' onclick='return false;'>
+<button data-toggle='tooltip' data-placement='top' title='Add' class='pull-right btn-add-classes-subject btn btn-success' type='button' name='create' onclick='return false;'>
     <i class='material-icons'>add</i>
 </button>
 <table id="table-classlist" class="table table-striped">        
@@ -35,10 +35,10 @@
                     <td class='text-center font-roboto color-a2'>$room_name</td>
                     <td class='text-center font-roboto color-a2'>
                         
-                        <button data-id='$id' rel='tooltip' data-original-title='Update' class='btn-update-class btn btn-info' type='button' name='update' onclick='return false;'>
+                        <button data-id='$id' data-toggle='tooltip' data-placement='top' title='Update' class='btn-update-class btn btn-info' type='button' name='update' onclick='return false;'>
                             <i class='material-icons'>update</i>
                         </button>
-                        <button href='classes/deleteclasses' data-id='$id' rel='tooltip' data-original-title='Delete' class='btn-delete-class-subject btn btn-danger' type='submit' name='deleteclass' onclick='return false;'>
+                        <button href='classes/deleteclasses' data-id='$id' data-toggle='tooltip' data-placement='top' title='Delete' class='btn-delete-class-subject btn btn-danger' type='submit' name='deleteclass' onclick='return false;'>
                             <i class='material-icons'>delete</i>
                         </button>
                     
