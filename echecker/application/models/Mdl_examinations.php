@@ -81,6 +81,10 @@ class Mdl_examinations extends CI_Model {
                                 }
                             }
                         }
+                        $isUserQuestionnaireDelete = $this->db->where('user_questionairetbl.questionaire_id',$data)->delete('user_questionairetbl');
+                        if($isUserQuestionnaireDelete){
+                            return array("Error in Dropping User Questionaire Data",false);
+                        }
 
                         $isQuestionDeleted = $this->db->where('idquestion',$questionIdData[$j]["idquestion"])  
                                 ->delete('questiontbl');
@@ -318,6 +322,7 @@ class Mdl_examinations extends CI_Model {
         $examData = array();
 
         $query=$this->db->join('user_questionairetbl','questionairetbl.idquestionaire = user_questionairetbl.questionaire_id','left')
+            ->where('user_questionairetbl.idusers',$data["idusers"])
             ->where('idquestionaire',$data["idquestionaire"])
             ->get('questionairetbl');
         if($questionaireData = $query->result_array()){

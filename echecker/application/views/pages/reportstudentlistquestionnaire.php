@@ -67,7 +67,7 @@
                                     <form action='reports/reportstudentquestionnaireinfo' id='frm-reportstudentquestionnaireinfo$id'>
                                         <input type='hidden' name='idquestionaire' value='$idquestionaire'>
                                         <input type='hidden' name='idusers' value='$id'>
-                                        <button disabled data-toggle='tooltip' data-placement='top' title='Unable to view,you have not take examination yet.' class='btn-view-student-subject-questionnaires btn btn-info' type='submit' form='frm-reportstudentquestionnaireinfo$id'>
+                                        <button disabled data-toggle='tooltip' data-placement='top' title='Unable to view, haven't take examination yet.' class='btn-view-student-subject-questionnaires btn btn-info' type='submit' form='frm-reportstudentquestionnaireinfo$id'>
                                             <i class='material-icons'>close</i>
                                         </button>
                                     </form>";

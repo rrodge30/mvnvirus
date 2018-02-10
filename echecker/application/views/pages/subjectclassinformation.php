@@ -1,5 +1,5 @@
 <?php
-    
+    print_r($data);  
 ?>
 <?php 
     if(isset($data[0]['subject_code'])){ 
@@ -28,7 +28,7 @@
     </thead>
     <tbody class="student-list-tablebody">
         <?php
-            if($data){
+            if(isset($data[0]["idusers"])){
                 foreach($data as $u){
                     $id = $u['idusers'];
                     $code = $u['code'];

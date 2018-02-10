@@ -103,9 +103,8 @@
                                 if($_SESSION["users"]["user_level"] == "1"){
                                     echo $data["user_questionaire"][0]["user_total_score"];
                                 }else{
-                                    echo $data["questionaire_total_score"];
+                                    echo $data["user_total_score"];
                                 }
-                                
                                 
                                 ?>
                             </p>
