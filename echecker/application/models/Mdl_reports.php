@@ -19,7 +19,7 @@ class Mdl_reports extends CI_Model {
                 ->group_by('user_questionairetbl.questionaire_id')
                 ->get('user_questionairetbl');
         }
-        if($_SESSION["users"]["user_level"] == "2"){ 
+        if($_SESSION["users"]["user_level"] == "2" || $_SESSION["users"]["user_level"] == "3"){ 
             $query=$this->db->join('questionairetbl','user_questionairetbl.questionaire_id = questionairetbl.idquestionaire','left')
             ->join('subjecttbl','questionairetbl.idsubject = subjecttbl.idsubject','left')
             ->where('questionairetbl.idsubject',$data)
@@ -56,10 +56,78 @@ class Mdl_reports extends CI_Model {
        return false;
     }
 
+    public function retakeexamination($data=false){
+       
+        if($_SESSION["users"]["user_level"] == "2"){ 
+            //
+            $isUserQuestionRecordDeleted = $this->db->where('user_questionairetbl.idusers',$data["idusers"])
+                                        ->where('user_questionairetbl.questionaire_id',$data["idquestionaire"])
+                                        ->delete('user_questionairetbl');
+            if($isUserQuestionRecordDeleted){
+                
+                $query = $this->db->join('question_user_answertbl','user_answertbl.iduseranswer = question_user_answertbl.iduseranswer')
+                ->join('questiontbl','question_user_answertbl.idquestion = questiontbl.idquestion')
+                ->join('questionaire_typetbl','questiontbl.idquestionaire_type = questionaire_typetbl.idquestionairetype')
+                ->group_by('user_answertbl.iduseranswer')
+                ->where('questionaire_typetbl.idquestionaire',$data["idquestionaire"])
+                ->where('user_answertbl.iduser',$data["idusers"])
+                ->get('user_answertbl');
+                if($userAnswerData = $query->result_array()){
+                    foreach($userAnswerData as $key => $value){
+                        if(isset($value["iduseranswer"])){
+                            $isUserAnswerDeleted = $this->db->where('iduseranswer',$value["iduseranswer"])->delete('user_answertbl');
+                            if($isUserAnswerDeleted){
+                                if(isset($value["idquestionuseranswer"])){
+                                    $isQuestionUserAnswerDeleted = $this->db->where('idquestionuseranswer',$value["idquestionuseranswer"])->delete('question_user_answertbl'); 
+                                    if(!$isQuestionUserAnswerDeleted){
+                                        return array('Error in Deleting Question User Answer',false);
+                                    }
+                                }
+                                
+                            }else{
+                                return array('Error in Deleting User Answer',false);
+                            }
+                        }
+                        
+                    }
+                }
+            }
+            return array("successfully Remove", true);
+            //
+        }
+       return false;
+    }
+
     public function getAllTeacherListDepartmentSessionBase(){
         
         $query = $this->db->join('teacher_informationtbl','users.idusers = teacher_informationtbl.id','left')
                 ->where('teacher_informationtbl.department',$_SESSION["users"][0]["department"])
+                ->where('teacher_informationtbl.position','1')
+                ->where('users.user_level',"2")
+                ->group_by('users.idusers')
+                ->get('users');
+        if($departmentTeacherData = $query->result_array()){
+            foreach($departmentTeacherData as $key=>$value){
+                $query = $this->db->where('UID',$value["idusers"])
+                            ->group_by('iduser_department')
+                            ->get('user_departmenttbl');
+                if($teacherSubjectCount = $query->result_array()){
+                    $departmentTeacherData[$key]["subjectcount"] = count($teacherSubjectCount); 
+                }else{
+                    $departmentTeacherData[$key]["subjectcount"] = "0";
+                }
+            }
+            return $departmentTeacherData;
+        }
+        
+        return false;
+    }
+
+    //department name base
+    public function reportsdepartmentteacherlist($departmentName=false){
+        
+        $query = $this->db->join('teacher_informationtbl','users.idusers = teacher_informationtbl.id','left')
+                ->where('teacher_informationtbl.department',$departmentName)
                 ->where('teacher_informationtbl.position','1')
                 ->where('users.user_level',"2")
                 ->group_by('users.idusers')
@@ -88,9 +156,18 @@ class Mdl_reports extends CI_Model {
             ->where('UID',$data["idusers"])
         ->get('user_subjecttbl');
         return $query->result_array();
-        
     }
- 
+    
+    public function reportsdepartmentlist(){
+        
+        $query=$this->db->join('teacher_informationtbl','users.idusers = teacher_informationtbl.id')
+                    ->where('teacher_informationtbl.position','2')
+                    ->where('users.user_level','2')
+                    ->group_by('users.idusers')
+                    ->get('users');
+        return $query->result_array();
+    }
+
     public function studentquestionnaireinfo($data){
         $examData = array();
         

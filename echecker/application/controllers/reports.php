@@ -72,5 +72,23 @@ class Reports extends MY_Controller {
 		$updatequestionscore = $this->mdl_reports->updatequestionscore($_POST);
 		echo json_encode($updatequestionscore);
 	}
+
+	public function reportsdepartmentlist(){
+		$this->load->model('mdl_reports');
+		$reportsdepartmentlist = $this->mdl_reports->reportsdepartmentlist();
+		$this->_view('reportsdepartmentlist',$reportsdepartmentlist);
+	}
+
+	public function reportsdepartmentteacherlist($departmentName){
+		$this->load->model('mdl_reports');
+		$reportsdepartmentteacherlist = $this->mdl_reports->reportsdepartmentteacherlist($departmentName);
+		$this->_view('report',$reportsdepartmentteacherlist);
+	}
+
+	public function retakeexamination(){
+		$this->load->model('mdl_reports');
+		$retakeexamination = $this->mdl_reports->retakeexamination($_POST);
+		echo json_encode($retakeexamination);
+	}
     
 }

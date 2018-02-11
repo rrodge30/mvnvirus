@@ -133,9 +133,21 @@ class Mdl_examinations extends CI_Model {
                                             );
         $query = $this->db->insert('user_questionairetbl',$userQuestionnaireInitialData);
         
-        return $query->result_array();
+        return $query;
         
     }
+
+    public function validate($data=false){
+        
+        $userQuestionnaireInitialData = array('questionaire_id'=>$data["idquestionaire"],
+                                              'idusers'=>$_SESSION['users']['idusers']
+                                            );
+        $query = $this->db->insert('user_questionairetbl',$userQuestionnaireInitialData);
+        
+        return $query;
+        
+    }
+
 
     public function postQuestionnaireInformation($data=false){
       
@@ -244,6 +256,14 @@ class Mdl_examinations extends CI_Model {
     //SESSION BASE 
     public function getQuestionnaireInfoById($data=false){
         
+        
+        $query = $this->db->where('user_questionairetbl.questionaire_id',$data)
+                        ->where('user_questionairetbl.idusers',$_SESSION["users"]["idusers"])
+                        ->get('user_questionairetbl');
+        if($isUserQuestionnaireRecordExist = $query->result_array()){
+            redirect('NOT FOUND', 'refresh');
+        }
+
         $examData = array();
 
         $query=$this->db->join('user_questionairetbl','questionairetbl.idquestionaire = user_questionairetbl.questionaire_id','left')
@@ -431,7 +451,7 @@ class Mdl_examinations extends CI_Model {
 )
      */
     public function submitexamine($data=false){
-
+        
         $questionnaireInfo = $this->getQuestionnaireInfoById($data["idquestionaire"]);
         
         $totalScore = 0;
@@ -441,8 +461,8 @@ class Mdl_examinations extends CI_Model {
                 if($questionnaireInfo["questionaire_type"][$i]["questionaire_type"] == 0){
                     $questionScore = 0;
                     if($questionnaireInfo["questionaire_type"][$i]["question"][$j]["answer"][0]["answer"] == $data[$i][$j][0]){
-
                         $questionScore = $questionnaireInfo["questionaire_type"][$i]["questionaire_type_item_points"];
+                        $isAnswerCorrect = true;
                         
                     }
                     
@@ -463,14 +483,15 @@ class Mdl_examinations extends CI_Model {
                         } 
                         */
                     }
-                    if($isAnswerCorrect == true){
-                        $totalScore += ceil($questionScore);
-                    }else{
-                        $totalScore += 0;
-                    }
+                  
+                    
                     
                 }
-                
+                if($isAnswerCorrect == true){
+                    $totalScore += ceil($questionScore);
+                }else{
+                    $totalScore += 0;
+                }
                 
                 $answerData = array('answer' => $data[$i][$j][0], 'iduser' => $_SESSION["users"]["idusers"],'question_score'=>$questionScore);
                 

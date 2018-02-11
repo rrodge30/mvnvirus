@@ -20,18 +20,20 @@ class Mdl_Users extends CI_Model {
             ->get('users');
             $usersData = $query->first_row('array');
             
-            if($usersData['user_level'] == "99"){
-            $query = $this->db->where('idadmin',$usersData['idusers'])->get('admin_informationtbl');
-            $result = $query->first_row('array');
+            if(($usersData['user_level'] == "99") || ($usersData['user_level'] == "3")){
+                $query = $this->db->where('idadmin',$usersData['idusers'])->get('admin_informationtbl');
+                $result = $query->first_row('array');
             
             }else if($usersData['user_level'] == "1"){
-            $query = $this->db->where('id',$usersData['idusers'])->get('student_informationtbl');
-            $result = $query->first_row('array');
+                $query = $this->db->where('id',$usersData['idusers'])->get('student_informationtbl');
+                $result = $query->first_row('array');
             
             }else if($usersData['user_level'] == "2"){
 
-            $query = $this->db->where('id',$usersData['idusers'])->get('teacher_informationtbl');
-            $result = $query->first_row('array');
+                $query = $this->db->where('id',$usersData['idusers'])->get('teacher_informationtbl');
+                $result = $query->first_row('array');
+            }else{
+                $result = array();
             }
             
             if($usersData){
@@ -86,6 +88,7 @@ class Mdl_Users extends CI_Model {
                     ->get('users');
         return $query->result_array();
     }
+    
     public function postregisteradmin($data=false){
        
         if($data["pass"] != $data["confirmPass"]){
@@ -105,6 +108,10 @@ class Mdl_Users extends CI_Model {
                                         'user_level'=>"2",
                                         'userlevel_name'=>'teacher'
                             ),
+                            3 => array(
+                                'user_level'=>"3",
+                                'userlevel_name'=>'vpaa'
+                            )
                         );
         foreach($userLevelData as $key=>$value){
             $isUserLevelInserted = $this->db->insert('user_leveltbl',$value);
@@ -114,7 +121,16 @@ class Mdl_Users extends CI_Model {
         }
         
         unset($data["confirmPass"]);
-
+        $isVpaaInserted = $this->db->insert('users',array('code' => "1234",'user'=>"vpaa",'pass'=>'1234','user_level'=>'3','status'=>'inactive'));
+        if($isVpaaInserted){
+            $last_insert = $this->db->insert_id();
+            $isAdminInfoInserted = $this->db->insert('admin_informationtbl',array('firstname'=>'vpaa','id'=>$last_insert));
+            if(!$isAdminInfoInserted){
+                return array("error inserting Vpaa information",false);
+            }
+        }else{
+            return array("error inserting Vpaa",false);
+        }
         $data["user_level"] = "99";
         $data["status"] = "active";
         $data["code"] = "administrator";

@@ -34,7 +34,7 @@
             <td class="text-center font-roboto color-a2">ID</td>
             <td class="text-center font-roboto color-a2">CODE</td>
             <td class="text-center font-roboto color-a2">NAME</td>
-            <td class="text-center font-roboto color-a2">DEPARTMENT</td>
+            <td class="text-center font-roboto color-a2">COURSE</td>
             <td class="text-center font-roboto color-a2">SCORE</td>
             <td class="text-center font-roboto color-a2">ACTION</td>
         </tr>
@@ -49,7 +49,7 @@
                     $firstname = $u['firstname'];
                     $middlename = $u['middlename'];
                     $lastname = $u['lastname'];
-                    $department = $u['department_name'];
+                    $course = $u['course_name'];
                     $user_level = $u['user_level'];
                     $score = $u['user_total_score'];
                     $idquestionaire = $u["idquestionaire"];
@@ -59,7 +59,7 @@
                                 <td class='text-center'>$id</td>
                                 <td class='text-center'>$code</td>
                                 <td class='text-center'>$lastname, $firstname $middlename</td>
-                                <td class='text-center'>$department</td>
+                                <td class='text-center'>$course</td>
                                 <td class='text-center'>$score</td>
                                 <td class='text-center'>";
                                 if($idquestionaire == "0"){
@@ -67,12 +67,12 @@
                                     <form action='reports/reportstudentquestionnaireinfo' id='frm-reportstudentquestionnaireinfo$id'>
                                         <input type='hidden' name='idquestionaire' value='$idquestionaire'>
                                         <input type='hidden' name='idusers' value='$id'>
-                                        <button disabled data-toggle='tooltip' data-placement='top' title='Unable to view, haven't take examination yet.' class='btn-view-student-subject-questionnaires btn btn-info' type='submit' form='frm-reportstudentquestionnaireinfo$id'>
+                                        <button disabled data-toggle='tooltip' data-placement='top' title='Unable to view, havent take examination yet.' class='btn-view-student-subject-questionnaires btn btn-info' type='submit' form='frm-reportstudentquestionnaireinfo$id'>
                                             <i class='material-icons'>close</i>
                                         </button>
                                     </form>";
                                 }else{
-                                    echo "
+                                    echo "<div>
                                     <form action='reports/reportstudentquestionnaireinfo' id='frm-reportstudentquestionnaireinfo$id'>
                                         <input type='hidden' name='idquestionaire' value='$idquestionaire'>
                                         <input type='hidden' name='idusers' value='$id'>
@@ -80,6 +80,18 @@
                                             <i class='material-icons'>remove_red_eye</i>
                                         </button>
                                     </form>";
+                                    
+                                    if($_SESSION["users"]["user_level"] == "2"){
+                                        echo "
+                                        <form id='frm-retakeexamination$id' onsubmit='return false;'>
+                                            <input type='hidden' name='idquestionaire' value='$idquestionaire'>
+                                            <input type='hidden' name='idusers' value='$id'>
+                                            <button data-toggle='tooltip' data-placement='top' title='Retake Examination' class=' btn btn-success btn-retakeexamination' type='submit' form='frm-retakeexamination$id'>
+                                                <i class='material-icons'>refresh</i>
+                                            </button>
+                                        </form></div>";
+                                        
+                                    }
                                 }
                                     
                         echo "  </td>

@@ -1,4 +1,35 @@
 $(document).ready(function(){
+    /*
+    // PAGE FOCUS LISTENER
+    var count = 0;
+    var myInterval;
+    // Active
+    window.addEventListener('focus', startTimer);
+    
+    // Inactive
+    window.addEventListener('blur', stopTimer);
+   
+    function timerHandler() {
+        count++;
+     
+    }
+   
+    // Start timer
+    function startTimer() {
+     console.log('focus');
+     myInterval = window.setInterval(timerHandler, 1000);
+    }
+   
+    // Stop timer
+    function stopTimer() {
+        swal("Inactive", "Due to Page Inactive Your Examination Will Automatically Submitted", "success");
+        windows.location.reload();
+    }
+    //
+    // PAGE FOCUS LISTENER END
+    */
+
+
     //TOOL TIP
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
@@ -200,7 +231,7 @@ $(document).ready(function(){
         var htmlbody = '<form action="pages/postMessage" method="post" onsubmit="return false;" id="mdl-frm-post-message">'
                         +'<div class="input-group">'
                         +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">Message</div></span>'
-                        +'   <field type="text" class="form-control mytextarea" aria-describedby="basic-addon1" id="" required="required"></field>'
+                        +'   <field type="text" name="message" class="form-control mytextarea" aria-describedby="basic-addon1" id="" required="required"></field>'
                         +'</div></form>';
         $('.modal-body').html(htmlbody);
         var footer = '<button type="submit" form="mdl-frm-post-message" class="btn btn-primary btn-post-message"><i class="material-icons">playlist_add_check</i></button>'
@@ -2474,6 +2505,78 @@ function goToFullScreen(){
                 
             });
 
+            // PAGE FOCUS LISTENER
+            var count = 0;
+            var myInterval;
+            // Active
+            window.addEventListener('focus', startTimer);
+            
+            // Inactive
+            window.addEventListener('blur', stopTimer);
+            
+            //COUNT TIME
+            function timerHandler() {
+                count++;
+            }
+        
+            // Start timer
+            function startTimer() {
+                console.log('focus');
+                myInterval = window.setInterval(function(){
+                    timerHandler
+                }, 1000);
+            }
+            
+            function stopTimer() {
+                swal("Inactive", "Due to Page Inactive Your Examination Will Automatically Submitted", "success");
+                var contentTabHeader = $('ul > li.tab-examine');
+                var dataAnswers = [];
+                dataAnswers = {
+                    'idquestionaire' : $('#input-idquestionaire').val()
+                }
+                for(i=0;i<contentTabHeader.length;i++){
+                    dataAnswers[i] = [];
+                    dataAnswers[i] = {};
+                    var itemsCount = $('div.btmenu-template'+i+'>div.list-group > a').length;
+                    for(j=0;j<itemsCount;j++){
+                        dataAnswers[i][j] = [];
+                        dataAnswers[i][j] = {
+                            'idquestion':$('#input-idquestion-tabno'+i+'-'+j+'').val()
+                        };
+                        if($('.answer'+i+'-'+j+'').data('type') == 0){
+                            dataAnswers[i][j][0] = $('.answer'+i+'-'+j+':checked').val();
+                            
+                        }else{
+                            dataAnswers[i][j][0] = $('.answer'+i+'-'+j+'').val();
+                            
+                        }
+                        
+                    }
+                }
+                
+                
+                $.ajax({
+                    url:'examinations/submitexamine',
+                    data:{data:dataAnswers},
+                    dataType:"json",
+                    method:"POST",
+                    success:function(data){
+                        if(data[1] == true){
+                            swal("success", "Your Examination Has Been Submitted.", "success");
+                            window.location.replace('examinations');
+                        }else{
+                            swal("Cancelled", "Error Delete Record.", "error");
+                        }
+                    }
+                    
+                });
+            }
+            // Stop timer
+            
+            //
+            // PAGE FOCUS LISTENER END
+
+
             //COUNTDOWN TIMER
             var clock;
             
@@ -3015,5 +3118,54 @@ $(document).on('click','.btn-report-update-essay-score',function(e){
     
 });
 //btn-submit-approval
+
+
+
+// RETAKE EXAMINATION
+$(document).on('click','.btn-retakeexamination',function(e){
+    e.preventDefault();
+    var btn = $(this);
+    var form = btn.parent('form');
+    var url = "reports/retakeexamination";
+    
+
+    swal({
+        title: "Are you sure?",
+        text: "Retake this student examination ?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, Retake Exam!",
+        cancelButtonText: "No, cancel plx!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+        },
+        function(isConfirm){
+        
+        if (isConfirm) {
+            
+            $.ajax({
+            url:url,
+            data:form.serialize(),
+            dataType:"json",
+            method:"POST",
+            success:function(data){
+                if(data[1] == true){
+                    swal("Success", "Student Examination Record Deleted", "success");
+                    window.location.reload();
+                }else{
+                    swal("Cancelled", data[0], "error");
+                }
+            }
+        });
+        } else {
+            swal("Cancelled", "Canceled.", "error");
+        }
+    });
+    
+    
+});
+
+// RETAKE EXAMINATION END 
 
 //__userSessionUserLevelData 

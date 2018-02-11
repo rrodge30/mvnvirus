@@ -1,5 +1,5 @@
 <?php
-    print_r($data);  
+    //print_r($data);  
 ?>
 <?php 
     if(isset($data[0]['subject_code'])){ 

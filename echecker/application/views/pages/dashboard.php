@@ -10,8 +10,10 @@
             $displayUserLevel = "Dean";
         }
 
+    }else if($_SESSION['users']['user_level'] == "3"){
+        $displayUserLevel = "Vpaa";
     }else{
-        $displayUserLevel = "unknown";
+        $displayUserLevel = "Guest";
     }
 
 ?>
@@ -36,7 +38,7 @@
                                         
                                     </div>
                                     <?php
-                                        if($_SESSION["users"]["user_level"] != "99"){
+                                        if($_SESSION["users"]["user_level"] == "2" || $_SESSION["users"]["user_level"] == "1"){
                                     ?>
                                     <div>
                                         <p class="category"><?=ucfirst($_SESSION["users"][0]["firstname"]).' '.ucfirst($_SESSION["users"][0]["middlename"]).' '.ucfirst($_SESSION["users"][0]["lastname"]);?></p>
@@ -48,7 +50,7 @@
                                         <p class="category"><?=ucfirst($displayUserLevel)?></p>
                                     </div>
                                     <?php
-                                        if($_SESSION["users"]["user_level"] != "99"){
+                                        if($_SESSION["users"]["user_level"] == "2" || $_SESSION["users"]["user_level"] == "1"){
                                     ?>
                                     <div>
                                         <p class="category"><?=ucfirst($_SESSION["users"][0]["department"])?></p>
@@ -75,7 +77,7 @@
                               
                                         <div class="row" style="margin:50px;">
                                             <?php
-                                                if($_SESSION['users']['user_level'] == '99'){
+                                                if($_SESSION['users']['user_level'] == '99' || $_SESSION['users']['user_level'] == '3'){
                                                     echo '<button data-toggle="tooltip" data-placement="top" title="Edit Announcements" id="btn-update-bulletin" class="pull-right btn btn-success">Change Message</button>';
                                                 }
                                             ?>

@@ -25,6 +25,18 @@
             $m_classes="";
             $m_notifications="1";
             break;
+
+        case '3':
+            $m_subjects="";
+            $m_users="";
+            $m_reports="1";
+            $m_departments="";
+            $m_courses="";
+            $m_examination="";
+            $m_schedules="";
+            $m_classes="";
+            $m_notifications="";
+            break;
         case '99':  
             $m_subjects="1";
             $m_users="1";
@@ -59,7 +71,6 @@
                     }
                     
                 }
-                
                 
             }
             $reports='active';
@@ -174,11 +185,24 @@
                                     </a>
                                 </li>';
                     }
+                    
+                    if($_SESSION['users']["user_level"] != "3"){
+                        if(($m_reports == '1') && ($_SESSION['users'][0]['position'] == "2")){
+                            
+                            echo '<li class="'.$reports.'">
+                                        <a href="reports">
+                                            <i class="material-icons">history</i>
+                                            <p>Reports</p>
+                                        </a>
+                                    </li>';
+                        }
+                    }
+                    
 
-                    if(($m_reports == '1') && ($_SESSION['users'][0]['position'] == "2")){
+                    if(($m_reports == '1') && ($_SESSION['users']["user_level"] == "3")){
                         
                         echo '<li class="'.$reports.'">
-                                    <a href="reports">
+                                    <a href="reports/reportsdepartmentlist">
                                         <i class="material-icons">history</i>
                                         <p>Reports</p>
                                     </a>
@@ -215,7 +239,7 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="dashboard" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="dashboard">
                                 <i class="material-icons">dashboard</i>
                                 <p class="hidden-lg hidden-md">Dashboard</p>
                             </a>

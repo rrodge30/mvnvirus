@@ -14,8 +14,16 @@ class Mdl_dashboards extends CI_Model {
     }
 
     public function postMessage($data=array()){
-        $isQueryUpdated = $this->db->set('message',$data['mce_0'])->where('id',1)->update('bulletintbl');
-        return $isQueryUpdated;
+        $key = key($data);
+        $query = $this->db->where('id','1')->get('bulletintbl');
+        if($isMessageExist = $query->row_array()){
+            $isQueryUpdated = $this->db->set('message',$data[$key])->where('id',1)->update('bulletintbl');
+            return $isQueryUpdated;
+        }else{
+            $isQueryInserted = $this->db->insert('bulletintbl',array('message'=>$data[$key]));
+            return$isQueryInserted;
+        }
+        
     
     }
 }
