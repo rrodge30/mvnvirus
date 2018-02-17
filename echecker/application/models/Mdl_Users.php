@@ -119,7 +119,131 @@ class Mdl_Users extends CI_Model {
                 return array("error inserting userlevel",false);
             }
         }
-        
+        //FOR SCHEDULE (AUTO GENERATED)
+        $dataSchedule = array(
+                            0 => array(
+                                    "schedule_code" => "MORNING MWF DEFAULT 1",
+                                    "day" => "Monday,Wednesday,Friday",
+                                    "time_start" => "07:30",
+                                    "time_end" => "09:00",
+                                    "status" => "available"
+                            ),
+                            1 => array(
+                                    "schedule_code" => "MORNING MWF DEFAULT 2",
+                                    "day" => "Monday,Wednesday,Friday",
+                                    "time_start" => "09:00",
+                                    "time_end" => "10:30",
+                                    "status" => "available"
+                            ),
+                            2 => array(
+                                    "schedule_code" => "MORNING MWF DEFAULT 3",
+                                    "day" => "Monday,Wednesday,Friday",
+                                    "time_start" => "10:30",
+                                    "time_end" => "12:00",
+                                    "status" => "available"
+                            ),
+                            3 => array(
+                                    "schedule_code" => "AFTERNOON MWF DEFAULT 1",
+                                    "day" => "Monday,Wednesday,Friday",
+                                    "time_start" => "13:00",
+                                    "time_end" => "14:30",
+                                    "status" => "available"
+                            ),
+                            4 => array(
+                                    "schedule_code" => "AFTERNOON MWF DEFAULT 2",
+                                    "day" => "Monday,Wednesday,Friday",
+                                    "time_start" => "14:30",
+                                    "time_end" => "16:00",
+                                    "status" => "available"
+                            ),
+                            5 => array(
+                                    "schedule_code" => "AFTERNOON MWF DEFAULT 3",
+                                    "day" => "Monday,Wednesday,Friday",
+                                    "time_start" => "16:00",
+                                    "time_end" => "17:30",
+                                    "status" => "available"
+                            ),
+                            6 => array(
+                                    "schedule_code" => "AFTERNOON MWF DEFAULT 4",
+                                    "day" => "Monday,Wednesday,Friday",
+                                    "time_start" => "18:00",
+                                    "time_end" => "19:30",
+                                    "status" => "available"
+                            ),
+                            7 => array(
+                                    "schedule_code" => "AFTERNOON MWF DEFAULT 5",
+                                    "day" => "Monday,Wednesday,Friday",
+                                    "time_start" => "19:30",
+                                    "time_end" => "21:00",
+                                    "status" => "available"
+                            ),
+                            8 => array(
+                                "schedule_code" => "MORNING TTH DEFAULT 1",
+                                "day" => "Tuesday,Thursday",
+                                "time_start" => "07:30",
+                                "time_end" => "09:00",
+                                "status" => "available"
+                            ),
+                            9 => array(
+                                "schedule_code" => "MORNING TTH DEFAULT 2",
+                                "day" => "Tuesday,Thursday",
+                                "time_start" => "09:00",
+                                "time_end" => "10:30",
+                                "status" => "available"
+                            ),
+                            10 => array(
+                                "schedule_code" => "MORNING TTH DEFAULT 3",
+                                "day" => "Tuesday,Thursday",
+                                "time_start" => "10:30",
+                                "time_end" => "12:00",
+                                "status" => "available"
+                            ),
+                            11 => array(
+                                "schedule_code" => "AFTERNOON TTH DEFAULT 1",
+                                "day" => "Tuesday,Thursday",
+                                "time_start" => "13:00",
+                                "time_end" => "14:30",
+                                "status" => "available"
+                            ),
+                            12 => array(
+                                "schedule_code" => "AFTERNOON TTH DEFAULT 2",
+                                "day" => "Tuesday,Thursday",
+                                "time_start" => "14:30",
+                                "time_end" => "16:00",
+                                "status" => "available"
+                            ),
+                            13 => array(
+                                "schedule_code" => "AFTERNOON TTH DEFAULT 3",
+                                "day" => "Tuesday,Thursday",
+                                "time_start" => "16:00",
+                                "time_end" => "17:30",
+                                "status" => "available"
+                            ),
+                            14 => array(
+                                "schedule_code" => "AFTERNOON TTH DEFAULT 4",
+                                "day" => "Tuesday,Thursday",
+                                "time_start" => "18:00",
+                                "time_end" => "19:30",
+                                "status" => "available"
+                            ),
+                            15 => array(
+                                "schedule_code" => "AFTERNOON TTH DEFAULT 5",
+                                "day" => "Tuesday,Thursday",
+                                "time_start" => "19:30",
+                                "time_end" => "21:00",
+                                "status" => "available"
+                            ),
+                            
+                        );
+        foreach($dataSchedule as $key => $value){
+            $isScheduleInserted = $this->db->insert('subject_scheduletbl',$value);
+            if(!$isScheduleInserted){
+                return array('fail to auto generate schedules', false);
+            }
+        }
+
+        //FOR SCHEDULE END (AUTO GENERATED)
+
         unset($data["confirmPass"]);
         $isVpaaInserted = $this->db->insert('users',array('code' => "1234",'user'=>"vpaa",'pass'=>'1234','user_level'=>'3','status'=>'inactive'));
         if($isVpaaInserted){
@@ -221,17 +345,27 @@ class Mdl_Users extends CI_Model {
                             }
                             
                         }
+                        
                         $isUserSubjectInsertError = false;
-
-                        foreach($data['idsubject'] as $value){
-                            $userClassId = array("UID" => $last_insert, "idsubject" => $value);
-                            if(!($this->db->insert('user_subjecttbl', $userClassId))){
-                                $isUserSubjectInsertError = true;
+                        if($data["idsubject"]){
+                            if(isset($data["idsubject"]) && $data["idsubject"] !== null && $data["idsubject"] !== "" && !empty($data["idsubject"])){
+                                foreach($data['idsubject'] as $value){
+                                    if($value == ''){
+                                        break;
+                                    }
+                                    $userClassId = array("UID" => $last_insert, "idsubject" => $value);
+                                    if(!($this->db->insert('user_subjecttbl', $userClassId))){
+                                        $isUserSubjectInsertError = true;
+                                    }
+                                }
+                                if($isUserSubjectInsertError == true){
+                                    return false;
+                                }
                             }
                         }
-                        if($isUserSubjectInsertError == true){
-                            return false;
-                        }
+                        
+                        
+
                         if(array_key_exists('department',$data)){
 
                             $getDepartmentInfo = $this->db->where('department_name',$data['department'])->limit(1)->get('departmenttbl');

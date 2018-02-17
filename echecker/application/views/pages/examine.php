@@ -19,18 +19,15 @@
             <div id="examine-content" style="height:100%;width=100% !important;">
                 <div id="agreement-container">
                     <div class="card card-profile">
-                        <div class="card-avatar" stlye="background-color:#9c27b0;">
-                            <a href="javascript:void();">
-                                <img class="img" src="assets/img/homelogo.png" style="background-color:#9c27b0;height:80%;width:100%;"/>
-                            </a>
-                        </div>
+                       
                         <div class="content">
                             <h4 class="card-title"><?=$data["questionaire_title"]?></h4>
                             <h4 class="card-title"><?=$data["questionaire_description"]?></h4><br><br>
                             <h2 class="card-title"><?=$timeFormat?></h2><br><br>
-                            <h6 class="category text-gray"><small><?=$data["questionaire_instruction"]?></small></h6>
+                            <h6 class="category text-gray"><span>Instruction: </span><?=$data["questionaire_instruction"]?></h6>
                             <p class="card-content">
-                                <small>Once you click the button your examination time starts to countdown.</small>
+                                <h5 class="category">Once you click the button your examination time starts to countdown.</h5>
+                                <h3 class="title"><b>WARNING !</b>Attempting to access any other tab or application during exam will make your examination invalid.</h3>
                             </p>
                             <div class="card-footer">
                             

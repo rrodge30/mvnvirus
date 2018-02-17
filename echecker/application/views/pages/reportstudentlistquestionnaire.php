@@ -3,6 +3,7 @@
    print_r($data);
    echo "</pre>";
    */
+   
 ?>
 
 
@@ -11,7 +12,7 @@
 ?>
 <h6><i><b>SUBJECT CODE :</b> <?=$data[0]['subject_code'];?></i></h6>
 <h6><i><b>DESCRIPTION :</b> <?=$data[0]['subject_description'];?></i></h6>
-<h6><i><b>TOTAL SCORE :</b> 
+<h6><i><b>TOTAL ITEM :</b> 
 <?php
     if(isset($data[0]["questionaire_total_score"])){
         echo $data[0]["questionaire_total_score"];
@@ -20,6 +21,7 @@
     }
 ?>
 </i></h6>
+
 
 
 <?php 
@@ -31,11 +33,12 @@
 <table id="table-studentslist" class="table table-striped" style='width:100%;'>        
     <thead>
         <tr>
-            <td class="text-center font-roboto color-a2">ID</td>
+            
             <td class="text-center font-roboto color-a2">CODE</td>
             <td class="text-center font-roboto color-a2">NAME</td>
             <td class="text-center font-roboto color-a2">COURSE</td>
             <td class="text-center font-roboto color-a2">SCORE</td>
+            <td class="text-center font-roboto color-a2">REMARK</td>
             <td class="text-center font-roboto color-a2">ACTION</td>
         </tr>
     </thead>
@@ -53,14 +56,32 @@
                     $user_level = $u['user_level'];
                     $score = $u['user_total_score'];
                     $idquestionaire = $u["idquestionaire"];
+                    if($idquestionaire != "0"){
+                        if(isset($data[0]["questionaire_total_score"])){
+                            if($score != "" || $score != null){
+                                if(((($score)/($data[0]["questionaire_total_score"]))*80)+(20) >= 75){
+                                    $remark = "Passed";
+                                }else{
+                                    $remark = "failed";
+                                }
+                            }else{
+                                $remark = "Unknown";
+                            }
+                        }else{
+                            $remark = "Unknown";
+                        }
+                    }else{
+                        $remark = "Unknown";
+                    }
+                    
                     if($user_level == '1'){
                         echo "
                             <tr>
-                                <td class='text-center'>$id</td>
                                 <td class='text-center'>$code</td>
                                 <td class='text-center'>$lastname, $firstname $middlename</td>
                                 <td class='text-center'>$course</td>
                                 <td class='text-center'>$score</td>
+                                <td class='text-center'>$remark</td>
                                 <td class='text-center'>";
                                 if($idquestionaire == "0"){
                                     echo "

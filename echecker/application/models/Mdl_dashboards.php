@@ -10,7 +10,18 @@ class Mdl_dashboards extends CI_Model {
    
     public function getMessage(){
         $query=$this->db->limit(1)->get('bulletintbl');
-        return $query->result_array();
+        $message = $query->result_array();
+        if($message){
+            return $message;
+        }else{
+            return array(
+                0 => array(
+                        "message"=>"Hello, You can put your annoucements here !."
+                        )
+
+            );
+        }
+        
     }
 
     public function postMessage($data=array()){
@@ -25,6 +36,34 @@ class Mdl_dashboards extends CI_Model {
         }
         
     
+    }
+    public function adminSettingIdentifier(){
+        $dataArrIdentifier = array();
+        $hasSubject = false;
+        $hasCourse = false;
+        $hasDepartment = false;
+
+        $query = $this->db->limit(1)->get('subjecttbl');
+        if($getSubject = $query->row_array()){
+            $hasSubject = true;
+        }
+
+        $query = $this->db->limit(1)->get('coursetbl');
+        if($getCourse = $query->row_array()){
+            $hasCourse = true;
+        }
+
+        $query = $this->db->limit(1)->get('departmenttbl');
+        if($getDepartment = $query->row_array()){
+            $hasDepartment = true;
+        }
+
+        if($hasCourse == true && $hasSubject == true && $hasDepartment == true){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
 

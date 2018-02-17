@@ -9,7 +9,7 @@
 <table id="table-scheduleList-main" class="table table-striped">        
     <thead>
         <tr>
-            <td class="text-center font-roboto color-a2">ID</td>
+            
             <td class="text-center font-roboto color-a2">CODE</td>
             <td class="text-center font-roboto color-a2">DAY</td>
             <td class="text-center font-roboto color-a2">TIME START</td>
@@ -28,7 +28,7 @@
                 $status = $sched['status'];            
             echo "
                 <tr>
-                    <td class='text-center font-roboto color-a2'>$id</td>
+                    
                     <td class='text-center font-roboto color-a2'>$code</td>
                     <td class='text-center font-roboto color-a2'>$day</td>
                     <td class='text-center font-roboto color-a2'>$time_start</td>

@@ -40,6 +40,15 @@ class MY_Controller extends CI_Controller {
         }
         $datas['data'] = $data;
         $path['currentPath'] = $this->uri->segment(1);
+
+        if(isset($_SESSION["users"])){
+            if($_SESSION["users"]["user_level"] == "99"){
+                $this->load->model('mdl_dashboards');
+                $identifier = $this->mdl_dashboards->adminSettingIdentifier();
+                $path["identifier"] = $identifier;
+            }
+        }
+
         $this->load->view('layouts/header',$path);
         if($this->uri->segment(1) != 'login'){
             $this->load->view('layouts/layout',$path);

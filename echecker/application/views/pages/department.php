@@ -7,8 +7,8 @@
 <table id="table-departmentlist" class="table table-striped">        
     <thead>
         <tr>
-            <td class="text-center font-roboto color-a2">ID</td>
-            <td class="text-center font-roboto color-a2">DEPARTMENT NAME</td>
+
+            <td class="text-center font-roboto color-a2">PROGRAM NAME</td>
             <td class="text-center font-roboto color-a2">DESCRIPTION</td>
             <td class="text-center font-roboto color-a2">ACTION</td>
 
@@ -24,7 +24,6 @@
             
             echo "
                 <tr>
-                    <td class='text-center font-roboto color-a2'>$id</td>
                     <td class='text-center font-roboto color-a2'>$name</td>
                     <td class='text-center font-roboto color-a2'>$description</td>
                     <td class='text-center font-roboto color-a2'>

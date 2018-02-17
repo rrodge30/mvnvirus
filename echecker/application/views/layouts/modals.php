@@ -31,7 +31,6 @@
         <h5 class="modal-title" id="mdl-secondary-title"></h5>
       </div>
       <div class="modal-secondary-body">
-      
         
       </div>
       <div class="modal-secondary-footer">
@@ -116,7 +115,7 @@
                                                     <div class="row col-md-12">
                                                         <div class="col-md-10 bhoechie-tab-container template'.$key.'">
                                                             <div class="col-md-2 bhoechie-tab-menu btmenu-template'.$key.'">
-                                                                <div class="list-group">';
+                                                                <div class="list-group" style="max-height:750px;overflow-y:scroll;overflow-x:hidden;">';
                                                                     //bouche tab header
                                                                     foreach($data["questionaire_type"][$key]["question"] as $i => $iValue){
                                                                         echo '<a href="#" class="list-group-item '.(($i == 0) ? "active" : "").' text-center" data-tab="'.$key.'">

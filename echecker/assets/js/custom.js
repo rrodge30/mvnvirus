@@ -1,4 +1,12 @@
 $(document).ready(function(){
+    //PAGINATION
+    
+    
+    
+    
+        
+    
+    //PAGINATION END
     /*
     // PAGE FOCUS LISTENER
     var count = 0;
@@ -501,6 +509,7 @@ $(document).ready(function(){
         });
       
         $('#modal-dynamic').modal('show');
+        $('.modal-dialog').attr('style','width:70%;');
         
     });
  
@@ -531,6 +540,7 @@ $(document).ready(function(){
         });
         
         $('#modal-dynamic').modal('show');
+        $('.modal-dialog').attr('style','width:70%;');
     });
     
     //********* ADD USERS END
@@ -673,6 +683,7 @@ $(document).ready(function(){
         });
     
         $('#modal-dynamic').modal('show');
+        $('.modal-dialog').attr('style','width:70%;');
     });
 
     //********* POST UPDATE USER
@@ -800,6 +811,7 @@ $(document).ready(function(){
         $('#table-scheduleList').DataTable();
         
         $('#modal-dynamic-secondary').modal('show');
+        $('.modal-dialog').attr('style','width:100%;height:100%;padding:0 !important;margin:0 !important;left:0');
     });
 
 
@@ -820,17 +832,20 @@ $(document).ready(function(){
         
         $('#mdl-title').html('Add Subject');
         var inputList = ["subject_code","subject_description","units"];
+        var headerList = ["Subject Code","Subject Description","Units"];
         var htmlbody = '<form action="subjects/addsubject" method="post" onsubmit="return false;" id="mdl-frm-add-subject">';
+        i = 0;
         inputList.forEach(function(inputs){
             htmlbody += '<div class="input-group">'
-                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
-                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
-                        +'</div>'
+                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:150px;float:left;">'+upperCaseFirstWord(headerList[i])+'</div></span>'
+                        +'   <input type="text" placeholder="Enter '+headerList[i]+'" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
+                        +'</div>';
+            i++;
         });
         htmlbody += '<div class="input-group">'
-                        +'   <span class="input-group-addon" ><div style="width:100px;float:left;">Schedule</div></span>'
+                        +'   <span class="input-group-addon" ><div style="width:150px;float:left;">Schedule</div></span>'
                         +'   <input type="hidden" id="mdl-input-schedule" class="form-control" name="schedule" aria-describedby="basic-addon1" required="required">'
-                        +'   <input type="button" id="mdl-input-temp-schedule" class="form-control btn-schedule" name="temp_schedule" aria-describedby="basic-addon1" required="required" style="text-align:left;">'
+                        +'   <input type="button" value="Click to Choose Schedules" id="mdl-input-temp-schedule" class="form-control btn-schedule" name="temp_schedule" aria-describedby="basic-addon1" required="required" style="text-align:left;">'
                      +'</div>'
                      +'</form>';
         $('.modal-body').html(htmlbody);
@@ -841,6 +856,7 @@ $(document).ready(function(){
     
     
         $('#modal-dynamic').modal('show');
+        $('.modal-dialog').attr('style','width:70%;');
     });
     //******** ADD SUBJECT END */
 
@@ -913,17 +929,19 @@ $(document).ready(function(){
                 if(data[1] == true){
                     $('#mdl-title').html('Update Subject');
                     var inputList = ["subject_code","subject_description","units"];
-
+                    var headerList = ["Subject Code","Subject Description","Units"];
                     var htmlbody = '<form action="subjects/updatesubject" method="POST" id="mdl-frm-update-subject" onsubmit="return false;">'
                                 +'<input type="hidden" value="'+data[0]['idsubject']+'" name="idsubject">';
+                    i = 0;
                     inputList.forEach(function(inputs){
                         htmlbody += '<div class="input-group">'
-                                +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
-                                +'   <input type="text" class="form-control" name="'+inputs+'" value="'+data[0][inputs]+'" aria-describedby="basic-addon1" required="required">'
-                                +'</div>'
+                                +'   <span class="input-group-addon" id="basic-addon1"><div style="width:150px;float:left;">'+upperCaseFirstWord(headerList[i])+'</div></span>'
+                                +'   <input type="text" placeholder="Enter '+headerList[i]+'" class="form-control" name="'+inputs+'" value="'+data[0][inputs]+'" aria-describedby="basic-addon1" required="required">'
+                                +'</div>';
+                        i++;
                     });
                     htmlbody += '<div class="input-group">'
-                        +'   <span class="input-group-addon" ><div style="width:100px;float:left;">Schedule</div></span>'
+                        +'   <span class="input-group-addon" ><div style="width:150px;float:left;">Schedule</div></span>'
                         +'   <input type="hidden" value="'+data[0]["idschedule"]+'" id="mdl-input-schedule" class="form-control btn-schedule" name="schedule" aria-describedby="basic-addon1" required="required">'
                         +'   <input type="button" value="'+data[0]["schedule_code"]+'" id="mdl-input-temp-schedule" class="form-control btn-schedule" name="temp_schedule" aria-describedby="basic-addon1" required="required" style="text-align:left;">'
                      +'</div>'
@@ -939,6 +957,7 @@ $(document).ready(function(){
         });
     
         $('#modal-dynamic').modal('show');
+        $('.modal-dialog').attr('style','width:70%;');
     });
     
     //******** UPDATE SUBJECT END*/
@@ -1040,14 +1059,17 @@ $(document).ready(function(){
     $(document).on('click','.btn-add-department',function(e){
         e.preventDefault();
         
-        $('#mdl-title').html('Add Department');
+        $('#mdl-title').html('Add Program');
         var inputList = ["department name","Description"];
+        var headerList = ["Program Code","Program Description"];
         var htmlbody = '<form action="departments/adddepartment" method="post" onsubmit="return false;" id="mdl-frm-add-department">';
+        i = 0;
         inputList.forEach(function(inputs){
             htmlbody += '<div class="input-group">'
-                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
-                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
-                        +'</div>'
+                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:150px;float:left !important;">'+upperCaseFirstWord(headerList[i])+'</div></span>'
+                        +'   <input type="text" placeholder="Enter '+headerList[i]+'" class="program-input'+i+' form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
+                        +'</div>';
+            i++;
         });
         htmlbody += '</form>';
         $('.modal-body').html(htmlbody);
@@ -1056,8 +1078,33 @@ $(document).ready(function(){
                     +'<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
         $('.modal-footer').html(footer);
     
-    
         $('#modal-dynamic').modal('show');
+        $('.modal-dialog').attr('style','width:70%;');
+        $(document).on('change','input.program-input0',function(){
+            var inputCode = $(this);
+            switch(inputCode.val().toLowerCase()){
+                case 'te':
+                $('input.program-input1').val("College of Teachers Education");
+                break;
+                case 'case':
+                $('input.program-input1').val("College of Arts and Sciences Education");
+                break;
+                case 'cbe':
+                $('input.program-input1').val("College of Business Education");
+                break;
+                case 'cite':
+                $('input.program-input1').val("College of Information Technology Education");
+                break;
+                case 'cee':
+                $('input.program-input1').val("College of Engineering Education");
+                break;
+                case 'cce':
+                $('input.program-input1').val("College of Criminology Education");
+                break;
+                
+            };
+            
+        });
     });
     
     //******** ADD DEPARTMENT END*/
@@ -1119,16 +1166,18 @@ $(document).ready(function(){
             data:{id:id},
             success:function(data){
                 if(data[1] == true){
-                    $('#mdl-title').html('Update Department');
+                    $('#mdl-title').html('Update College Department');
                     var inputList = ["department_name","description"];
-
+                    var headerList = ["Program Code","Program Description"];
                     var htmlbody = '<form action="departments/updatedepartment" method="POST" id="mdl-frm-update-department" onsubmit="return false;">'
                                 +'<input type="hidden" value="'+data[0]['iddepartment']+'" name="iddepartment">';
+                    i = 0;
                     inputList.forEach(function(inputs){
                         htmlbody += '<div class="input-group">'
-                                +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
-                                +'   <input type="text" class="form-control" name="'+inputs+'" value="'+data[0][inputs]+'" aria-describedby="basic-addon1" required="required">'
+                                +'   <span class="input-group-addon" id="basic-addon1"><div style="width:150px;float:left;">'+upperCaseFirstWord(headerList[i])+'</div></span>'
+                                +'   <input type="text" placeholder="Enter '+headerList[i]+'" class="program-input'+i+' form-control" name="'+inputs+'" value="'+data[0][inputs]+'" aria-describedby="basic-addon1" required="required">'
                                 +'</div>'
+                        i++;
                     });
                     htmlbody += '</form>';
                             
@@ -1142,6 +1191,32 @@ $(document).ready(function(){
         });
     
         $('#modal-dynamic').modal('show');
+        $('.modal-dialog').attr('style','width:70%;');
+        $(document).on('change','input.program-input0',function(){
+            var inputCode = $(this);
+            switch(inputCode.val().toLowerCase()){
+                case 'te':
+                $('input.program-input1').val("College of Teachers Education");
+                break;
+                case 'case':
+                $('input.program-input1').val("College of Arts and Sciences Education");
+                break;
+                case 'cbe':
+                $('input.program-input1').val("College of Business Education");
+                break;
+                case 'cite':
+                $('input.program-input1').val("College of Information Technology Education");
+                break;
+                case 'cee':
+                $('input.program-input1').val("College of Engineering Education");
+                break;
+                case 'cce':
+                $('input.program-input1').val("College of Criminology Education");
+                break;
+                
+            };
+
+        });
     });
 
     //******** UPDATE DEPARTMENT END*/
@@ -1244,12 +1319,15 @@ $(document).ready(function(){
         
         $('#mdl-title').html('Add course');
         var inputList = ["course_name","course_description"];
+        var headerList = ["Course Code","Course Description"];
         var htmlbody = '<form action="courses/addcourse" method="post" onsubmit="return false;" id="mdl-frm-add-course">';
+        i=0;
         inputList.forEach(function(inputs){
             htmlbody += '<div class="input-group">'
-                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
-                        +'   <input type="text" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
-                        +'</div>'
+                        +'   <span class="input-group-addon" id="basic-addon1"><div style="width:150px;float:left;">'+upperCaseFirstWord(headerList[i])+'</div></span>'
+                        +'   <input type="text" placeholder="Enter '+headerList[i]+'" class="form-control" name="'+inputs+'" aria-describedby="basic-addon1" required="required">'
+                        +'</div>';
+            i++;
         });
         htmlbody += '</form>';
         $('.modal-body').html(htmlbody);
@@ -1260,6 +1338,7 @@ $(document).ready(function(){
     
     
         $('#modal-dynamic').modal('show');
+        $('.modal-dialog').attr('style','width:70%;');
     });
 
     //******** ADD COURSE END*/
@@ -1322,14 +1401,16 @@ $(document).ready(function(){
                 if(data[1] == true){
                     $('#mdl-title').html('Update course');
                     var inputList = ["course_name","course_description"];
-
+                    var headerList = ["Course Code","Course Description"];
                     var htmlbody = '<form action="courses/updatecourse" method="POST" id="mdl-frm-update-course" onsubmit="return false;">'
                                 +'<input type="hidden" value="'+data[0]['idcourse']+'" name="idcourse">';
+                    i=0;
                     inputList.forEach(function(inputs){
                         htmlbody += '<div class="input-group">'
-                                +'   <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;">'+upperCaseFirstWord(inputs)+'</div></span>'
-                                +'   <input type="text" class="form-control" name="'+inputs+'" value="'+data[0][inputs]+'" aria-describedby="basic-addon1" required="required">'
-                                +'</div>'
+                                +'   <span class="input-group-addon" id="basic-addon1"><div style="width:150px;float:left;">'+upperCaseFirstWord(headerList[i])+'</div></span>'
+                                +'   <input type="text" placeholder="Enter '+headerList[i]+'" class="form-control" name="'+inputs+'" value="'+data[0][inputs]+'" aria-describedby="basic-addon1" required="required">'
+                                +'</div>';
+                        i++;
                     });
                     htmlbody += '</form>';
                             
@@ -1343,6 +1424,7 @@ $(document).ready(function(){
         });
     
         $('#modal-dynamic').modal('show');
+        $('.modal-dialog').attr('style','width:70%;');
     });
 
     //******** UPDATE COURSE END*/
@@ -1717,21 +1799,23 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
     //
     $(document).on('click','.mdl-btn-view-classes-subject',function(e){
         e.preventDefault();
+
         $('#mdl-secondary-title').html('Subject Information');
         $('#view-subject-users').attr('style','display:block !important;');
-        $('#table-classes-subjectlist').attr('style','display:none !important;');
         $('.modal-dialog').attr('style','width:80% !important;');
         var htmlbody = '';
         e.preventDefault();
         var btn = $(this);
         var id = btn.data('id');
+        
         $.ajax({
             url:'subjects/getallsubjectusersbyid',
             dataType:"json",
             data:{id:id},
             method:"POST",
             success:function(data){
-          
+                
+            if(data != false){
                 var teacherName = "";
                 data.forEach(function(inputs){
                     if(inputs["user_level"] == "2"){
@@ -1739,31 +1823,28 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
                     }
                 });
                 
-                htmlbody = '<div class="row"><span class="header-class-subject-information-left">Code:</span><span class="">'+data[0]['subject_code']+'</span></div>'
-                +'<div class="row"><span class="header-class-subject-information-left">Description:</span><span class="">'+data[0]['subject_description']+'</span></div>'
-                +'<div class="row"><span class="header-class-subject-information-left">Day:</span><span class="">'+data[0]['day']+'</span></div>'
-                +'<div class="row"><span class="header-class-subject-information-left">Time:</span><span class="">'+data[0]['time_start']+'-'+data[0]['time_end']+'</span></div>'
-                +'<div class="row"><span class="header-class-subject-information-left">Units:</span><span class="">'+data[0]['units']+'</span></div>'
-                +'<div class="row"><span class="header-class-subject-information-left">Teacher:</span><span class="">'+teacherName+'</span></div>'
-                +'<button class="btn btn-sucess pull-right btn-view-class-subject-return">Back</button>'
-                +'<span style="font-size:20px;margin:30px;">Student List:</span>'
+                htmlbody = '<div class="row"><span class="header-class-subject-information-left category roboto" style="width:250px !important;padding-left:20px;">Code</span><span class="" style="padding-left:20px;margin-left:0 !important;">'+data[0]['subject_code']+'</span></div>'
+                +'<div class="row"><span class="header-class-subject-information-left category roboto" style="width:250px !important;padding-left:20px;">Description</span><span class="" style="padding-left:20px;margin-left:0 !important;">'+data[0]['subject_description']+'</span></div>'
+                +'<div class="row"><span class="header-class-subject-information-left category roboto" style="width:250px !important;padding-left:20px;">Day</span><span class="" style="padding-left:20px;margin-left:0 !important;">'+data[0]['day']+'</span></div>'
+                +'<div class="row"><span class="header-class-subject-information-left category roboto" style="width:250px !important;padding-left:20px;">Time</span><span class="" style="padding-left:20px;margin-left:0 !important;">'+data[0]['time_start']+'-'+data[0]['time_end']+'</span></div>'
+                +'<div class="row"><span class="header-class-subject-information-left category roboto" style="width:250px !important;padding-left:20px;">Units</span><span class="" style="padding-left:20px;margin-left:0 !important;">'+data[0]['units']+'</span></div>'
+                +'<div class="row"><span class="header-class-subject-information-left category roboto" style="width:250px !important;padding-left:20px;">Teacher</span><span class="" style="padding-left:20px;margin-left:0 !important;">'+teacherName+'</span></div>'
+                //+'<button class="btn btn-sucess pull-right btn-view-class-subject-return">Back</button>'
+                +'<span style="font-size:20px;margin:30px; title roboto">Student List:</span>'
                 +'<table id="table-classes-subjectlist" class="table table-striped">'
                 +'<thead>'
                 +'<tr>'
-                +'<td class="text-center font-roboto color-a2">ID</td>'
                 +'<td class="text-center font-roboto color-a2">CODE</td>'
                 +'<td class="text-center font-roboto color-a2">NAME</td>'
                 +'<td class="text-center font-roboto color-a2">COURSE</td>'
                 +'<td class="text-center font-roboto color-a2">YEAR LEVEL</td>'
-                +'<td class="text-center font-roboto color-a2">DEPARTMENT</td>'
+                +'<td class="text-center font-roboto color-a2">PROGRAM</td>'
                 +'</tr>'
                 +'</thead>'
                 +'<tbody>';
-            if(data != false){
+
                 data.forEach(function(inputs){
                     
-                    
-              
                         var id = inputs['id'];
                         var code = inputs['code'];
                         var firstname = inputs['firstname'];
@@ -1775,7 +1856,7 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
                    
                           if(inputs['user_level'] == "1"){  
                               htmlbody += "<tr>"
-                              +"<td class='text-center font-roboto color-a2'>"+id+"</td>"
+                            
                               +"<td class='text-center font-roboto color-a2'>"+code+"</td>"
                               +"<td class='text-center font-roboto color-a2'>"+lastname+", "+firstname+" "+middlename+"</td>"
                               +"<td class='text-center font-roboto color-a2'>"+course+"</td>"
@@ -1786,17 +1867,19 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
                               +"</tr>";
                           }
                       
-                                    
-                            
                     });
+            }else{
+                swal("Failed", "There are no existing user on this subject yet.", "error");
             }
             htmlbody+= "</tbody>"
                     +"</table>";
-                $('#view-subject-users').html(htmlbody);
+                $('.modal-secondary-body').html(htmlbody);
             }
         });
         var footer = '<div style="padding:5px;" class="text-right"><button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button></div>';
         $('.modal-secondary-footer').html(footer);
+
+        $('#modal-dynamic-secondary').modal('show');
     });
 
     //******** MODAL VIEW CLASS SUBJECT TABLE END*/
@@ -2063,13 +2146,13 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
                         +'<div class="row">'
                         +'<input type="hidden" id="category-title-tabNo'+nextTab+'" value="'+inputTitleValue+'">'
                         +'<input type="hidden" id="question-quantity-tabNo'+nextTab+'" value="'+inputAnswerQuantityValue+'">'
-                        +'<input type="hidden" id="item-points-tabNo'+nextTab+'" value="'+inputNumberOfPointsValue+'">'
+                        +'<input type="hidden" readonly="readonly" id="item-points-tabNo'+nextTab+'" value="'+inputNumberOfPointsValue+'">'
                         +'<input type="hidden" id="item-quantity-tabNo'+nextTab+'" value="'+inputNumerOfItemsValue+'">'
-                        +'<input type="hidden" id="total-item-tabNo'+nextTab+'" value="'+totalPointsValue+'">'
+                        +'<input type="hidden" readonly="readonly" id="total-item-tabNo'+nextTab+'" value="'+totalPointsValue+'">'
                         
                         +'<div class="col-md-10 bhoechie-tab-container template'+nextTab+'">'
                             +'<div class="col-md-2 bhoechie-tab-menu template'+nextTab+'">'
-                                +'<div class="list-group">';
+                                +'<div class="list-group" style="max-height:750px;overflow-y:scroll;overflow-x:hidden;">';
                                
         for(i=0;i<inputNumerOfItemsValue;i++){
             tabContent += '<a href="#" class="list-group-item '+((i==0) ? 'active':'')+' text-center">'
@@ -2094,7 +2177,7 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
                                 +'<label style="font-size:16px;">Question</label>'
                                 +'<div class="form-group label-floating col-md-12">'
                                     +'<label class="control-label col-md-3" style="left:0;">Write Your Question Here  . . .</label>'
-                                    +'<textarea name="question" class="col-md-9 form-control mytextarea" id="questionTabno'+nextTab+'-itemno-'+i+'" rows="5" required="required"></textarea>'
+                                    +'<textarea name="question'+i+'" class="col-md-9 form-control mytextarea" id="questionTabno'+nextTab+'-itemno-'+i+'" rows="5"></textarea>'
                                 +'</div>'
                             +'</div>';
             
@@ -2445,7 +2528,7 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
                         swal("success", "Record Deleted.", "success");
                         
                     }else{
-                        swal("Cancelled", "Error Delete Record.", "error");
+                        swal("Cancelled", data[0] , "error");
                     }
                 }
             });
@@ -2458,7 +2541,7 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
     });
     //SUBMIT DELETE QUESTIONNAIRE END 
 
-    
+        
    
 
     
@@ -2528,7 +2611,7 @@ function goToFullScreen(){
             }
             
             function stopTimer() {
-                swal("Inactive", "Due to Page Inactive Your Examination Will Automatically Submitted", "success");
+                clearInterval(myInterval);
                 var contentTabHeader = $('ul > li.tab-examine');
                 var dataAnswers = [];
                 dataAnswers = {
@@ -2554,7 +2637,11 @@ function goToFullScreen(){
                     }
                 }
                 
-                
+                function messageWithReload(){
+                    swal("Submitted !", "Due to Page Inactive Examination Will be invalid, ask your teacher to take it again", "success");
+                    window.location.replace('examinations');
+                }
+
                 $.ajax({
                     url:'examinations/submitexamine',
                     data:{data:dataAnswers},
@@ -2562,15 +2649,19 @@ function goToFullScreen(){
                     method:"POST",
                     success:function(data){
                         if(data[1] == true){
-                            swal("success", "Your Examination Has Been Submitted.", "success");
-                            window.location.replace('examinations');
+                            messageWithReload();
                         }else{
-                            swal("Cancelled", "Error Delete Record.", "error");
+                            messageWithReload();
                         }
+                    },
+                    complete:function(){
+                        messageWithReload();
                     }
                     
                 });
+                
             }
+
             // Stop timer
             
             //
@@ -2888,7 +2979,7 @@ $(document).on('submit','#frm-update-questionnaire',function(e){
             var inputInstruction = $('#questionnaire-instruction').val();
             var inputIdSubject= $('#questionaire-idsubject').val();
             var inputIdQuestionnaire= $('#questionaire-idquestionnaire').val();
-            
+            var questionaireTypeInitialCount = $('#questionairetype-initialcount').val();
             var inputData = [];
             inputData = {
                     
@@ -2901,7 +2992,8 @@ $(document).on('submit','#frm-update-questionnaire',function(e){
                     "questionaire_duration": inputDuration,
                     "questionaire_instruction": inputInstruction,
                     "idsubject":inputIdSubject,
-                    "idquestionaire":inputIdQuestionnaire
+                    "idquestionaire":inputIdQuestionnaire,
+                    "initialCount":questionaireTypeInitialCount
                 }
                 
             };
@@ -2935,6 +3027,7 @@ $(document).on('submit','#frm-update-questionnaire',function(e){
                     inputData[i][j] = [];
                     var question = tinymce.get("questionTabno"+i+"-itemno-"+j+"").getContent();
                     var idquestion = $('#question-idquestion'+i+'-'+j+'').val();
+                    
                     inputData[i][j] = {
                         "data":{
                             "idquestion":idquestion,
@@ -2959,15 +3052,20 @@ $(document).on('submit','#frm-update-questionnaire',function(e){
 
                     }else{
                         var answerCount = $('center#add-answer'+i+'-'+j+' div.add-answer > span.span-add-answer'+i+' > div.input-group').length
-                        
+                        var initialAnswerCount = $('input#tab-'+i+'-item-'+j+'-essay-answer-initial-count').val();
+                        inputData[i][j].data.initialAnswerCount = initialAnswerCount;
                         for(k=0;k<answerCount;k++){
                             inputData[i][j][k] = [];
+                            
                             inputData[i][j][k] = {
+                                
                                 "data":{
                                     'answer':$('#answerTabno-'+i+'-itemno-'+j+'-answerno-'+k+'').val(),
                                     'idanswer':$('#input-question-idanswer'+i+'-'+j+'-'+k+'').val()
                                 }
                             }
+                            
+                            
                         }
                         
                     }
@@ -3050,7 +3148,7 @@ $(document).on('click','.btn-report-update-essay-score',function(e){
     var idquestion = btn.data('idquestion');
     var idusers = btn.data('idusers');
     var score = btn.data('questionscore');
-    
+    var questionnaireTotalScore = btn.data('questionnairetotalscore');
     swal({
         title: "Update Score",
         text: "Please Enter Question New Score",
@@ -3073,6 +3171,10 @@ $(document).on('click','.btn-report-update-essay-score',function(e){
           swal.showInputError("Updated score should not greater than item points !");
           return false
         }
+        if (parseInt(inputValue) < 0) {
+            swal.showInputError("Updated Score Should not be lesser than zero !");
+            return false
+          }
         
         var newscore = inputValue;
         swal({
@@ -3100,6 +3202,8 @@ $(document).on('click','.btn-report-update-essay-score',function(e){
                         swal("Successs", "score successfully updated", "success");
                         $('p#user-essay-item-score').text(newscore);
                         $('p#reports-user-total-score').text(data[2]);
+                        var scorePercentage = ((((data[2])/(questionnaireTotalScore))*80)+20);
+                        $('p#report-user-score-percentage').text(scorePercentage.toFixed(2).toString()+"%"); 
                         btn.data("questionscore",inputValue);
                     }else{
                         swal("Cancelled", "Fail to update", "error");
@@ -3167,5 +3271,19 @@ $(document).on('click','.btn-retakeexamination',function(e){
 });
 
 // RETAKE EXAMINATION END 
+
+//ADD ANSWER
+$(document).on('click','div.bhoechie-tab-content.active > center > div > div > span > button.btn-add-answer',function(e){
+    e.preventDefault();
+    var btn = $(this);
+    var nextTab = $('ul.tab-header > li.active').index()-1;
+    var itemNo = $('div.bhoechie-tab-menu.template'+nextTab+' > div > a.active').index();
+    var answerQuantity = $('div#tab-content > div.active div.bhoechie-tab-content.active input.form-control').length;
+    var input = '<div class="input-group">'
+                    +'<span class="input-group-addon" id="basic-addon1">Hint no. '+(answerQuantity+1)+'</span>'
+                    +'<input type="text" class="form-control use" placeholder="Enter Answer no '+(answerQuantity+1)+'" aria-describedby="basic-addon1" required="required" id="answerTabno-'+nextTab+'-itemno-'+itemNo+'-answerno-'+answerQuantity+'" name="answer">'
+                +'</div>';  
+    $(input).insertBefore(btn);
+});
 
 //__userSessionUserLevelData 

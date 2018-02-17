@@ -82,7 +82,7 @@
                     <div class="row">
                         <div class="col-md-2">
                         <p class="category">
-                                TOTAL SCORE
+                                TOTAL ITEM
                             </p>
                         </div>
                         <div class="col-md-10">
@@ -91,6 +91,7 @@
                             </p>
                         </div>
                     </div>
+                    
                     <div class="row">
                         <div class="col-md-2">
                         <p class="category">
@@ -100,16 +101,79 @@
                         <div class="col-md-10">
                             <p class="category" id="reports-user-total-score">
                                 <?php
+
                                 if($_SESSION["users"]["user_level"] == "1"){
                                     echo $data["user_questionaire"][0]["user_total_score"];
+                                    
                                 }else{
                                     echo $data["user_total_score"];
+                                    $userScore = &$data["user_total_score"];
                                 }
                                 
                                 ?>
                             </p>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                        <p class="category">
+                                PERCENTAGE
+                            </p>
+                        </div>
+                        <div class="col-md-10">
+                            <p class="category" id="report-user-score-percentage">
+                                <?php
+
+                                    if($_SESSION["users"]["user_level"] == "1"){
+                                        if($data["user_questionaire"][0]["user_total_score"] == "" || $data["user_questionaire"][0]["user_total_score"] == null){
+                                            $data["user_questionaire"][0]["user_total_score"] = "0";
+                                        }
+                                        echo (((($data["user_questionaire"][0]["user_total_score"])/($data["questionaire_total_score"]))*80)+20) . "%";
+                                    }else{
+                                        if($userScore == "" || $userScore == null){
+                                            $userScore = "0";
+                                        }
+                                        echo (((($userScore)/($data["questionaire_total_score"]))*80)+20) . "%";
+                                        
+                                    }
+                                
+                                ?>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                        <p class="category">
+                                TIME CONSUME
+                            </p>
+                        </div>
+                        <div class="col-md-10">
+                            <p class="category" id="report-user-time-consume">
+                                <?php
+                                    if($_SESSION["users"]["user_level"] == "1"){
+                                        
+                                        if(isset($data["user_questionaire"][0]["time_consume"]) && is_numeric($data["user_questionaire"][0]["time_consume"])){
+                                            $seconds = $data["user_questionaire"][0]["time_consume"];
+                                            $hours = sprintf("%02d", (floor($seconds / 3600)));
+                                            $minutes = sprintf("%02d", (floor(($seconds / 60) % 60)));
+                                            $seconds = sprintf("%02d", ($seconds % 60));
+                                            echo "$hours:$minutes:$seconds";
+                                        }
+                                    }else{
+                                        if(isset($data["user_questionaire"]["time_consume"]) && is_numeric($data["user_questionaire"]["time_consume"])){
+                                            $seconds = $data["user_questionaire"]["time_consume"];
+                                            $hours = sprintf("%02d", (floor($seconds / 3600)));
+                                            $minutes = sprintf("%02d", (floor(($seconds / 60) % 60)));
+                                            $seconds = sprintf("%02d", ($seconds % 60));
+                                            echo "$hours:$minutes:$seconds";
+                                        }
+                                    }
+                                
+                                ?>
+                            </p>
+                        </div>
+                    </div>
+                    
                 </h5>
             
             </div>
@@ -348,8 +412,13 @@
                                                                                     $dataIdQuestionnaireUserAnswer = $data["questionaire_type"][$key]["question"][$i]["user_answer"][0]["idquestionuseranswer"];
                                                                                     $dataQuestionScore = $data["questionaire_type"][$key]["question"][$i]["user_answer"][0]["question_score"];
                                                                                     if($_SESSION["users"]["user_level"] == "2"){
+                                                                                        if(isset($data["questionaire_total_score"])){
+                                                                                            $questionnaireTotalScore = $data["questionaire_total_score"];
+                                                                                        }else{
+                                                                                            $questionnaireTotalScore = "0";
+                                                                                        }
                                                                                         echo '<div class="form-group col-md-12">
-                                                                                                    <button class="data-toggle=tooltip data-placement=top title=Delete btn-report-update-essay-score btn pull-right col-md-5" type="button" data-idusers="'.$dataIdusers.'" data-idquestion="'.$dataIdquestion.'" data-itempoints="'.$dataQuestionItemPoints.'" data-questionscore="'.$dataQuestionScore.'" data-idquestionuseranswer="'.$dataIdQuestionnaireUserAnswer.'" data-iduserquestionaire="'.$dataIdUserQuestionnaire.'">
+                                                                                                    <button class="data-toggle=tooltip data-placement=top title=Delete btn-report-update-essay-score btn pull-right col-md-5" type="button" data-idusers="'.$dataIdusers.'" data-idquestion="'.$dataIdquestion.'" data-itempoints="'.$dataQuestionItemPoints.'" data-questionscore="'.$dataQuestionScore.'" data-idquestionuseranswer="'.$dataIdQuestionnaireUserAnswer.'" data-iduserquestionaire="'.$dataIdUserQuestionnaire.'" data-questionnairetotalscore="'.$questionnaireTotalScore.'">
                                                                                                         <span class="material-icons">create</span>CHANGE SCORE
                                                                                                     </button>
                                                                                             </div>';

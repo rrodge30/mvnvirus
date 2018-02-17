@@ -72,7 +72,7 @@
                         <input type="text" class="form-control use" placeholder="Enter Title" aria-describedby="basic-addon1" required="required" id="category-title-input" name="questionaire_type_title">
                     </div>
                     <div class="input-group">
-                        <span class="input-group-addon" id="span-answer-case-method">Question Quantity</span>
+                        <span class="input-group-addon" id="span-answer-case-method">Number of Choices</span>
                         <input type="text" class="form-control use" placeholder="Enter Number of Answer Question" aria-describedby="basic-addon1" required="required" id="questionaire-case-input" name="questionaire_answer_quantity" pattern="[0-9]+">
                     </div>
                     <div class="input-group">
@@ -80,7 +80,7 @@
                         <input type="text" class="form-control use" placeholder="Enter Number of Points per item" aria-describedby="basic-addon1" required="required" id="number-of-points-input" name="questionaire_points" pattern="[0-9]+">
                     </div>
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Item Quantity</span>
+                        <span class="input-group-addon" id="basic-addon1">Number of Items</span>
                         <input type="text" class="form-control use" placeholder="Enter Number of Items" aria-describedby="basic-addon1" required="required" id="number-of-items-input" name="number_of_items" pattern="[0-9]+">
                     </div>
                     <div class="input-group">

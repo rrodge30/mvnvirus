@@ -8,7 +8,4 @@ class Departments extends MY_Controller {
         parent::__contruct();
     }
 
-	
-
-
 }

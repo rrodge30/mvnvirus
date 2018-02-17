@@ -1,5 +1,6 @@
 
 <?php
+    
     $dashboard="";$subjects="";$users="";$reports="";$departments="";$examinations="";$courses="";$schedules="";$classes="";$notifications="";
     $m_subjects="";$m_users="";$m_reports="";$m_departments="";$m_courses="";$m_examination;$m_schedules="";$m_classes="";$m_notifications="";
     switch($_SESSION['users']['user_level']){
@@ -45,7 +46,7 @@
             $m_courses="1";
             $m_examination="";
             $m_schedules="1";
-            $m_classes="1";
+            $m_classes="";
             $m_notifications="";
             break;
     };
@@ -117,7 +118,16 @@
                         </a>
                     </li>
                     <?php
-                 
+
+                    if($_SESSION["users"]["user_level"] == "99"){
+                        if(isset($identifier)){
+                            if($identifier == false){
+                                $m_users = '0';
+                                $m_classes = '0';
+                            }
+                        }
+                    }
+
                     if($m_subjects == '1'){
                     
                     echo '<li class="'.$subjects.'">
@@ -138,25 +148,25 @@
                             </li>';
                         }
                 
+                        if($m_courses == '1'){
+                            echo '<li class="'.$courses.'">
+                                    <a href="courses">
+                                        <i class="material-icons">book</i>
+                                        <p>Courses</p>
+                                    </a>
+                                </li>';
+                        }
                         
                     if($m_departments == '1'){
                         echo '<li class="'.$departments.'">
                                     <a href="departments">
                                         <i class="material-icons">view_quilt</i>
-                                        <p>Departments</p>
+                                        <p>Program</p>
                                     </a>
                                 </li>';
                     }
                     
                 
-                    if($m_courses == '1'){
-                        echo '<li class="'.$courses.'">
-                                <a href="courses">
-                                    <i class="material-icons">book</i>
-                                    <p>Courses</p>
-                                </a>
-                            </li>';
-                    }
                     
                     if($m_classes == '1'){
                         echo '<li class="'.$classes.'">

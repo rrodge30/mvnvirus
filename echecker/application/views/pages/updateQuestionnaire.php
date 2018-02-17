@@ -6,6 +6,7 @@
     echo '</pre>';
     */
     
+    
 ?>
 
 <div class="row">
@@ -17,6 +18,7 @@
     
     <div class="row">
         <input type="hidden" name="idquestionnaire" id="questionaire-idsubject" value="<?=$data["idsubject"]?>">
+        <input type="hidden" name="questionaireTypeCount" id="questionairetype-initialcount" value="<?=count($data["questionaire_type"])?>">
         <input type="hidden" name="idquestionnaire" id="questionaire-idquestionnaire" value="<?=$data["idquestionaire"]?>">
         <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">Title</span>
@@ -91,7 +93,7 @@
                         <input type="text" class="form-control use" placeholder="Enter Title" aria-describedby="basic-addon1" id="category-title-input" name="questionaire_type_title">
                     </div>
                     <div class="input-group">
-                        <span class="input-group-addon" id="span-answer-case-method">Question Quantity</span>
+                        <span class="input-group-addon" id="span-answer-case-method">Number or Choices</span>
                         <input type="text" class="form-control use" placeholder="Enter Number of Answer Question" aria-describedby="basic-addon1" id="questionaire-case-input" name="questionaire_answer_quantity" pattern="[0-9]+">
                     </div>
                     <div class="input-group">
@@ -99,7 +101,7 @@
                         <input type="text" class="form-control use" placeholder="Enter Number of Points per item" aria-describedby="basic-addon1" id="number-of-points-input" name="questionaire_points" pattern="[0-9]+">
                     </div>
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Item Quantity</span>
+                        <span class="input-group-addon" id="basic-addon1">Number of Items</span>
                         <input type="text" class="form-control use" placeholder="Enter Number of Items" aria-describedby="basic-addon1" id="number-of-items-input" name="number_of_items" pattern="[0-9]+">
                     </div>
                     <div class="input-group">
@@ -117,11 +119,17 @@
                     for($i=0;$i<count($data["questionaire_type"]);$i++){
                         echo '<div role="tabpanel" class="tab-pane fade" id="tab-add-question'.$i.'" data-id="'.$i.'" data-questiontype="'.$data["questionaire_type"][$i]["questionaire_type"].'">';//tab content div start
                             //    
+                            $displayQuestionnaireTypeItemValue = "ssdfsfd";
+                            $pointerDisplayQuestionnaireTypeItemValue = &$displayQuestionnaireTypeItemValue;
+                            $displayQuestionnaireTypeItemValue = "fjhsdlkfjhslkjfhlsdjkfhsd";
                         echo '<div class="container">
+                            <div><span>Point per Item:</span>'.$data["questionaire_type"][$i]["questionaire_type_item_points"].'</div>
+                            <div><span>Total Item:</span>'.$data["questionaire_type"][$i]["questionaire_type_total_item"].'</div>
                             <div class="row">
+                            
                             <div class="col-md-10 bhoechie-tab-container template'.$i.'">
                                 <div class="col-md-2 bhoechie-tab-menu template'.$i.'">
-                                    <div class="list-group">';
+                                    <div class="list-group" style="max-height:750px;overflow-y:scroll;overflow-x:hidden;" >';
                                 
                                 for($j=0;$j<count($data["questionaire_type"][$i]["question"]);$j++){
                                     echo '<a href="#" class="list-group-item '.(($j == 0) ? 'active':'').' text-center" data-tab="'.$i.'">
@@ -142,9 +150,9 @@
                         <input type="hidden" id="question-idquestion'.$i.'-'.$j.'" value="'.$data["questionaire_type"][$i]["question"][$j]["idquestion"].'">
                         <input type="hidden" id="category-title-tabNo'.$i.'" value="'.$data["questionaire_type"][$i]["questionaire_type_title"].'">
                         <input type="hidden" id="question-quantity-tabNo'.$i.'" value="'.$data["questionaire_type"][$i]["questionaire_type_question_quantity"].'">
-                        <input type="hidden" id="item-points-tabNo'.$i.'" value="'.$data["questionaire_type"][$i]["questionaire_type_item_points"].'">
+                        <input type="hidden" readonly="readonly" id="item-points-tabNo'.$i.'" value="'.$data["questionaire_type"][$i]["questionaire_type_item_points"].'">
                         <input type="hidden" id="item-quantity-tabNo'.$i.'" value="'.$data["questionaire_type"][$i]["questionaire_type_item_quantity"].'">
-                        <input type="hidden" id="total-item-tabNo'.$i.'" value="'.$data["questionaire_type"][$i]["questionaire_type_total_item"].'">
+                        <input type="hidden" readonly="readonly" id="total-item-tabNo'.$i.'" value="'.$data["questionaire_type"][$i]["questionaire_type_total_item"].'">
                         <div class="col-md-12" style="margin: 5px;">
                                 <h1 class="glyphicon glyphicon-question-sign" style="font-size:4em;color:#55518a"></h1>
                                 <h2 style="margin-top: 0;color:#55518a">Question no. '.($j+1).'</h2>
@@ -152,7 +160,7 @@
                                     <label style="font-size:16px;">Question</label>
                                     <div class="form-group label-floating col-md-12">
                                         <label class="control-label col-md-3" style="left:0;">Write Your Question Here  . . .</label>
-                                        <textarea name="question" class="col-md-9 form-control mytextarea" id="questionTabno'.$i.'-itemno-'.$j.'" rows="5" value="'.$data["questionaire_type"][$i]["question"][$j]["question_title"].'" required="required">
+                                        <textarea name="question'.$j.'" class="col-md-9 form-control mytextarea" id="questionTabno'.$i.'-itemno-'.$j.'" rows="5" value="'.$data["questionaire_type"][$i]["question"][$j]["question_title"].'" required="required">
                                         '.$data["questionaire_type"][$i]["question"][$j]["question_title"].'
                                         </textarea>
                                     </div>
@@ -161,9 +169,11 @@
                     if($data["questionaire_type"][$i]["questionaire_type"] != 0){
                         
                         echo '<div class="add-answer">';
+                        
+                        echo   '<span class="span-add-answer'.$i.'">
+                                <input type="hidden" name="answerCount" id="tab-'.$i.'-item-'.$j.'-essay-answer-initial-count" value="'.count($data["questionaire_type"][$i]["question"][$j]["answer"]).'">
+                        ';
 
-                        echo   '<span class="span-add-answer'.$i.'">';
-                            
                             for($k=0;$k<count($data["questionaire_type"][$i]["question"][$j]["answer"]);$k++){
                                 echo '<input type="hidden" id="input-question-idanswer'.$i.'-'.$j.'-'.$k.'" name="choices" value="'.$data["questionaire_type"][$i]["question"][$j]["answer"][$k]["idquestion_answer"].'">';
                                 echo '<div class="input-group">
@@ -171,9 +181,9 @@
                                     <input type="text" class="form-control use" placeholder="Enter Description" aria-describedby="basic-addon1" required="required" id="answerTabno-'.$i.'-itemno-'.$j.'-answerno-'.$k.'" name="answer" value="'.$data["questionaire_type"][$i]["question"][$j]["answer"][$k]["answer"].'">
                                 </div>';
                             }        
-                        echo        '<button class="btn-success btn pull-left btn-add-answer">
-                                    <span class="material-icons">add</span>
-                                </button>
+                        echo        '<button class="btn-success btn pull-left btn-add-answer" type="button">
+                                        <span class="material-icons">add</span>
+                                    </button>
                             </span>
                             <span style="margin-top:15px;" class="pull-left">Add Answer . . .</span>
                         </div>';
@@ -246,79 +256,6 @@
 </button>
 
 <!-- samplw
-
-
-
-Array
-(
-    [0] => Array
-        (
-            [0] => Array
-                (
-                    [0] => rrrrr
-                    [1] => rrrrrrsrssrsrs
-                    [idquestion] => 49
-                    [question] => <p>arrrrr</p>
-                    [answer] => rrrrr
-                )
-
-            [1] => Array
-                (
-                    [0] => rrr
-                    [1] => rrrr
-                    [idquestion] => 50
-                    [question] => <p>rrrsrsrsrsr</p>
-                    [answer] => rrr
-                )
-
-            [data] => Array
-                (
-                    [questionaire_type_title] => r
-                    [questionaire_type] => 0
-                    [questionaire_type_question_quantity] => 2
-                    [questionaire_type_item_points] => 2
-                    [questionaire_type_item_quantity] => 2
-                    [questionaire_type_total_item] => 4
-                )
-
-        )
-
-    [1] => Array
-        (
-            [0] => Array
-                (
-                    [0] => rrrr
-                    [1] => rrrr
-                    [idquestion] => 51
-                    [question] => <p>asfasdfsdf</p>
-                )
-
-            [data] => Array
-                (
-                    [questionaire_type_title] => r
-                    [questionaire_type] => 1
-                    [questionaire_type_question_quantity] => 2
-                    [questionaire_type_item_points] => 2
-                    [questionaire_type_item_quantity] => 2
-                    [questionaire_type_total_item] => 4
-                )
-
-        )
-
-    [data] => Array
-        (
-            [questionaire_title] => rrrr
-            [questionaire_description] => rrr
-            [questionaire_date] => 02-03-18
-            [questionaire_time] => 14:27
-            [questionaire_duration] => 10800
-            [questionaire_instruction] => <p>rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr</p>
-            [idsubject] => 14
-            [idquestionaire] => 31
-        )
-
-)
-false
 
 
 -->

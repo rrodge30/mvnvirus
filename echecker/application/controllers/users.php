@@ -104,19 +104,21 @@ class Users extends MY_Controller {
     }
 
     public function modalAddTeacher(){
+        $htmlbody = '<center><span class="material-icons">warning</span>ALL FIELD ARE REQUIRED</center>'; 
         $header = array("code","user","firstname","middlename","lastname");
-        $htmlbody = '<form action="users/addteacher" method="post" onsubmit="return false;" class="mdl-frm-add-users" id="mdl-frm-add-teacher">';
-        foreach($header as $h){
+        $labels = array("ID no","Username","Firstname","Middlename","Lastname");
+        $htmlbody .= '<form action="users/addteacher" method="post" onsubmit="return false;" class="mdl-frm-add-users" id="mdl-frm-add-teacher">';
+        foreach($header as $key => $h){
             $htmlbody .= '<div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right">'.ucwords($h).'</div></span>
-                            <input type="text" class="form-control" name="'.$h.'" aria-describedby="basic-addon1" required="required">
+                            <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right">'.ucwords($labels[$key]).'</div></span>
+                            <input type="text" placeholder="Enter '.$labels[$key].'" class="form-control" name="'.$h.'" aria-describedby="basic-addon1" required="required">
                         </div>';   
         }
         $htmlbody .= '<div class="input-group" style="margin-bottom:10px;">
                         <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Position</div></span>
                         <select name="position" data-placeholder="Choose Department" class="chzn-select" required="required">
                             <option value="1">
-                                Regular Teacher
+                                Faculty Teacher
                             </option>
                             <option value="2">
                                 Dean
@@ -146,12 +148,14 @@ class Users extends MY_Controller {
     }
 
     public function modalAddStudent(){
+        $htmlbody = '<center><span class="material-icons">warning</span>ALL FIELD ARE REQUIRED</center>'; 
         $header = array("code","user","firstname","middlename","lastname","year_level");
-        $htmlbody = '<form action="users/addstudent" method="post" onsubmit="return false;" class="mdl-frm-add-users" id="mdl-frm-add-student">';
-        foreach($header as $h){
+        $labels = array("ID no","Username","Firstname","Middlename","Lastname","Year Level");
+        $htmlbody .= '<form action="users/addstudent" method="post" onsubmit="return false;" class="mdl-frm-add-users" id="mdl-frm-add-student">';
+        foreach($header as $key => $h){
             $htmlbody .= '<div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">'.ucwords($h).'</div></span>
-                            <input type="text" class="form-control" name="'.$h.'" aria-describedby="basic-addon1" required="required">
+                            <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">'.ucwords($labels[$key]).'</div></span>
+                            <input type="text" placeholder="Enter '.$labels[$key].'" class="form-control" name="'.$h.'" aria-describedby="basic-addon1" required="required">
                         </div>';   
         }
         $this->load->model('mdl_departments');
@@ -187,18 +191,22 @@ class Users extends MY_Controller {
     }
 
     public function modalUpdateUser(){
+        
+        $htmlbody = '<center><span class="material-icons">warning</span>ALL FIELD ARE REQUIRED</center>'; 
         if($_POST['user_level'] == 1){
+            
             $header = array("code","user","firstname","middlename","lastname","year_level");
+            $labels = array("ID no","Username","Firstname","Middlename","Lastname","Year Level");
         }else if($_POST['user_level'] == 2){
             $header = array("code","user","firstname","middlename","lastname");
         }
-        $htmlbody = '<form action="users/updateUser" method="POST" id="mdl-frm-update-user">
+        $htmlbody .= '<form action="users/updateUser" method="POST" id="mdl-frm-update-user">
                         <input type="hidden" value="'.$_POST['user_level'].'" name="user_level">
                         <input type="hidden" value="'.$_POST['idusers'].'" name="idusers">';
-       
-        foreach($header as $h){
+        $labels = array("ID no","Username","Firstname","Middlename","Lastname","Year Level");
+        foreach($header as $key => $h){
             $htmlbody .= '<div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">'.ucwords($h).'</div></span>
+                            <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">'.ucwords($labels[$key]).'</div></span>
                             <input type="text" class="form-control" value="'.$_POST[$h].'" name="'.$h.'" aria-describedby="basic-addon1" required="required">
                         </div>';   
         }
@@ -206,11 +214,11 @@ class Users extends MY_Controller {
             $htmlbody .= '<div class="input-group" style="margin-bottom:10px;">
                             <span class="input-group-addon" id="basic-addon1"><div style="width:100px;float:left;text-align:right;">Position</div></span>
                             <select name="position" data-placeholder="Choose Department" class="chzn-select" required="required">
-                                <option value="1">
-                                    Teacher
+                                <option '.(($_POST["position"] == "1") ? "selected='selected'":"").' value="1">
+                                    Faculty Teacher
                                 </option>
-                                <option value="2">
-                                    dean
+                                <option '.(($_POST["position"] == "2") ? "selected='selected'":"").' value="2">
+                                    Dean
                                 </option>
                             </select>
                         </div>';

@@ -5,7 +5,7 @@
         $displayUserLevel = "Student";
     } else if($_SESSION['users']['user_level'] == "2"){
         if($_SESSION['users'][0]["position"] == "1"){
-            $displayUserLevel = "teacher";
+            $displayUserLevel = "Faculty";
         }else{
             $displayUserLevel = "Dean";
         }
@@ -15,6 +15,7 @@
     }else{
         $displayUserLevel = "Guest";
     }
+
 
 ?>
 
@@ -113,10 +114,13 @@
                     </div>
                 </div>
                 
-          
-            <div class="aw">
+
                 
-            </div>
+
+<div class="row">
+
+
+</div>
             
             
            

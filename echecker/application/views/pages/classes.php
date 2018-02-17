@@ -7,7 +7,7 @@
 <table id="table-classlist" class="table table-striped">        
     <thead>
         <tr>
-            <td class="text-center font-roboto color-a2">ID</td>
+            
             <td class="text-center font-roboto color-a2">CLASS NAME</td>
             <td class="text-center font-roboto color-a2">DESCRIPTION</td>
             <td class="text-center font-roboto color-a2">SUBJECT</td>
@@ -28,7 +28,7 @@
             
             echo "
                 <tr>
-                    <td class='text-center font-roboto color-a2'>$id</td>
+                    
                     <td class='text-center font-roboto color-a2'>$name</td>
                     <td class='text-center font-roboto color-a2'>$description</td>
                     <td class='text-center font-roboto color-a2'>$subject_code</td>

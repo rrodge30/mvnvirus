@@ -11,6 +11,7 @@ class Mdl_reports extends CI_Model {
     public function questionnairelistreports($data=false){
         $userID = $_SESSION["users"]["idusers"];
         $dateNow = Date('m-d-y');
+        $questionnaireListData = array();
         if($_SESSION["users"]["user_level"] == "1"){ 
             $query=$this->db->join('questionairetbl','user_questionairetbl.questionaire_id = questionairetbl.idquestionaire','left')
                 ->join('subjecttbl','questionairetbl.idsubject = subjecttbl.idsubject','left')
@@ -18,6 +19,7 @@ class Mdl_reports extends CI_Model {
                 ->where('questionairetbl.idsubject',$data)
                 ->group_by('user_questionairetbl.questionaire_id')
                 ->get('user_questionairetbl');
+                $questionnaireListData = $query->result_array();
         }
         if($_SESSION["users"]["user_level"] == "2" || $_SESSION["users"]["user_level"] == "3"){ 
             $query=$this->db->join('questionairetbl','user_questionairetbl.questionaire_id = questionairetbl.idquestionaire','left')
@@ -25,8 +27,42 @@ class Mdl_reports extends CI_Model {
             ->where('questionairetbl.idsubject',$data)
             ->group_by('user_questionairetbl.questionaire_id')
             ->get('user_questionairetbl');
+
+            $questionnaireListData = $query->result_array();
+            if($questionnaireListData){
+                for($i=0;$i<count($questionnaireListData);$i++){
+                    $query = $this->db->join('questionairetbl','user_questionairetbl.questionaire_id = questionairetbl.idquestionaire')
+                                                ->where('questionairetbl.idsubject',$data)
+                                                ->where('user_questionairetbl.questionaire_id',$questionnaireListData[$i]["idquestionaire"])
+                                                ->group_by('user_questionairetbl.iduserquestionaire')
+                                                ->get('user_questionairetbl');
+                    $questionnaireData = $query->result_array();
+                    if($questionnaireData){
+                        $questionnaireListData[$i]["user_questionnaire"] = $questionnaireData;
+                    }else{
+                        $questionnaireListData[$i]["user_questionnaire"] = array();
+                    }
+
+                    
+                }
+            }
+
+            $query = $this->db->join('users','user_subjecttbl.UID = users.idusers','left')
+                        ->where('users.user_level',"1")
+                        ->where('user_subjecttbl.idsubject',$data)
+                        ->group_by('iduser_subject')
+                        ->get('user_subjecttbl');
+            $studentCount = $query->result_array();
+            if($studentCount){
+                $questionnaireListData["student_count"] = count($studentCount);
+            }else{
+                $questionnaireListData["student_count"] = "0";
+            }
+            
         }
-        return $query->result_array();
+        
+        
+        return $questionnaireListData;
     }
 
     public function reportquestionnaireinfo($data=false){
@@ -271,10 +307,10 @@ class Mdl_reports extends CI_Model {
                 ->get('user_subjecttbl');
 
         $userData = $query->result_array();
-        
+       
         if($userData){
             foreach($userData as $key => $value){
-                $query = $this->db->join('questionairetbl','user_questionairetbl.questionaire_id = questionairetbl.idquestionaire')
+                $query = $this->db->join('questionairetbl','user_questionairetbl.questionaire_id = questionairetbl.idquestionaire','left')
                         ->where('user_questionairetbl.idusers',$value["idusers"])
                         ->where('user_questionairetbl.questionaire_id',$data["idquestionaire"])
                         ->group_by('iduserquestionaire')

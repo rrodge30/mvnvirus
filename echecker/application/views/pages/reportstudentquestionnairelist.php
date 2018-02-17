@@ -19,7 +19,7 @@
     <table id="table-subjectList" class="table table-striped">        
         <thead>
             <tr>
-                <td class="text-center font-roboto color-a2">ID</td>
+                
                 <td class="text-center font-roboto color-a2">TITLE</td>
                 <td class="text-center font-roboto color-a2">DESCRIPTION</td>
                 <td class="text-center font-roboto color-a2">DATE</td>
@@ -49,7 +49,7 @@
 
                         echo "
                             <tr>
-                                <td class='text-center font-roboto color-a2'>$id</td>
+                                
                                 <td class='text-center font-roboto color-a2'>$title</td>
                                 <td class='text-center font-roboto color-a2'>$description</td>
                                 <td class='text-center font-roboto color-a2'>$date</td>

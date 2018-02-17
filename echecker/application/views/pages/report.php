@@ -10,7 +10,7 @@
 <table id="table-studentslist" class="table table-striped" style='width:100%;'>        
     <thead>
         <tr>
-            <td class="text-center font-roboto color-a2">ID</td>
+            
             <td class="text-center font-roboto color-a2">CODE</td>
             <td class="text-center font-roboto color-a2">NAME</td>
             <td class="text-center font-roboto color-a2">SUBJECTS HANDLED</td>
@@ -30,7 +30,7 @@
                     
                         echo "
                             <tr>
-                                <td class='text-center'>$id</td>
+                                
                                 <td class='text-center'>$code</td>
                                 <td class='text-center'>$lastname, $firstname $middlename</td>
                                 <td class='text-center'>$subjectCount</td>
