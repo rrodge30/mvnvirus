@@ -11,6 +11,7 @@
     <thead>
         <tr>
             
+            <td class="text-center font-roboto color-a2"></td>
             <td class="text-center font-roboto color-a2">CODE</td>
             <td class="text-center font-roboto color-a2">NAME</td>
             <td class="text-center font-roboto color-a2">SUBJECTS HANDLED</td>
@@ -27,10 +28,10 @@
                     $middlename = $u['middlename'];
                     $lastname = $u['lastname'];
                     $subjectCount = $u['subjectcount'];
-                    
+                    $image = (($u['image'] == "") ? "default.png" : $u['image']);
                         echo "
                             <tr>
-                                
+                                <td class='text-center'><img src='assets/uploads/" . $image .  "' style='height:100px;width:100px;margin:5px;'></td>
                                 <td class='text-center'>$code</td>
                                 <td class='text-center'>$lastname, $firstname $middlename</td>
                                 <td class='text-center'>$subjectCount</td>

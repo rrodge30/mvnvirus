@@ -25,31 +25,31 @@
  
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="header">
+                            <div class="header" style="padding-right:50px;">
                                
                                     
                                     <div class="row" style="margin-left:50px;margin-top:50px;">
                                         <div class="col-md-3">
-                                        <div id="morning-greetings">
-                                            <img src="assets/images/morning.png" style="height:150px;width:150px">
-                                            <h4 class="title">Goodmorning <?=ucwords($_SESSION['users']['user']);?> !</h4>
-                                            
+                                            <div id="morning-greetings">
+                                                <img src="assets/images/morning.png" style="height:150px;width:150px">
+                                                <h4 class="title">Goodmorning <?=ucwords($_SESSION['users']['user']);?> !</h4>
+                                                
+                                            </div>
+                                            <div id="afternoon-greetings" style="display:hidden;">
+                                                <img src="assets/images/afternoon.png" style="height:150px;width:150px">
+                                                <h4 class="title">Goodafternoon <?=ucwords($_SESSION['users']['user']);?> !</h4>
+                                                
+                                            </div>
+                                            <div id="evening-greetings" style="display:hidden;">
+                                                <img src="assets/images/evening.png" style="height:150px;width:150px">
+                                                <h4 class="title">Goodevening <?=ucwords($_SESSION['users']['user']);?> !</h4>
+                                                
+                                            </div>
                                         </div>
-                                        <div id="afternoon-greetings" style="display:hidden;">
-                                            <img src="assets/images/afternoon.png" style="height:150px;width:150px">
-                                            <h4 class="title">Goodafternoon <?=ucwords($_SESSION['users']['user']);?> !</h4>
-                                            
                                         </div>
-                                        <div id="evening-greetings" style="display:hidden;">
-                                            <img src="assets/images/evening.png" style="height:150px;width:150px">
-                                            <h4 class="title">Goodevening <?=ucwords($_SESSION['users']['user']);?> !</h4>
-                                            
-                                        </div>
-                                        </div>
-                                        
                                     <!-- questionnaireValidation -->
                                     
-                                    <div class="row" style="margin-left:50px;margin-top:25px;">
+                                    <div class="row" style="overflow-x:scroll;margin-left:50px;margin-top:25px;">
                                         <?php
                                             if($_SESSION["users"]["user_level"] == "2" && $_SESSION["users"][0]["position"] == "2")
                                             if($data["questionnaireValidation"]){
@@ -81,7 +81,7 @@
                                                 }
                                             }
                                         ?>
-                                        
+                                        </div>
                                     <!-- NOTIFICATION END -->
                                     
                                         <div class="row" style="margin:50px;">

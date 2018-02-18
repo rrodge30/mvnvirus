@@ -24,9 +24,11 @@
                     $lastname = $u['lastname'];
                     $department = $u['department'];
                     $user_level = $u['user_level'];
+                    $image = (($u['image'] == "") ? "default.png" : $u['image']);
                     if($user_level == '2'){
                         echo "
                             <tr>  
+                                <td class='text-center'><img src='assets/uploads/" . $image .  "' style='height:100px;width:100px;margin:5px;'></td>
                                 <td class='text-center'>$code</td>
                                 <td class='text-center'>$lastname, $firstname $middlename</td>
                                 <td class='text-center'>$department</td>

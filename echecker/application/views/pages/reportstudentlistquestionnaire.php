@@ -35,6 +35,7 @@
     <thead>
         <tr>
             
+            <td class="text-center font-roboto color-a2"></td>
             <td class="text-center font-roboto color-a2">CODE</td>
             <td class="text-center font-roboto color-a2">NAME</td>
             <td class="text-center font-roboto color-a2">COURSE</td>
@@ -59,6 +60,7 @@
                     $user_level = $u['user_level'];
                     $score = $u['user_total_score'];
                     $idquestionaire = $u["idquestionaire"];
+                    $image = (($u['image'] == "") ? "default.png" : $u['image']);
                     if($idquestionaire != "0"){
                         if(isset($data[0]["questionaire_total_score"])){
                             if($score != "" || $score != null){
@@ -84,6 +86,7 @@
                     if($user_level == '1'){
                         echo "
                             <tr>
+                                <td class='text-center'><img src='assets/uploads/" . $image .  "' style='height:100px;width:100px;margin:5px;'></td>
                                 <td class='text-center'>$code</td>
                                 <td class='text-center'>$lastname, $firstname $middlename</td>
                                 <td class='text-center'>$course</td>

@@ -24,13 +24,14 @@
     <div class="row">
         <div class="col-md-3">
         <img src="assets/uploads/<?=(($_SESSION["users"]["image"] == "") ? "default.png" : $_SESSION["users"]["image"])?>" alt="" style="height:200px;width:200px;">
+        
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9" style="margin-top:50x;padding-top:25px;">
             <?php
                 if($_SESSION["users"]["user_level"] == "2" || $_SESSION["users"]["user_level"] == "1"){
             ?>
             <div>
-                <p class="category"><?=ucfirst($_SESSION["users"][0]["firstname"]).' '.ucfirst($_SESSION["users"][0]["middlename"]).' '.ucfirst($_SESSION["users"][0]["lastname"]);?></p>
+                <span class="category font-roboto" style="width:200px;">name :</span><span><?=ucfirst($_SESSION["users"][0]["firstname"]).' '.ucfirst($_SESSION["users"][0]["middlename"]).' '.ucfirst($_SESSION["users"][0]["lastname"]);?></span>
             </div>
             <?php
                 }

@@ -36,6 +36,7 @@
                         <thead>
                             <tr>
                                 
+                                <td class="text-center font-roboto color-a2"></td>
                                 <td class="text-center font-roboto color-a2">CODE</td>
                                 <td class="text-center font-roboto color-a2">NAME</td>
                                 <td class="text-center font-roboto color-a2">POSITION</td>
@@ -58,10 +59,12 @@
 
                                         $department = $u['department_name'];
                                         $user_level = $u['user_level'];
+                                        $image = (($u['image'] == "") ? "default.png" : $u['image']);
                                         if($user_level == '2'){
                                             echo "
                                                 <tr>  
                                                     
+                                                    <td class='text-center'><img src='assets/uploads/" . $image .  "' style='height:100px;width:100px;margin:5px;'></td>
                                                     <td class='text-center'>$code</td>
                                                     <td class='text-center'>$lastname, $firstname $middlename</td>
                                                     <td class='text-center'>$position</td>
@@ -92,6 +95,7 @@
                             <thead>
                                 <tr>
                                     
+                                    <td class="text-center font-roboto color-a2"></td>
                                     <td class="text-center font-roboto color-a2">CODE</td>
                                     <td class="text-center font-roboto color-a2">NAME</td>
                                     <td class="text-center font-roboto color-a2">PROGRAM</td>
@@ -113,10 +117,11 @@
                                             $course = $u['course_name'];
                                             $user_level = $u['user_level'];
                                             $year_level = $u['year_level'];
+                                            $image = (($u['image'] == "") ? "default.png" : $u['image']);
                                             if($user_level == '1'){
                                                 echo "
                                                     <tr>
-                                                        
+                                                        <td class='text-center'><img src='assets/uploads/" . $image .  "' style='height:100px;width:100px;margin:5px;'></td>
                                                         <td class='text-center'>$code</td>
                                                         <td class='text-center'>$lastname, $firstname $middlename</td>
                                                         <td class='text-center'>$department</td>

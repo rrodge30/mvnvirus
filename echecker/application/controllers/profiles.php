@@ -22,15 +22,21 @@ class Profiles extends MY_Controller {
 		$isImageTargetSave = $this->mdl_profiles->uploadUserImage($_SESSION["users"]["idusers"] . $_FILES["usersFile"]["name"]);
         
         $isImageSuccessfullyUploaded = false;
-        if(!file_exists($target)){
-            if($isImageTargetSave){
-                if(move_uploaded_file($_FILES["usersFile"]["tmp_name"],$target))
-                {
-                    $isImageSuccessfullyUploaded = true;
-                }
+        if($isImageTargetSave){
+            if(!file_exists($target)){
+                
+                    if(move_uploaded_file($_FILES["usersFile"]["tmp_name"],$target))
+                    {
+                        $_SESSION["users"]["image"] = $_SESSION["users"]["idusers"] . $_FILES["usersFile"]["name"];
+                        $isImageSuccessfullyUploaded = true;
+
+                    }
+                
+            }else{
+                $_SESSION["users"]["image"] = $_SESSION["users"]["idusers"] . $_FILES["usersFile"]["name"];
+                $isImageSuccessfullyUploaded = true;
+
             }
-        }else{
-            $isImageSuccessfullyUploaded = true;
         }
         echo json_encode($isImageSuccessfullyUploaded);
         
