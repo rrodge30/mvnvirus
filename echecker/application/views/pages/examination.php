@@ -40,7 +40,7 @@
                         </a>";
                 if($_SESSION['users']['user_level'] == "2"){
                     
-                    echo "<a data-toggle='tooltip' data-placement='top' title='Student List' class='btn btn-info' href='examinations/subjectclassinformation/$id' style='width:77px;'>
+                    echo "<a data-toggle='tooltip' data-placement='top' title='Student List' class='btn btn-warning' href='examinations/subjectclassinformation/$id' style='width:77px;'>
                             <i class='material-icons'>person_box</i>
                         </a>"; 
                 }    

@@ -103,6 +103,19 @@
                             </p>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                        <p class="category">
+                               TIME CONSUME
+                        </p>
+                        </div>
+                        <div class="col-md-10">
+                            <p class="category" id="reports-user-total-score">
+                                <?=$data["user_total_score"]?>
+                                
+                            </p>
+                        </div>
+                    </div>
                 </h5>
             
             </div>

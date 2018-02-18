@@ -526,14 +526,11 @@ class Mdl_examinations extends CI_Model {
 )
      */
     public function submitexamine($data=false){
-        print_r($data);
-        return false;
         
         $questionnaireInfo = $this->getQuestionnaireInfoByIdNoRedirect($data["idquestionaire"]);
         
-        
         $totalScore = 0;
-        for($i=0;$i<count($data)-1;$i++){
+        for($i=0;$i<count($data)-2;$i++){ // minus loop idquestion and duration data
             
             for($j=0;$j<(count($data[$i]));$j++){ //
                 $isAnswerCorrect = false;
@@ -595,7 +592,7 @@ class Mdl_examinations extends CI_Model {
                 'idusers' => $_SESSION["users"]["idusers"],
                 'user_total_score' => (string)$totalScore
                                 );
-        if($isQuestionaireUserInserted = $this->db->set('user_total_score',(string)$totalScore)
+        if($isQuestionaireUserInserted = $this->db->set(array('user_total_score'=>(string)$totalScore,'time_consume'=>(string)$data["userduration"]))
                     ->where('user_questionairetbl.questionaire_id',$data["idquestionaire"])
                     ->where('user_questionairetbl.idusers',$_SESSION["users"]["idusers"])
                     ->update('user_questionairetbl')

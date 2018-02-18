@@ -58,7 +58,7 @@ class Reports extends MY_Controller {
 		$reportquestionnaireinfo = $this->mdl_examinations->getQuestionnaireInfoByIdQuestionnaireIdUser($_GET);
 		
 		$this->_view('reportquestionnaireinfo',$reportquestionnaireinfo);
-	}
+	} 
 
 	public function reportstudentlistquestionnaire($id=false){
 		$this->load->model('mdl_reports');

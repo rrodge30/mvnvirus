@@ -1,5 +1,6 @@
 <?php
-   /*echo "<pre>";
+   /*
+   echo "<pre>";
    print_r($data);
    echo "</pre>";
    */
@@ -38,6 +39,7 @@
             <td class="text-center font-roboto color-a2">NAME</td>
             <td class="text-center font-roboto color-a2">COURSE</td>
             <td class="text-center font-roboto color-a2">SCORE</td>
+            <td class="text-center font-roboto color-a2">PERCENTAGE</td>
             <td class="text-center font-roboto color-a2">REMARK</td>
             <td class="text-center font-roboto color-a2">ACTION</td>
         </tr>
@@ -45,7 +47,8 @@
     <tbody class="student-list-tablebody">
         <?php
             if($data){
-                foreach($data as $u){
+                foreach($data as $key => $u){
+                  
                     $id = $u['UID'];
                     $idsubject = $u["idsubject"];
                     $code = $u['code'];
@@ -59,18 +62,22 @@
                     if($idquestionaire != "0"){
                         if(isset($data[0]["questionaire_total_score"])){
                             if($score != "" || $score != null){
-                                if(((($score)/($data[0]["questionaire_total_score"]))*80)+(20) >= 75){
+                                $percentage = ((($score)/($data[0]["questionaire_total_score"]))*80)+(20);
+                                if($percentage >= '75'){
                                     $remark = "Passed";
                                 }else{
                                     $remark = "failed";
                                 }
                             }else{
+                                $percentage = "0";
                                 $remark = "Unknown";
                             }
                         }else{
+                            $percentage = "0";
                             $remark = "Unknown";
                         }
                     }else{
+                        $percentage = "0";
                         $remark = "Unknown";
                     }
                     
@@ -81,6 +88,7 @@
                                 <td class='text-center'>$lastname, $firstname $middlename</td>
                                 <td class='text-center'>$course</td>
                                 <td class='text-center'>$score</td>
+                                <td class='text-center'>$percentage%</td>
                                 <td class='text-center'>$remark</td>
                                 <td class='text-center'>";
                                 if($idquestionaire == "0"){
@@ -88,7 +96,7 @@
                                     <form action='reports/reportstudentquestionnaireinfo' id='frm-reportstudentquestionnaireinfo$id'>
                                         <input type='hidden' name='idquestionaire' value='$idquestionaire'>
                                         <input type='hidden' name='idusers' value='$id'>
-                                        <button disabled data-toggle='tooltip' data-placement='top' title='Unable to view, havent take examination yet.' class='btn-view-student-subject-questionnaires btn btn-info' type='submit' form='frm-reportstudentquestionnaireinfo$id'>
+                                        <button disabled data-toggle='tooltip' data-placement='top' title='Unable to view, havent take examination yet.' class='btn-view-student-subject-questionnaires btn btn-danger' type='submit' form='frm-reportstudentquestionnaireinfo$id'>
                                             <i class='material-icons'>close</i>
                                         </button>
                                     </form>";
@@ -103,16 +111,23 @@
                                     </form>";
                                     
                                     if($_SESSION["users"]["user_level"] == "2"){
-                                        echo "
-                                        <form id='frm-retakeexamination$id' onsubmit='return false;'>
-                                            <input type='hidden' name='idquestionaire' value='$idquestionaire'>
-                                            <input type='hidden' name='idusers' value='$id'>
-                                            <button data-toggle='tooltip' data-placement='top' title='Retake Examination' class=' btn btn-success btn-retakeexamination' type='submit' form='frm-retakeexamination$id'>
-                                                <i class='material-icons'>refresh</i>
-                                            </button>
-                                        </form></div>";
+
+                                        if(in_array($_SESSION["users"]["idusers"],$data[0]["teachersID"])){
+                                            echo "
+                                            <form id='frm-retakeexamination$id' onsubmit='return false;'>
+                                                <input type='hidden' name='idquestionaire' value='$idquestionaire'>
+                                                <input type='hidden' name='idusers' value='$id'>
+                                                <button data-toggle='tooltip' data-placement='top' title='Retake Examination' class=' btn btn-success btn-retakeexamination' type='submit' form='frm-retakeexamination$id'>
+                                                    <i class='material-icons'>refresh</i>
+                                                </button>
+                                            </form>";
+                                        }
+                                        
+                                        
+                                    
                                         
                                     }
+                                    echo    "</div>";
                                 }
                                     
                         echo "  </td>

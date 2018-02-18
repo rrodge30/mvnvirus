@@ -160,8 +160,8 @@
                                             echo "$hours:$minutes:$seconds";
                                         }
                                     }else{
-                                        if(isset($data["user_questionaire"]["time_consume"]) && is_numeric($data["user_questionaire"]["time_consume"])){
-                                            $seconds = $data["user_questionaire"]["time_consume"];
+                                        if(isset($data["time_consume"]) && is_numeric($data["time_consume"])){
+                                            $seconds = $data["time_consume"];
                                             $hours = sprintf("%02d", (floor($seconds / 3600)));
                                             $minutes = sprintf("%02d", (floor(($seconds / 60) % 60)));
                                             $seconds = sprintf("%02d", ($seconds % 60));
@@ -225,7 +225,7 @@
                                             <div class="row col-md-12">
                                                 <div class="col-md-10 bhoechie-tab-container template'.$key.'">
                                                     <div class="col-md-2 bhoechie-tab-menu btmenu-template'.$key.'">
-                                                        <div class="list-group">';
+                                                        <div class="list-group" style="max-height:750px;overflow-y:scroll;overflow-x:hidden;">';
                                                             //bouche tab header
                                                             foreach($data["questionaire_type"][$key]["question"] as $i => $iValue){
                                                                 echo '<a href="#" class="list-group-item '.(($i == 0) ? "active" : "").' text-center" data-tab="'.$key.'">

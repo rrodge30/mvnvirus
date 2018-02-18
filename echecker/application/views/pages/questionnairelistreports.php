@@ -49,13 +49,14 @@ echo "</pre>";
                     
                     if($_SESSION["users"]["user_level"] == "1"){
                         echo '<td class="text-center font-roboto color-a2">SCORE</td>';
+                        echo '<td class="text-center font-roboto color-a2">PERCENTAGE</td>';
                         echo '<td class="text-center font-roboto color-a2">REMARK</td>';
                         
                     }
 
                     if($_SESSION["users"]["user_level"] == "2"){
 
-                        echo '<td class="text-center font-roboto color-a2">NO OF STUDENTS TAKE</td>';
+                        echo '<td class="text-center font-roboto color-a2">NO. OF STUDENTS TAKE EXAM</td>';
                         echo '<td class="text-center font-roboto color-a2">PASSING RATE</td>';
                     }
 
@@ -80,12 +81,15 @@ echo "</pre>";
                             $total_score = $questionaire['questionaire_total_score'];
                             $score = $questionaire['user_total_score'];
                             $idsubject = $questionaire['idsubject'];
+                            $percentage = "0";
                             if($score != "" && $score != null){
-                                if(((($score)/($total_score))*80)+(20) >= 75){
+                                $percentage = ((($score)/($total_score))*80)+(20);
+                                if($percentage >= 75){
                                     $remark = "Passed";
                                 }else{
                                     $remark = "failed";
                                 }
+
                             }else{
                                 $remark = "invalid";
                             }
@@ -107,7 +111,7 @@ echo "</pre>";
                                         
                                     }
                                     if($userPassCount > 0){
-                                        $passPercentage = (((count($questionaire["user_questionnaire"]))/($userPassCount))*100);
+                                        $passPercentage = ((($userPassCount))/(count($questionaire["user_questionnaire"]))*100);
                                     }else{
                                         $passPercentage = 0;
                                     }
@@ -127,6 +131,7 @@ echo "</pre>";
                                 
                                 if($_SESSION["users"]["user_level"] == "1"){
                                     echo "<td class='text-center font-roboto color-a2'>$score</td>";
+                                    echo "<td class='text-center font-roboto color-a2'>$percentage%</td>";
                                     echo "<td class='text-center font-roboto color-a2'>$remark</td>";
                                 }
                                 if($_SESSION["users"]["user_level"] == "2"){

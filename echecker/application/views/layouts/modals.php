@@ -59,7 +59,7 @@
                             </div> -->
                             <div class="card-content">
                                 <div class="row">
-                                    <div class="clock" style="margin:2em;"></div>
+                                    <div class="clock" id="examine-clock-duration" style="margin:2em;"></div>
                                 </div>
                                 <h3 class="title"><?=$data["questionaire_title"]?></h3>
                                 <p class="category"><?=$data["questionaire_description"]?></p>

@@ -329,11 +329,23 @@ class Mdl_reports extends CI_Model {
                 }
                 
             }
+            $query = $this->db->join('user_subjecttbl',' user_subjecttbl.UID = users.idusers','left')
+                            ->where('user_subjecttbl.idsubject',$data["idsubject"])
+                            ->where('users.user_level',"2")
+                            ->group_by('users.idusers')
+                            ->get('users');
+            if($getTeacherData = $query->result_array()){
+                $arrayTeacherData = array();
+                foreach($getTeacherData as $key => $value){
+                    $arrayTeacherData[$key] = $value["idusers"];
+                }
+                $userData[0]["teachersID"] = $arrayTeacherData;
+            }
             
         }else{
             return array("",false);
         }
-       
+        
         return $userData;
         
     }

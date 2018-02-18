@@ -768,7 +768,6 @@ $(document).ready(function(){
                 htmlbody = '<table id="table-schedulelist" class="table table-striped">'
                           +'<thead>'
                           +'<tr>'
-                          +'<td class="text-center font-roboto color-a2">ID</td>'
                           +'<td class="text-center font-roboto color-a2">CODE</td>'
                           +'<td class="text-center font-roboto color-a2">DAY</td>'
                           +'<td class="text-center font-roboto color-a2">TIME START</td>'
@@ -787,7 +786,7 @@ $(document).ready(function(){
 
                     if(status == "available"){
                         htmlbody += "<tr>"
-                            +"<td class='text-center font-roboto color-a2'>"+id+"</td>"
+
                             +"<td class='text-center font-roboto color-a2'>"+code+"</td>"
                             +"<td class='text-center font-roboto color-a2'>"+day+"</td>"
                             +"<td class='text-center font-roboto color-a2'>"+time_start+"</td>"
@@ -2553,6 +2552,7 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
 
 //EXAMINE FULL SCREEN 
 //
+var clock; //GLOBAL CLOCK VARIABLE FOR EXAM
 function goToFullScreen(){
     swal({
         title: "Are you Sure?",
@@ -2587,7 +2587,7 @@ function goToFullScreen(){
                 }
                 
             });
-
+            
             // PAGE FOCUS LISTENER
             var count = 0;
             var myInterval;
@@ -2614,7 +2614,9 @@ function goToFullScreen(){
                 clearInterval(myInterval);
                 var contentTabHeader = $('ul > li.tab-examine');
                 var dataAnswers = [];
+
                 dataAnswers = {
+                    'userduration' : parseInt($("#countdownduration").val())-(parseInt(clock.getTime())),
                     'idquestionaire' : $('#input-idquestionaire').val()
                 }
                 for(i=0;i<contentTabHeader.length;i++){
@@ -2638,6 +2640,8 @@ function goToFullScreen(){
                 }
                 
                 function messageWithReload(){
+                    
+                    alert( parseInt($("#countdownduration").val())-(parseInt(clock.getTime())));
                     swal("Submitted !", "Due to Page Inactive Examination Will be invalid, ask your teacher to take it again", "success");
                     window.location.replace('examinations');
                 }
@@ -2661,6 +2665,7 @@ function goToFullScreen(){
                 });
                 
             }
+            
 
             // Stop timer
             
@@ -2669,7 +2674,7 @@ function goToFullScreen(){
 
 
             //COUNTDOWN TIMER
-            var clock;
+            
             
             clock = $('.clock').FlipClock({
                 
@@ -2683,6 +2688,7 @@ function goToFullScreen(){
                         var contentTabHeader = $('ul > li.tab-examine');
                         var dataAnswers = [];
                         dataAnswers = {
+                            'userduration' : parseInt($("#countdownduration").val())-(parseInt(clock.getTime())),
                             'idquestionaire' : $('#input-idquestionaire').val()
                         }
                         for(i=0;i<contentTabHeader.length;i++){
@@ -2728,6 +2734,7 @@ function goToFullScreen(){
             clock.setTime(parseInt($("#countdownduration").val()));
             clock.setCountdown(true);
             clock.start();
+            
             /*
             var countDownDate = (new Date(Date.now()).getTime() + (+2)*100);
             
@@ -2824,11 +2831,12 @@ $(document).on("click","div.bhoechie-tab-menu>div.list-group>a",function(e) {
 
 $(document).on("click",".btn-next-item",function(e) {
     e.preventDefault();
+    
     var button = $(this);
     var nextTab = button.data('tabno');
     var spanNext = button.parent();
     var inputNumerOfItemsValue = $('div.btmenu-template'+nextTab+'>div.list-group > a').length;
-
+    
     var resultInput = $('div.bhoechie-tab-container.template'+nextTab+' div.bhoechie-tab-content.active input[required]:checked').filter(function () {
         return $.trim($(this).val()).length == 0
       }).length == 0;
@@ -2884,6 +2892,7 @@ $(document).on("click",".btn-next-item",function(e) {
                         if (isConfirm) {
                             var dataAnswers = [];
                             dataAnswers = {
+                                'userduration' : parseInt($("#countdownduration").val())-(parseInt(clock.getTime())),
                                 'idquestionaire' : $('#input-idquestionaire').val()
                             }
                             for(i=0;i<contentTabHeader.length;i++){
