@@ -2551,9 +2551,13 @@ $('#selectpicker').on('hide.bs.dropdown', function () {
 
 
 //EXAMINE FULL SCREEN 
+
+
 //
 var clock; //GLOBAL CLOCK VARIABLE FOR EXAM
 function goToFullScreen(){
+    
+
     swal({
         title: "Are you Sure?",
         text: "Press ok to proceed",
@@ -2576,6 +2580,10 @@ function goToFullScreen(){
                 keyboard: false
             });
             $('div#modal-static-examine').modal('show');
+            
+            
+            fullScreenToggle(document.getElementById('modal-static-examine'));
+
             var idquestionaire = $('#input-idquestionaire').val();
             $.ajax({
                 url:'examinations/examinestart',
@@ -2604,7 +2612,7 @@ function goToFullScreen(){
         
             // Start timer
             function startTimer() {
-                console.log('focus');
+                
                 myInterval = window.setInterval(function(){
                     timerHandler
                 }, 1000);
@@ -2641,7 +2649,7 @@ function goToFullScreen(){
                 
                 function messageWithReload(){
                     
-                    alert( parseInt($("#countdownduration").val())-(parseInt(clock.getTime())));
+                    
                     swal("Submitted !", "Due to Page Inactive Examination Will be invalid, ask your teacher to take it again", "success");
                     window.location.replace('examinations');
                 }
@@ -2768,28 +2776,30 @@ function goToFullScreen(){
             }, 1000);
             //COUNTDOWN TIMER END
             */
+            
         } else {
             swal("Cancelled", "Cancelled", "error");
         }
+
     });
     
     $(document).on('fullscreenchange webkitfullscreenchange mozfullscreenchange MSFullscreenChange', function() {
         if(!IsFullScreenCurrently()){
-            //alert('hahahha');
+            fullScreenToggle(document.getElementById('modal-static-examine'));
         }
-
+        
     });
 
 }
 function IsFullScreenCurrently() {
 	var full_screen_element = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement || null;
-	
 	// If no element is in full-screen
 	if(full_screen_element === null)
 		return false;
 	else
 		return true;
 }
+
 function fullScreenToggle(elem) {
     if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {
         if (elem.requestFullscreen) {

@@ -37,6 +37,42 @@ class Mdl_dashboards extends CI_Model {
         
     
     }
+
+    public function getNumberOfQuestionnaireValidation(){
+        $query=$this->db->join('subjecttbl','questionairetbl.idsubject = subjecttbl.idsubject','left')
+        ->join('user_subjecttbl','subjecttbl.idsubject = user_subjecttbl.idsubject','left')
+        ->join('users','user_subjecttbl.UID = users.idusers','left')
+        ->join('teacher_informationtbl','users.idusers = teacher_informationtbl.id','left')
+        ->where('users.user_level','2')
+        ->where('teacher_informationtbl.department',$_SESSION["users"][0]["department"])
+        ->where('questionairetbl.questionaire_status','unapproved')
+        ->group_by('questionairetbl.idquestionaire')
+        ->get('questionairetbl');
+        if($getQuetionnaireItems = $query->result_array()){
+            return count($getQuetionnaireItems);
+        }else{
+            return "0";
+        }
+        
+    }
+
+    public function getQuestionnaireDataForValidation(){
+
+        if($_SESSION["users"]["user_level"] == "2"){
+            $query=$this->db->join('subjecttbl','questionairetbl.idsubject = subjecttbl.idsubject','left')
+            ->join('user_subjecttbl','subjecttbl.idsubject = user_subjecttbl.idsubject','left')
+            ->join('users','user_subjecttbl.UID = users.idusers','left')
+            ->join('teacher_informationtbl','users.idusers = teacher_informationtbl.id','left')
+            ->where('users.user_level','2')
+            ->where('teacher_informationtbl.department',$_SESSION["users"][0]["department"])
+            ->where('questionairetbl.questionaire_status','unapproved')
+            ->group_by('questionairetbl.idquestionaire')
+            ->get('questionairetbl');
+            return $getQuetionnaireItems = $query->result_array();
+        }
+        
+    }
+
     public function adminSettingIdentifier(){
         $dataArrIdentifier = array();
         $hasSubject = false;

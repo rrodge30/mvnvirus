@@ -207,7 +207,7 @@
                                     </li>';
                         }
                     }
-                    
+                     
 
                     if(($m_reports == '1') && ($_SESSION['users']["user_level"] == "3")){
                         
@@ -254,12 +254,112 @@
                                 <p class="hidden-lg hidden-md">Dashboard</p>
                             </a>
                         </li>
+
+                        
+                        
+                        <!-- notification DEAN QUESTIONNAIRE VALIDATION -->
+                        <?php
+                            if($_SESSION["users"]["user_level"] == "2" && $_SESSION["users"][0]["position"] == "2"){
+                        ?>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="material-icons">person_pin</i>
-								<p><?=$_SESSION['users']['user'];?></p>
+                                <i class="material-icons">notifications</i>
+                                    <span class="notification"><?= $validationCount;?></span>
+                                <p class="hidden-lg hidden-md">Notifications</p>
                             </a>
                         </li>
+                        <?php
+                            }
+                        ?>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">person_pin</i>
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" style="width:350px;">
+                                <li class="text-center">
+                                    <?php
+
+                                        echo '<a href="javascript:void(0)">USER PROFILE</a>';
+                                    ?>
+                                    
+                                </li>
+                               
+                                <li>
+                                    <?php
+                                    
+                                        if($_SESSION["users"]["user_level"] == "1" || $_SESSION["users"]["user_level"] == "2"){
+                                            if(isset($_SESSION["users"]["firstname"])){
+                                                $name = $_SESSION["users"]["firstname"]. " " . $_SESSION["users"]["middlename"] . " " . $_SESSION["users"]["lastname"];
+                                            }else if(isset($_SESSION['users'][0]["firstname"])){
+                                                $name = $_SESSION["users"][0]["firstname"]. " " . $_SESSION["users"][0]["middlename"] . " " . $_SESSION["users"][0]["lastname"];
+                                            }
+                                            
+                                        }else{
+
+                                            if(isset($_SESSION["users"]["firstname"])){
+                                                $name = $_SESSION["users"]["firstname"];
+                                            }else if(isset($_SESSION['users'][0]["firstname"])){
+                                                $name = $_SESSION["users"][0]["firstname"];
+                                            }
+                                        }
+                                        echo '<a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">face</i>'.ucfirst($name).'</a>';
+                                        
+                                    ?>
+                                    
+                                </li>
+                                <li>
+                                    <?php
+                                        if($_SESSION['users']['user_level'] == "99"){
+                                            $displayUserLevel = "admin";
+                                        }else if($_SESSION['users']['user_level'] == "1"){
+                                            $displayUserLevel = "Student";
+                                        } else if($_SESSION['users']['user_level'] == "2"){
+                                            if($_SESSION['users'][0]["position"] == "1"){
+                                                $displayUserLevel = "Faculty";
+                                            }else{
+                                                $displayUserLevel = "Dean";
+                                            }
+                                    
+                                        }else if($_SESSION['users']['user_level'] == "3"){
+                                            $displayUserLevel = "Vpaa";
+                                        }else{
+                                            $displayUserLevel = "Guest";
+                                        }
+                                        echo '<a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">supervisor_account</i>'.ucfirst($displayUserLevel).'</a>';
+                                    ?>
+                                    
+                                </li>
+                                
+                                <li>
+                                    <?php
+                                        if($_SESSION["users"]["user_level"] == "1" || $_SESSION["users"]["user_level"] == "2"){
+                                            echo '<a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">view_quilt</i>'.ucfirst($_SESSION["users"][0]["department"]).'</a>';
+
+                                        }
+                                    ?>
+                                
+                                </li>
+                                <?php     
+
+                                        if($_SESSION["users"]["user_level"] == "1"){
+                                            $course = $_SESSION["users"][0]["course"];
+                                            $yearlevel = $_SESSION["users"][0]["year_level"];
+                                            echo '<li>
+                                                    <a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">book</i>'.ucfirst($course).'</a>
+                                                </li>';
+                                            echo '<li>
+                                                    <a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">show_chart</i>'.ucfirst($yearlevel).'</a>
+                                                </li>';
+                                        }
+                                    ?>   
+                                
+                                            
+
+
+                            </ul>
+                        </li>
+                        
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="material-icons">settings</i>

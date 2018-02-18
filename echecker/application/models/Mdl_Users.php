@@ -10,6 +10,7 @@ class Mdl_Users extends CI_Model {
     public function validateLogin($data=array()){
         
         $queryHasAdmin = $this->db->where('user_level',"99")
+                        ->limit(1)
                         ->get('users');
         $hasAdmin = $queryHasAdmin->row_array();
         
@@ -21,7 +22,7 @@ class Mdl_Users extends CI_Model {
             $usersData = $query->first_row('array');
             
             if(($usersData['user_level'] == "99") || ($usersData['user_level'] == "3")){
-                $query = $this->db->where('idadmin',$usersData['idusers'])->get('admin_informationtbl');
+                $query = $this->db->where('id',$usersData['idusers'])->get('admin_informationtbl');
                 $result = $query->first_row('array');
             
             }else if($usersData['user_level'] == "1"){
@@ -295,7 +296,7 @@ class Mdl_Users extends CI_Model {
         
         $data['idsubject'] = explode(",", $data['idsubject']);
         $isDataValid = false;
-        $studentDataIndex = array('firstname','middlename','lastname','year_level','department');
+        $studentDataIndex = array('firstname','middlename','lastname','course','year_level','department');
         $teacherDataIndex = array('firstname','middlename','lastname','position','department');
         
         if($data['user_level'] == 1 || $data['user_level'] == 2){

@@ -15,67 +15,114 @@
     }else{
         $displayUserLevel = "Guest";
     }
-
+    /*
+    echo "<pre>";
+    print_r($_SESSION["users"]);
+    echo "</pre>";
+*/
 
 ?>
-
+ 
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
                                
-                                    <div id="morning-greetings">
-                                        <img src="assets/images/morning.png" style="height:150px;width:150px">
-                                        <h4 class="title">Goodmorning <?=ucwords($_SESSION['users']['user']);?> !</h4>
-                                        
-                                    </div>
-                                    <div id="afternoon-greetings" style="display:hidden;">
-                                        <img src="assets/images/afternoon.png" style="height:150px;width:150px">
-                                        <h4 class="title">Goodafternoon <?=ucwords($_SESSION['users']['user']);?> !</h4>
-                                        
-                                    </div>
-                                    <div id="evening-greetings" style="display:hidden;">
-                                        <img src="assets/images/evening.png" style="height:150px;width:150px">
-                                        <h4 class="title">Goodevening <?=ucwords($_SESSION['users']['user']);?> !</h4>
-                                        
-                                    </div>
-                                    <?php
-                                        if($_SESSION["users"]["user_level"] == "2" || $_SESSION["users"]["user_level"] == "1"){
-                                    ?>
-                                    <div>
-                                        <p class="category"><?=ucfirst($_SESSION["users"][0]["firstname"]).' '.ucfirst($_SESSION["users"][0]["middlename"]).' '.ucfirst($_SESSION["users"][0]["lastname"]);?></p>
-                                    </div>
-                                    <?php
-                                        }
-                                    ?>
-                                    <div>
-                                        <p class="category"><?=ucfirst($displayUserLevel)?></p>
-                                    </div>
-                                    <?php
-                                        if($_SESSION["users"]["user_level"] == "2" || $_SESSION["users"]["user_level"] == "1"){
-                                    ?>
-                                    <div>
-                                        <p class="category"><?=ucfirst($_SESSION["users"][0]["department"])?></p>
-                                    </div>
-                                    <?php
-                                        }
-                                    ?>
-                                    <?php
-                                        if($_SESSION["users"]["user_level"] == "1"){
-                                            $department = $_SESSION["users"][0]["department"];
-                                            $course = $_SESSION["users"][0]["course"];
-                                            $yearlevel = $_SESSION["users"][0]["year_level"];
-                                            echo "
-                                               
-                                                <div>
-                                                    <p class='category'>$course</p>
-                                                </div>
-                                                <div>
-                                                <p class='category'>$yearlevel</p>
+                                    
+                                    <div class="row" style="margin-left:50px;margin-top:50px;">
+                                        <div class="col-md-3">
+                                        <div id="morning-greetings">
+                                            <img src="assets/images/morning.png" style="height:150px;width:150px">
+                                            <h4 class="title">Goodmorning <?=ucwords($_SESSION['users']['user']);?> !</h4>
+                                            
+                                        </div>
+                                        <div id="afternoon-greetings" style="display:hidden;">
+                                            <img src="assets/images/afternoon.png" style="height:150px;width:150px">
+                                            <h4 class="title">Goodafternoon <?=ucwords($_SESSION['users']['user']);?> !</h4>
+                                            
+                                        </div>
+                                        <div id="evening-greetings" style="display:hidden;">
+                                            <img src="assets/images/evening.png" style="height:150px;width:150px">
+                                            <h4 class="title">Goodevening <?=ucwords($_SESSION['users']['user']);?> !</h4>
+                                            
+                                        </div>
+                                        </div>
+                                        <div class="col-md-9" style="margin-top:50px;">
+                                            <?php
+                                                if($_SESSION["users"]["user_level"] == "2" || $_SESSION["users"]["user_level"] == "1"){
+                                            ?>
+                                            <div>
+                                                <p class="category"><?=ucfirst($_SESSION["users"][0]["firstname"]).' '.ucfirst($_SESSION["users"][0]["middlename"]).' '.ucfirst($_SESSION["users"][0]["lastname"]);?></p>
                                             </div>
-                                            ";
-                                        }
-                                    ?>
-                              
+                                            <?php
+                                                }
+                                            ?>
+                                            <div>
+                                                <p class="category"><?=ucfirst($displayUserLevel)?></p>
+                                            </div>
+                                            <?php
+                                                if($_SESSION["users"]["user_level"] == "2" || $_SESSION["users"]["user_level"] == "1"){
+                                            ?>
+                                            <div>
+                                                <p class="category"><?=ucfirst($_SESSION["users"][0]["department"])?></p>
+                                            </div>
+                                            <?php
+                                                }
+                                            ?>
+                                            <?php
+                                                if($_SESSION["users"]["user_level"] == "1"){
+                                                    $department = $_SESSION["users"][0]["department"];
+                                                    $course = $_SESSION["users"][0]["course"];
+                                                    $yearlevel = $_SESSION["users"][0]["year_level"];
+                                                    echo "
+                                                    
+                                                        <div>
+                                                            <p class='category'>$course</p>
+                                                        </div>
+                                                        <div>
+                                                        <p class='category'>$yearlevel</p>
+                                                    </div>
+                                                    ";
+                                                }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <!-- questionnaireValidation -->
+                                    
+                                    <div class="row" style="margin-left:50px;margin-top:25px;">
+                                        <?php
+                                            if($_SESSION["users"]["user_level"] == "2" && $_SESSION["users"][0]["position"] == "2")
+                                            if($data["questionnaireValidation"]){
+                                                foreach($data["questionnaireValidation"] as $key => $value){
+                                                    $questionnaire_title = $value["questionaire_title"];
+                                                    $questionnaire_description = $value["questionaire_description"];
+                                                    $teacher_firstname = $value["firstname"];
+                                                    $idquestionnaire = $value["idquestionaire"];
+                                                    echo '
+                                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                                            <div class="card card-stats">
+                                                                <div class="card-header" data-background-color="blue">
+                                                                    <i class="fa fa-bell"></i>
+                                                                    <span class="notification">'.($key+1).'</span>
+                                                                </div>
+                                                                <div class="card-content">
+                                                                <h3 class="title"><a href="notifications/viewquestionnaire/'.$idquestionnaire.'">'.$questionnaire_title.'</a></h3>
+                                                                    <p class="category">'.$questionnaire_description.'</p>
+                                                                </div>
+                                                                <div class="card-footer">
+                                                                    <div class="stats">
+                                                                        <i class="material-icons">update</i> New Questionnaire for Validation from <b>'.strtoupper($teacher_firstname).'</b>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ';
+                                                    
+                                                }
+                                            }
+                                        ?>
+                                        
+                                    <!-- NOTIFICATION END -->
+                                    
                                         <div class="row" style="margin:50px;">
                                             <?php
                                                 if($_SESSION['users']['user_level'] == '99' || $_SESSION['users']['user_level'] == '3'){
@@ -86,7 +133,7 @@
                                         <div class="row" style="margin:50px;">
                                             <div id="tb-testimonial" class="testimonial testimonial-primary pull-right">
                                                 <div class="testimonial-section">
-                                                    <?=$data[0]['message'];?>
+                                                    <?=$data['message'][0]["message"];?>
                                                 </div>
                                                 <div class="testimonial-desc">
                                                     <img src="assets/img/logo.jpg" alt="" />
