@@ -1,8 +1,8 @@
 
 <?php
     
-    $dashboard="";$subjects="";$users="";$reports="";$departments="";$examinations="";$courses="";$schedules="";$classes="";$notifications="";
-    $m_subjects="";$m_users="";$m_reports="";$m_departments="";$m_courses="";$m_examination;$m_schedules="";$m_classes="";$m_notifications="";
+    $dashboard="";$subjects="";$users="";$reports="";$departments="";$examinations="";$courses="";$schedules="";$classes="";$notifications="";$profiles="";
+    $m_subjects="";$m_users="";$m_reports="";$m_departments="";$m_courses="";$m_examination;$m_schedules="";$m_classes="";$m_notifications="";$m_profiles="";
     switch($_SESSION['users']['user_level']){
         case '1':
             $m_subjects="";
@@ -14,6 +14,7 @@
             $m_schedules="";
             $m_classes="";
             $m_notifications="";
+            $m_profiles="1";
             break;
         case '2':
             $m_subjects="";
@@ -25,6 +26,7 @@
             $m_schedules="";
             $m_classes="";
             $m_notifications="1";
+            $m_profiles="1";
             break;
 
         case '3':
@@ -37,6 +39,7 @@
             $m_schedules="";
             $m_classes="";
             $m_notifications="";
+            $m_profiles="1";
             break;
         case '99':  
             $m_subjects="1";
@@ -48,6 +51,7 @@
             $m_schedules="1";
             $m_classes="";
             $m_notifications="";
+            $m_profiles="1";
             break;
     };
 
@@ -93,7 +97,10 @@
             break;   
         case 'notifications':
             $notifications='active';
-            break;   
+            break;
+        case 'profiles':
+            $profiles='active';
+            break;    
         default:
     };
     
@@ -228,6 +235,15 @@
                                     </a>
                                 </li>';
                     }
+                    if(($m_profiles == '1')){
+                        
+                        echo '<li class="'.$profiles.'">
+                                    <a href="profiles">
+                                        <i class="material-icons">person_box</i>
+                                        <p>User Profile</p>
+                                    </a>
+                                </li>';
+                    }
                     
                     ?>
                 </ul>
@@ -273,13 +289,13 @@
                         ?>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="material-icons">person_pin</i>
+                            <img src="assets/uploads/<?=(($_SESSION["users"]["image"] == "") ? "default.png" : $_SESSION["users"]["image"])?>" alt="" style="height:20px;width:20px;">
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu" style="width:350px;">
                                 <li class="text-center">
                                     <?php
-
+                                            
                                         echo '<a href="javascript:void(0)">USER PROFILE</a>';
                                     ?>
                                     
@@ -306,9 +322,7 @@
                                         echo '<a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">face</i>'.ucfirst($name).'</a>';
                                         
                                     ?>
-                                    
-                                </li>
-                                <li>
+                            
                                     <?php
                                         if($_SESSION['users']['user_level'] == "99"){
                                             $displayUserLevel = "admin";
@@ -328,10 +342,8 @@
                                         }
                                         echo '<a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">supervisor_account</i>'.ucfirst($displayUserLevel).'</a>';
                                     ?>
-                                    
-                                </li>
-                                
-                                <li>
+                           
+                               
                                     <?php
                                         if($_SESSION["users"]["user_level"] == "1" || $_SESSION["users"]["user_level"] == "2"){
                                             echo '<a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">view_quilt</i>'.ucfirst($_SESSION["users"][0]["department"]).'</a>';
@@ -339,24 +351,21 @@
                                         }
                                     ?>
                                 
-                                </li>
+                          
                                 <?php     
 
                                         if($_SESSION["users"]["user_level"] == "1"){
                                             $course = $_SESSION["users"][0]["course"];
                                             $yearlevel = $_SESSION["users"][0]["year_level"];
-                                            echo '<li>
+                                            echo '
                                                     <a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">book</i>'.ucfirst($course).'</a>
-                                                </li>';
-                                            echo '<li>
+                                                ';
+                                            echo '
                                                     <a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">show_chart</i>'.ucfirst($yearlevel).'</a>
-                                                </li>';
+                                                ';
                                         }
                                     ?>   
-                                
-                                            
-
-
+                                </li>
                             </ul>
                         </li>
                         

@@ -46,46 +46,7 @@
                                             
                                         </div>
                                         </div>
-                                        <div class="col-md-9" style="margin-top:50px;">
-                                            <?php
-                                                if($_SESSION["users"]["user_level"] == "2" || $_SESSION["users"]["user_level"] == "1"){
-                                            ?>
-                                            <div>
-                                                <p class="category"><?=ucfirst($_SESSION["users"][0]["firstname"]).' '.ucfirst($_SESSION["users"][0]["middlename"]).' '.ucfirst($_SESSION["users"][0]["lastname"]);?></p>
-                                            </div>
-                                            <?php
-                                                }
-                                            ?>
-                                            <div>
-                                                <p class="category"><?=ucfirst($displayUserLevel)?></p>
-                                            </div>
-                                            <?php
-                                                if($_SESSION["users"]["user_level"] == "2" || $_SESSION["users"]["user_level"] == "1"){
-                                            ?>
-                                            <div>
-                                                <p class="category"><?=ucfirst($_SESSION["users"][0]["department"])?></p>
-                                            </div>
-                                            <?php
-                                                }
-                                            ?>
-                                            <?php
-                                                if($_SESSION["users"]["user_level"] == "1"){
-                                                    $department = $_SESSION["users"][0]["department"];
-                                                    $course = $_SESSION["users"][0]["course"];
-                                                    $yearlevel = $_SESSION["users"][0]["year_level"];
-                                                    echo "
-                                                    
-                                                        <div>
-                                                            <p class='category'>$course</p>
-                                                        </div>
-                                                        <div>
-                                                        <p class='category'>$yearlevel</p>
-                                                    </div>
-                                                    ";
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
+                                        
                                     <!-- questionnaireValidation -->
                                     
                                     <div class="row" style="margin-left:50px;margin-top:25px;">

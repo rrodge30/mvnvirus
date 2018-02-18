@@ -297,6 +297,7 @@ $(document).ready(function(){
         }
        
     });
+    
 
     
     $(document).on("fileuploaded","#input-import-users",function(event,data,previewId,index){
@@ -340,6 +341,47 @@ $(document).ready(function(){
     
     $(document).on("fileuploaded","#input-import-field",function(event,data,previewId,index){
         
+    });
+
+
+    //USER PROFILE
+    $("#upload-user-image-profile").fileinput({
+        
+         uploadUrl: "profiles/uploadUserImage",
+         allowedFileExtensions: ["png","jpg","jpeg"],
+         previewClass: "bg-warning",
+         uploadAsync:true,
+         layoutTemplates: {
+             main1: "{preview}\n" +
+             "<div class=\'input-group {class}\'>\n" +
+             "   <div class=\'input-group-btn\'>\n" +
+             "       {browse}\n" +
+             "       {upload}\n" +
+             "       {remove}\n" +
+             "   </div>\n" +
+             "   {caption}\n" +
+             "</div>"
+         },
+         /*
+         uploadExtraData: function (previewId, index) {
+             //var fieldVal = $('#select-user-imports').val();
+             //var data = {"userfield": fieldVal};
+             //return data;
+         }
+         */
+        
+     });
+     $(document).on("fileuploaded","#upload-user-image-profile",function(event,data,previewId,index){
+        if(data.response){
+            console.log(data);
+            swal("Success", "Successfully Recorded.", "success");
+            location.reload();
+            
+        }else{
+            swal("Error", "Error add Record.", "error");
+            return false;
+        }
+
     });
     //********* FILEINPUT END
     
