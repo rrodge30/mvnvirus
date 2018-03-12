@@ -13,40 +13,39 @@
     <span><b>UPDATE QUESTIONNAIRE</b></span>
 </div>
 
-<form method="post" id="frm-update-questionnaire">
+<form method="post" id="frm-add-questionnaire">
 <div class="row" style="height:100%; width:100%;">
     
     <div class="row">
         <input type="hidden" name="idquestionnaire" id="questionaire-idsubject" value="<?=$data["idsubject"]?>">
-        <input type="hidden" name="questionaireTypeCount" id="questionairetype-initialcount" value="<?=count($data["questionaire_type"])?>">
-        <input type="hidden" name="idquestionnaire" id="questionaire-idquestionnaire" value="<?=$data["idquestionaire"]?>">
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Title</span>
-            <input type="text" class="form-control use" placeholder="Enter Title" aria-describedby="basic-addon1" required="required" id="questionnaire-title" name="title" value="<?=$data["questionaire_title"]?>">
+        <input type="hidden" name="idquestionnaire" id="questionaire-idquestionaire" value="<?=$data["idquestionaire"]?>">
+        <div class="input-group col-md-12">
+            <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Title</span>
+            <input type="text" class="form-control use" placeholder="Enter Title" aria-describedby="basic-addon1" required="required" id="questionnaire-add-title" name="title" value="<?=$data["questionaire_title"]?>">
         </div>
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Description</span>
-            <input type="text" class="form-control use" placeholder="Enter Description" aria-describedby="basic-addon1" required="required" id="questionnaire-description" name="questionaire_description" value="<?=$data["questionaire_description"]?>">
-        </div>
-        
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Date</span>
-            <input type="text" class="form-control use datepicker-date" placeholder="Select Date" aria-describedby="basic-addon1" required="required" id="questionnaire-day" name="questionaire_date" value="<?=$data["questionaire_date"]?>">
-        </div>
-        
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Time</span>
-            <input type="text" class="form-control use datepicker-time" placeholder="Select Time" aria-describedby="basic-addon1" required="required" id="questionnaire-time" name="questionaire_time" value="<?=$data["questionaire_time"]?>">
+        <div class="input-group col-md-12">
+            <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Description</span>
+            <input type="text" class="form-control use" placeholder="Enter Description" aria-describedby="basic-addon1" required="required" id="questionnaire-add-description" name="questionaire_description" value="<?=$data["questionaire_description"]?>">
         </div>
         
         <div class="input-group col-md-12">
-            <span class="input-group-addon" id="basic-addon1">Duration</span>
-            <input type="text" class="form-control use time-hours-minute-duration" placeholder="Select Duration" aria-describedby="basic-addon1" required="required" id="questionnaire-duration" name="questionaire_duration" value="<?=$data["questionaire_duration"]?>">
+            <span class="input-group-addon" style="width:150px;text-align:right;"id="basic-addon1">Date</span>
+            <input type="text" class="form-control use datepicker-date" placeholder="Select Date" aria-describedby="basic-addon1" required="required" id="questionnaire-add-day" name="questionaire_date" value="<?=$data["questionaire_date"]?>">
         </div>
         
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Instruction</span>
-            <input type="text" class="form-control use mytextarea" placeholder="" aria-describedby="basic-addon1" required="required" id="questionnaire-instruction" name="terms_and_condition" value="<?=$data["questionaire_instruction"]?>">
+        <div class="input-group col-md-12">
+            <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Time</span>
+            <input type="text" class="form-control use datepicker-time" placeholder="Select Time" aria-describedby="basic-addon1" required="required" id="questionnaire-add-time" name="questionaire_time" value="<?=$data["questionaire_time"]?>">
+        </div>
+        
+        <div class="input-group col-md-12">
+            <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Duration</span>
+            <input type="text" class="form-control use time-hours-minute-duration" placeholder="Select Duration" aria-describedby="basic-addon1" required="required" id="questionnaire-add-duration" name="questionaire_duration" value="<?=$data["questionaire_duration"]?>">
+        </div>
+        
+        <div class="input-group col-md-12">
+            <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Instruction</span>
+            <input type="text" class="form-control use mytextarea" placeholder="" aria-describedby="basic-addon1" required="required" id="questionnaire-add-instruction" name="terms_and_condition" value="<?=$data["questionaire_instruction"]?>">
         </div>
         
     </div>
@@ -88,24 +87,24 @@
                         </select>
                     </div>
                     
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Category Title</span>
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Category Title</span>
                         <input type="text" class="form-control use" placeholder="Enter Title" aria-describedby="basic-addon1" id="category-title-input" name="questionaire_type_title">
                     </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="span-answer-case-method">Number or Choices</span>
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" style="width:150px;text-align:right;" id="span-answer-case-method">Number or Choices</span>
                         <input type="text" class="form-control use" placeholder="Enter Number of Answer Question" aria-describedby="basic-addon1" id="questionaire-case-input" name="questionaire_answer_quantity" pattern="[0-9]+">
                     </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Item Points</span>
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon"  style="width:150px;text-align:right;"id="basic-addon1">Item Points</span>
                         <input type="text" class="form-control use" placeholder="Enter Number of Points per item" aria-describedby="basic-addon1" id="number-of-points-input" name="questionaire_points" pattern="[0-9]+">
                     </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Number of Items</span>
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" style="width:150px;text-align:right;"id="basic-addon1">Number of Items</span>
                         <input type="text" class="form-control use" placeholder="Enter Number of Items" aria-describedby="basic-addon1" id="number-of-items-input" name="number_of_items" pattern="[0-9]+">
                     </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Total Items</span>
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Total Items</span>
                         <input readonly="readonly" type="text" class="form-control use" aria-describedby="basic-addon1" id="total-points-input" name="total_points">
                     </div>
                     <button data-toggle='tooltip' data-placement='top' title='Add Questionnaire Category' class='pull-right btn-add-question-type btn btn-success' type='button' name='create' onclick='return false;'>
@@ -119,14 +118,12 @@
                     for($i=0;$i<count($data["questionaire_type"]);$i++){
                         echo '<div role="tabpanel" class="tab-pane fade" id="tab-add-question'.$i.'" data-id="'.$i.'" data-questiontype="'.$data["questionaire_type"][$i]["questionaire_type"].'">';//tab content div start
                             //    
-                            $displayQuestionnaireTypeItemValue = "ssdfsfd";
-                            $pointerDisplayQuestionnaireTypeItemValue = &$displayQuestionnaireTypeItemValue;
-                            $displayQuestionnaireTypeItemValue = "fjhsdlkfjhslkjfhlsdjkfhsd";
+                            
                         echo '<div class="container">
                             <div><span>Point per Item:</span>'.$data["questionaire_type"][$i]["questionaire_type_item_points"].'</div>
                             <div><span>Total Item:</span>'.$data["questionaire_type"][$i]["questionaire_type_total_item"].'</div>
                             <div class="row">
-                            
+                
                             <div class="col-md-10 bhoechie-tab-container template'.$i.'">
                                 <div class="col-md-2 bhoechie-tab-menu template'.$i.'">
                                     <div class="list-group" style="max-height:750px;overflow-y:scroll;overflow-x:hidden;" >';
@@ -146,8 +143,8 @@
                     
                     <center id="add-answer'.$i.'-'.$j.'">
                         
-                        <input type="hidden" id="questionnaire-type-idquestionairetype'.$i.'" value="'.$data["questionaire_type"][$i]["idquestionairetype"].'">
-                        <input type="hidden" id="question-idquestion'.$i.'-'.$j.'" value="'.$data["questionaire_type"][$i]["question"][$j]["idquestion"].'">
+                        <input type="hidden" id="idcategory-tabNo'.$i.'" value="'.$data["questionaire_type"][$i]["idquestionairetype"].'">
+                        <input type="hidden" id="idquestionTabno-tabNo'.$i.'-itemno-'.$j.'" value="'.$data["questionaire_type"][$i]["question"][$j]["idquestion"].'">
                         <input type="hidden" id="category-title-tabNo'.$i.'" value="'.$data["questionaire_type"][$i]["questionaire_type_title"].'">
                         <input type="hidden" id="question-quantity-tabNo'.$i.'" value="'.$data["questionaire_type"][$i]["questionaire_type_question_quantity"].'">
                         <input type="hidden" readonly="readonly" id="item-points-tabNo'.$i.'" value="'.$data["questionaire_type"][$i]["questionaire_type_item_points"].'">
@@ -171,11 +168,12 @@
                         echo '<div class="add-answer">';
                         
                         echo   '<span class="span-add-answer'.$i.'">
-                                <input type="hidden" name="answerCount" id="tab-'.$i.'-item-'.$j.'-essay-answer-initial-count" value="'.count($data["questionaire_type"][$i]["question"][$j]["answer"]).'">
+                                
                         ';
+                        
 
                             for($k=0;$k<count($data["questionaire_type"][$i]["question"][$j]["answer"]);$k++){
-                                echo '<input type="hidden" id="input-question-idanswer'.$i.'-'.$j.'-'.$k.'" name="choices" value="'.$data["questionaire_type"][$i]["question"][$j]["answer"][$k]["idquestion_answer"].'">';
+                                echo '<input type="hidden" id="idanswertabNo'.$i.'-itemno-'.$j.'answerno-'.$k.'" name="choices" value="'.$data["questionaire_type"][$i]["question"][$j]["answer"][$k]["idquestion_answer"].'">';
                                 echo '<div class="input-group">
                                     <span class="input-group-addon" id="basic-addon1">Hint no '.($k+1).'</span>
                                     <input type="text" class="form-control use" placeholder="Enter Description" aria-describedby="basic-addon1" required="required" id="answerTabno-'.$i.'-itemno-'.$j.'-answerno-'.$k.'" name="answer" value="'.$data["questionaire_type"][$i]["question"][$j]["answer"][$k]["answer"].'">
@@ -192,8 +190,8 @@
                     if($data["questionaire_type"][$i]["questionaire_type"] == 0){
                         $selectIndexAnswer = "";
                         for($k=0;$k<count($data["questionaire_type"][$i]["question"][$j]["choices"]);$k++){
-                            echo '<input type="hidden" id="input-question-idanswer'.$i.'-'.$j.'-'.$k.'" name="choices" value="'.$data["questionaire_type"][$i]["question"][$j]["answer"][0]["idquestion_answer"].'">';
-                            echo '<input type="hidden" id="input-question-idchoices'.$i.'-'.$j.'-'.$k.'" name="choices" value="'.$data["questionaire_type"][$i]["question"][$j]["choices"][$k]["idquestion_choices"].'">';
+                            echo '<input type="hidden" id="idanswertabNo'.$i.'-itemno-'.$j.'answerno-'.$k.'" name="choices" value="'.$data["questionaire_type"][$i]["question"][$j]["answer"][0]["idquestion_answer"].'">';
+                            echo '<input type="hidden" id="idchoicestabNo'.$i.'-itemno-'.$j.'choicesno-'.$k.'" name="choices" value="'.$data["questionaire_type"][$i]["question"][$j]["choices"][$k]["idquestion_choices"].'">';
                             if($data["questionaire_type"][$i]["question"][$j]["choices"][$k]["choices_description"] == $data["questionaire_type"][$i]["question"][$j]["answer"][0]["answer"]){
                                 $selectIndexAnswer = $k;
                             }
@@ -217,16 +215,18 @@
                             
                         }    
                             echo '</select>
+                            <input type="hidden" class="form-control use" aria-describedby="basic-addon1" id="answerTabno-'.$i.'-itemno-'.$j.'-answerno-0" name="anwer" data-testno="" value="'.$data["questionaire_type"][$i]["question"][$j]["choices"][$k]["choices_description"].'">
                                 </div>';
                         
                     }
-                    /*
+                    
+
                     echo '<span class="span-next-item'.$i.' item-'.$j.'">
-                            <button class="btn-success btn pull-right btn-next-item'.$i.' item-'.$j.'">
+                            <button class="btn-success btn pull-right btn-next-item item-'.$j.'">
                                 <span class="material-icons">playlist_add_check</span>
                             </button>
                         </span>';
-                        */
+                        
                             //content end
                     echo '</center>
                         </div>';
@@ -251,7 +251,7 @@
 </div>
 
 </form>
-<button class="btn-information btn pull-right col-md-5" type="submit" form="frm-update-questionnaire">
+<button class="btn-information btn pull-right col-md-5" type="submit" form="frm-add-questionnaire">
     <span class="material-icons">check_circle</span>SUBMIT
 </button>
 

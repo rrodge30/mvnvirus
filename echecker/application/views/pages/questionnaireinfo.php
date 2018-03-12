@@ -1,8 +1,46 @@
 <?php
+/*
+echo "<pre>";
+print_r($data);
+echo "</pre>";
+*/
 
 if($data){
 ?>
+<div class="row">
 
+    <div class="col-md-12 box-shadow" style="max-height:250px;overflow-y:scroll;padding:10px;background-color:white;">
+        <?php
+            if(isset($_SESSION["users"][0]["position"])){
+                if($_SESSION["users"][0]["position"] == "1"){
+                    if(isset($data["questionaire_message"])){
+                        foreach($data["questionaire_message"] as $key => $value){
+                            echo '
+                                    <div class="row" style="margin:50px;">
+                                        <div id="tb-testimonial" class="testimonial testimonial-primary col-md-12">
+                                            <div class="testimonial-section">
+                                                '.$value["message"].'
+                                            </div>
+                                            <div class="testimonial-desc">
+                                                <img src="assets/img/logo.jpg" alt="" />
+                                                <div class="testimonial-writer">
+                                                    <div class="testimonial-writer-name">Program Dean</div>
+                                                    <div class="testimonial-writer-designation">'.$_SESSION["users"][0]["department"].'</div>
+                                                    <a href="#" onclick="return false;" class="testimonial-writer-company">'.$value["date"].'</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ';
+                        }
+                    }
+                }
+            }
+            
+        
+        ?>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -50,6 +88,11 @@ if($data){
                                 <p class="pull-left" style="width:170px;">SUBJECT DESCRIPTION:</p><p class="pull-left"><?=$data["subject_description"]?></p>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="category">
+                                <p class="pull-left" style="width:170px;">TOTAL ITEM:</p><p class="pull-left"><?=$data["questionaire_total_score"]?></p>
+                            </div>
+                        </div>
                     </div>  
                 </div>    
                 
@@ -59,7 +102,6 @@ if($data){
                 <div class="col-md-12">
                     <ul class="nav nav-tabs tab-nav-right" role="tablist" style="margin-bottom:50px;">
                         <!-- tab header -->
-                        
                        
                         <?php
                             if($data["questionaire_type"]){
@@ -89,6 +131,8 @@ if($data){
                                     
                                     echo '<div role="tabpanel" class="tab-pane fade in '.(($key == 0) ? "active" : "").'" id="tab-examine'.$key.'">';
                                         //bouchie tabpanel start
+                                        echo '<div><span class="category">CATEGORY TOTAL ITEM</span>: '.$value["questionaire_type_total_item"].'</div>';
+                                        echo '<div><span class="category">CATEGORY POINTS PER ITEM</span>: '.$value["questionaire_type_item_points"].'</div>';
                                     echo '
                                         <div class="container col-md-12">
                                         
@@ -113,7 +157,7 @@ if($data){
                                                             
                                                                 ';
 
-                                                            echo '<div class="btcontent-template-tab'.$key.' bhoechie-tab-content '.(($i == 0) ? "active" : "").'">
+                                                            echo '<div class="btcontent-template-tab'.$key.' bhoechie-tab-content '.(($i == 0) ? "active" : "").'" style="margin-bottom:50px;">
                                                                     <center>
                                                                         <h1 class="glyphicon glyphicon-question-sign" style="font-size:4em;color:#55518a"></h1>
                                                                         <h2 style="margin-top: 0;color:#55518a">Question no. '.($i+1).'</h2><br><br>
@@ -125,28 +169,29 @@ if($data){
                                                                     ';
                                                                     if($data["questionaire_type"][$key]["questionaire_type"] == 0){
                                                                         echo '<div>';
-                                                                            echo '<div class="radio">
+                                                                            echo '<div class="roboto">
                                                                                     <label>
                                                                                         <h6>CHOICES:</h6>
                                                                                     </label>
                                                                                 </div>';  
                                                                             foreach($data["questionaire_type"][$key]["question"][$i]["choices"] as $j => $value){
-                                                                                echo '<div class="radio">
-                                                                                        <label>
-                                                                                            <input type="radio" class="answer'.$key.'-'.$i.'" name="answer'.$key.'-'.$i.'" value="'.$value["choices_description"].'">
+                                                                                
+                                                                                echo '<div class="roboto">
+                                                                                        <label class="roboto">
+                                                                                        <input type="hidden" class="answer'.$key.'-'.$i.'" name="answer'.$key.'-'.$i.'" value="'.$value["choices_description"].'">
                                                                                             '.$value["choices_description"].'
                                                                                         </label>
                                                                                     </div>';   
                                                                             }
-                                                                            echo '<div class="radio">
-                                                                                    <label>
+                                                                            echo '<div class="roboto">
+                                                                                    <label class="roboto">
                                                                                         <h6>ANSWER:</h6>
                                                                                     </label>
                                                                                 </div>';
-                                                                            
-                                                                            echo '<div class="radio">
-                                                                                    <label>
-                                                                                        <input type="radio" class="answer'.$key.'-'.$i.'" name="answer'.$key.'-'.$i.'">
+                                                                                
+                                                                            echo '<div class="roboto" style="margin-bottom:50px;">
+                                                                                    <label class="roboto">
+                                                                                    <input type="hidden" class="answer'.$key.'-'.$i.'" name="answer'.$key.'-'.$i.'">        
                                                                                         '.$data["questionaire_type"][$key]["question"][$i]["answer"][0]["answer"].'
                                                                                     </label>
                                                                                 </div>';   
@@ -155,16 +200,18 @@ if($data){
                                                                     }
 
                                                                     if($data["questionaire_type"][$key]["questionaire_type"] == 1){
-                                                                        echo '<div class="radio">
-                                                                            <label>
+                                                                        echo '<div class="roboto">
+                                                                            <label class="roboto">
                                                                                 <h6>ANSWERS:</h6>
                                                                             </label>
                                                                         </div>';  
                                                                         foreach($data["questionaire_type"][$key]["question"][$i]["answer"] as $j => $value){
-                                                                            echo '<div class="radio">
-                                                                                    <label>
-                                                                                        <input type="radio" class="answer'.$key.'-'.$i.'" name="answer'.$key.'-'.$i.'" value="'.$value["answer"].'" required="required">
-                                                                                        '.$value["answer"].'
+                                                                            
+                                                                            echo '<div style="">
+                                                                                <input type="hidden" class="answer'.$key.'-'.$i.'" name="answer'.$key.'-'.$i.'" value="'.$value["answer"].'" required="required">
+                                                                                    
+                                                                                    <label class="roboto">
+                                                                                        Answer no. '.($j+1).': '.$value["answer"].'
                                                                                     </label>
                                                                                 </div>';   
                                                                         }
@@ -175,8 +222,7 @@ if($data){
                                                                  
                                                             echo '</div>';
                                                         }   
-                                                        
-                                                    
+
                                                 echo '    </div>
                                                 </div>
                                             </div>
@@ -199,9 +245,30 @@ if($data){
             </div>
             <div class="card-footer">
                 
-                <button class="btn-information btn pull-right col-md-5" type="button" onclick="return false;" id="btn-submit-approval" data-id="<?=$data["idquestionaire"]?>">
-                    <span class="material-icons">check_circle</span>SUBMIT APPROVAL
-                </button>
+                <?php
+                    if($_SESSION["users"][0]["position"] == "2"){
+                ?>
+                    <!-- btn-submit-disapproval -->
+                    <button class="btn-danger btn pull-right col-md-5" type="button" onclick="return false;" id="btn-questionnaire-disapproval" data-id="<?=$data["idquestionaire"]?>">
+                        <span class="material-icons">close</span>DISAPPROVE
+                    </button>
+                    <button class="btn-information btn pull-right col-md-5" type="button" onclick="return false;" id="btn-submit-approval" data-id="<?=$data["idquestionaire"]?>">
+                        <span class="material-icons">check_circle</span>SUBMIT APPROVAL
+                    </button>
+                <?php
+                    }
+                ?>
+
+                <?php
+                    if($_SESSION["users"][0]["position"] == "1"){
+                        
+                ?>
+                        <a href='examinations/updateQuestionnaire/<?=$data["idquestionaire"]?>' data-id='<?=$data["idquestionaire"]?>' rel='tooltip' data-toggle='tooltip' data-placement='top' title='Update Questionnaire' class='btn-information btn pull-right col-md-5' name='update'>
+                            <span class='material-icons'>create</span>UPDATE QUESTIONNAIRE
+                        </a>
+                <?php
+                    }
+                ?>
             </div>
         </div>
     </div>

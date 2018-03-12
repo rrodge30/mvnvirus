@@ -15,13 +15,6 @@
 </head>
 <body>
     
-    <div id="openMenu">
-        <img src="assets/img/menu.ico" alt="" style="height:80px;width:80px;">
-    </div>
-    <div id="closeMenu">
-        <img src="assets/img/close.png" alt="" style="height:80px;width:80px;">
-    </div>
-
     <div id="main">
         <div id="logoSection">
             <img src="assets/img/homelogo.png" alt="" style="height:100px;width:90px;">

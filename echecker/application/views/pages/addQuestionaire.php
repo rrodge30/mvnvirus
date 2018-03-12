@@ -7,33 +7,35 @@
 <div class="row" style="height:100%; width:100%;">
     
     <div class="row">
+        <input type="hidden" name="idsubject" id="questionaire-idquestionaire" value="">
         <input type="hidden" name="idsubject" id="questionaire-idsubject" value="<?=$data;?>">
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Title</span>
+        <div class="input-group col-md-12">
+            <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Title</span>
             <input type="text" class="form-control use" placeholder="Enter Title" aria-describedby="basic-addon1" required="required" id="questionnaire-add-title" name="title">
         </div>
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Description</span>
+
+        <div class="input-group col-md-12">
+            <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Description</span>
             <input type="text" class="form-control use" placeholder="Enter Description" aria-describedby="basic-addon1" required="required" id="questionnaire-add-description" name="questionaire_description">
         </div>
-        
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Date</span>
+       
+        <div class="input-group col-md-12">
+            <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Date</span>
             <input type="text" class="form-control use datepicker-date" placeholder="Select Date" aria-describedby="basic-addon1" required="required" id="questionnaire-add-day" name="questionaire_date">
         </div>
         
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Time</span>
+        <div class="input-group col-md-12">
+            <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Time</span>
             <input type="text" class="form-control use datepicker-time" placeholder="Select Time" aria-describedby="basic-addon1" required="required" id="questionnaire-add-time" name="questionaire_time">
         </div>
         
         <div class="input-group col-md-12">
-            <span class="input-group-addon" id="basic-addon1">Duration</span>
+            <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Duration</span>
             <input type="text" class="form-control use time-hours-minute-duration" placeholder="Select Duration" aria-describedby="basic-addon1" required="required" id="questionnaire-add-duration" name="questionaire_duration">
         </div>
         
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Instruction</span>
+        <div class="input-group col-md-12">
+            <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Instruction</span>
             <input type="text" class="form-control use mytextarea" placeholder="" aria-describedby="basic-addon1" required="required" id="questionnaire-add-instruction" name="terms_and_condition">
         </div>
         
@@ -67,24 +69,24 @@
                         </select>
                     </div>
                     
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Category Title</span>
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Category Title</span>
                         <input type="text" class="form-control use" placeholder="Enter Title" aria-describedby="basic-addon1" required="required" id="category-title-input" name="questionaire_type_title">
                     </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="span-answer-case-method">Number of Choices</span>
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" style="width:150px;text-align:right;" id="span-answer-case-method">Number of Choices</span>
                         <input type="text" class="form-control use" placeholder="Enter Number of Answer Question" aria-describedby="basic-addon1" required="required" id="questionaire-case-input" name="questionaire_answer_quantity" pattern="[0-9]+">
                     </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Item Points</span>
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Item Points</span>
                         <input type="text" class="form-control use" placeholder="Enter Number of Points per item" aria-describedby="basic-addon1" required="required" id="number-of-points-input" name="questionaire_points" pattern="[0-9]+">
                     </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Number of Items</span>
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Number of Items</span>
                         <input type="text" class="form-control use" placeholder="Enter Number of Items" aria-describedby="basic-addon1" required="required" id="number-of-items-input" name="number_of_items" pattern="[0-9]+">
                     </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Total Items</span>
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon" style="width:150px;text-align:right;" id="basic-addon1">Total Items</span>
                         <input readonly="readonly" type="text" class="form-control use" aria-describedby="basic-addon1" required="required" id="total-points-input" name="total_points">
                     </div>
                     <button data-toggle='tooltip' data-placement='top' title='Add Questionnaire Type' class='pull-right btn-add-question-type btn btn-success' type='button' name='create' onclick='return false;'>

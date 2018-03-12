@@ -23,7 +23,7 @@ class Logout extends MY_Controller {
     }
 
     public function postNewPassword(){
-        if($_SESSION['users']['pass'] != $_POST['oldPassword']){
+        if(($_SESSION['users']['pass']) != md5($_POST['oldPassword'])){
             echo json_encode(false);
             return false;
         }

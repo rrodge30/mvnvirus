@@ -141,9 +141,88 @@ class Mdl_subjects extends CI_Model {
         return array("asdasd",false);
     }
     
+    public function deleteQuestionaire($data=false){
+        
+    $query=$this->db->select('questionaire_typetbl.idquestionairetype')
+                    ->where('questionaire_typetbl.idquestionaire',$data)
+            ->get('questionaire_typetbl');
+    
+    if($questionaireTypeIdData = $query->result_array()){
+        
+        for($i=0;$i<count($questionaireTypeIdData);$i++){
+            
+            $query = $this->db->select('idquestion')
+                            ->where('idquestionaire_type',$questionaireTypeIdData[$i]["idquestionairetype"])
+                    ->get('questiontbl');
+            if($questionIdData = $query->result_array()){
+                for($j=0;$j<count($questionIdData);$j++){
+
+                    $query = $this->db->select('idquestion_choices')
+                            ->where('idquestion',$questionIdData[$j]["idquestion"])
+                            ->get('question_choicestbl');
+                    if($questionChoicesIdData = $query->result_array()){
+                        for($k=0;$k<count($questionChoicesIdData);$k++){
+                            $isChoicesDeleted = $this->db->where('idquestion_choices',$questionChoicesIdData[$k]["idquestion_choices"])  
+                                    ->delete('question_choicestbl');
+                            if(!$isChoicesDeleted){
+                                return array("Error in Dropping Choices Data",false);
+                            }
+                        }
+                    }
+
+                    $query = $this->db->select('idquestion_answer')
+                                ->where('idquestion',$questionIdData[$j]["idquestion"])
+                                ->get('question_answertbl');
+                    if($questionAnswerIdData = $query->result_array()){
+                        for($k=0;$k<count($questionAnswerIdData);$k++){
+                            $isAnswerDeleted = $this->db->where('idquestion_answer',$questionAnswerIdData[$k]["idquestion_answer"])  
+                                    ->delete('question_answertbl');
+                            if(!$isAnswerDeleted){
+                                return array("Error in Dropping Answer Data",false);
+                            }
+                        }
+                    }
+                    $isUserQuestionnaireDelete = $this->db->where('user_questionairetbl.questionaire_id',$data)->delete('user_questionairetbl');
+                    if(!$isUserQuestionnaireDelete){
+                        return array("Error in Dropping User Questionaire Data",false);
+                    }
+
+                    $isQuestionDeleted = $this->db->where('idquestion',$questionIdData[$j]["idquestion"])  
+                            ->delete('questiontbl');
+                    if(!$isQuestionDeleted){
+                        return array("Error in Dropping Question Data",false);
+                    }
+
+                }
+            }
+            
+            $isQuestionTypeDeleted = $this->db->where('idquestionairetype',$questionaireTypeIdData[$i]["idquestionairetype"])  
+                    ->delete('questionaire_typetbl');
+            if(!$isQuestionTypeDeleted){
+                return array("Error in Dropping Question Type Data",false);
+            }
+        }
+    }
+    $isQuestionaireDeleted = $this->db->where('idquestionaire',$data)  
+            ->delete('questionairetbl');
+    if(!$isQuestionaireDeleted){
+        return array("Error in Dropping Questionaire Data",false);
+    }
+
+    return array("",true);
+}
+
     public function deleteSubject($data=false){
         $queryGetSubject = $this->db->where('idsubject',$data)->get('subjecttbl');
         if($subjectInfo = $queryGetSubject->row_array()){
+            $query = $this->db->where('idsubject',$data)->get('questionairetbl');
+            if($getQuestionaireInSubject = $query->result_array()){
+                foreach($getQuestionaireInSubject as $key=>$value){
+                    $this->db->where('questionaire_id',$value["idquestionaire"])->delete('questionaire_commentstbl');
+                    $this->deleteQuestionaire($value["idquestionaire"]);
+                }
+            }
+            
             $isSchedUpdate = $this->db->set('status','available')
                                     ->where('idschedule',$subjectInfo['schedule'])
                                     ->update('subject_scheduletbl');
@@ -164,7 +243,9 @@ class Mdl_subjects extends CI_Model {
                 }
              
             }
+            
         }
+        
         
         return array("",false);
     }

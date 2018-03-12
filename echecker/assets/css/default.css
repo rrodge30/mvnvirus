@@ -1,12 +1,76 @@
 
+/* MULTIPLE CHOICE SUMMARY BTN */
 
+div.multiple-choice-summary{
+    max-height:700px;
+    overflow:auto;
+    display: none;
+}
+
+/* MULTIPLE CHOICE SUMMARY BTN END */
+
+
+.chosen-container-single .chosen-single{
+    border:none;
+}
 /* SUBJECT CLASS*/
 
+.box-shadow{
+    box-shadow: 0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2) !important;
+    }
+    
+.box-shadow-panel{
+box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
 
 
 .roboto{
     font-family: 'Roboto',Helvetica,Arial,sans-serif !important;
-    font-size: 13px !important;
+}
+
+.font-product{
+    font-family: 'Product Sans',Arial,Helvetica,sans-serif !important;
+}
+
+
+input,textarea,textfield,select{
+    font-family: 'Product Sans',Arial,Helvetica,sans-serif !important;
+}
+
+select{
+    padding-top:5px;
+    padding-bottom:5px;
+}
+
+.margin5{
+    margin:5px;
+}
+h6{
+    font-family: 'Product Sans',Arial,Helvetica,sans-serif !important;
+}
+h5{
+    font-family: 'Product Sans',Arial,Helvetica,sans-serif !important;
+}
+/* h4{
+    font-family: 'Product Sans',Arial,Helvetica,sans-serif !important;
+} */
+h3{
+    font-family: 'Product Sans',Arial,Helvetica,sans-serif !important;
+}
+/* h2{
+    font-family: 'Product Sans',Arial,Helvetica,sans-serif !important;
+} */
+/* h1{
+    font-family: 'Product Sans',Arial,Helvetica,sans-serif !important;
+} */
+th{
+    font-family: 'Product Sans',Arial,Helvetica,sans-serif !important;
+}
+tr{
+    font-family: 'Product Sans',Arial,Helvetica,sans-serif !important;
+}
+td{
+    font-family: 'Product Sans',Arial,Helvetica,sans-serif !important;
 }
 
 
@@ -15,15 +79,62 @@
 
 
 
-/* RADIO BUTTON*/
+/* LOADER */
 
+  
+body {
+    margin: 0;
+    
+  }
+  
+  @keyframes arrow-spin {
+    100% {
+      transform: rotate(179deg);
+    }
+  }
+  
+  @-webkit-keyframes arrow-spin {
+    100% {
+      -webkit-transform: rotate(179deg);
+    }
+  }
+  
+  .ct-series-a .ct-bar {
+    /* Colour of your bars */
+    stroke: purple;
+    /* The width of your bars */
+    stroke-width: 30px;
+  }
+  
+  span.ct-label{
+      font-family: 'Roboto',Helvetica,Arial,sans-serif !important;
+      font-size: 14px;
+  }
 
+  #loader-background{
+    position: absolute;
+     top: 0;
+      left: 0;
+       height: 100%;
+       width:100%;
+       z-index:999;
+       background-color:white;
+       opacity:.7;
+      
+  }
+
+  img#page-loader{
+      
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin: auto;
+      margin-top:10%;
+      
+  }
   
   
-  
-  
-  
-/* RADIO BUTTON end*/
+/* LOADER end*/
 
 
 

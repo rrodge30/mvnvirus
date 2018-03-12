@@ -1,6 +1,6 @@
 
  <?php
-    
+    //print_r(md5('asdf'));
  ?>
     
     <div class="growl" id="app-growl"></div>

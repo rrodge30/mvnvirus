@@ -64,7 +64,7 @@
                     if($idquestionaire != "0"){
                         if(isset($data[0]["questionaire_total_score"])){
                             if($score != "" || $score != null){
-                                $percentage = ((($score)/($data[0]["questionaire_total_score"]))*80)+(20);
+                                $percentage = number_format(((($score)/($data[0]["questionaire_total_score"]))*80)+(20),2);
                                 if($percentage >= '75'){
                                     $remark = "Passed";
                                 }else{
@@ -72,15 +72,15 @@
                                 }
                             }else{
                                 $percentage = "0";
-                                $remark = "Unknown";
+                                $remark = "Invalid";
                             }
                         }else{
                             $percentage = "0";
-                            $remark = "Unknown";
+                            $remark = "Invalid";
                         }
                     }else{
                         $percentage = "0";
-                        $remark = "Unknown";
+                        $remark = "Invalid";
                     }
                     
                     if($user_level == '1'){
@@ -126,10 +126,8 @@
                                             </form>";
                                         }
                                         
-                                        
-                                    
-                                        
                                     }
+                                    
                                     echo    "</div>";
                                 }
                                     
@@ -142,4 +140,7 @@
          ?>
      </tbody>
 </table>
+</div>
+<div class="row">
+    
 </div>

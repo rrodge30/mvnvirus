@@ -12,6 +12,8 @@ spl_autoload_register(function ($file){
         require_once APPPATH . 'third_party/' . $file . '.php';
     }else if(file_exists(APPPATH . 'third_party/PHPExcel/' . $file . '.php')){
         require_once APPPATH . 'third_party/PHPExcel/' . $file . '.php';
+    }else if(file_exists(APPPATH . 'third_party/TCPDF/' . $file . '.php')){
+        require_once APPPATH . 'third_party/TCPDF/' . $file . '.php';
     }
 });
 

@@ -45,12 +45,31 @@ class Examinations extends MY_Controller {
 		$isInserted = $this->mdl_Examinations->postQuestionnaireInformation($_POST["data"]);
 		echo json_encode($isInserted);
 	}
+	public function submitQuestionnaire(){
+		
+		$this->load->model('mdl_Examinations');
+		$submitQuestionnaire = $this->mdl_Examinations->submitQuestionnaire($_POST);
+		echo json_encode($submitQuestionnaire);
+	}
+
+	public function addQuestionnaireType(){
+		
+		$this->load->model('mdl_Examinations');
+		$isInserted = $this->mdl_Examinations->addQuestionnaireType($_POST["data"]);
+		echo json_encode($isInserted);
+	}
 
 	public function deleteQuestionaire(){
 		
 		$this->load->model('mdl_Examinations');
 		$isDeleted = $this->mdl_Examinations->deleteQuestionaire($_POST["id"]);
 		echo json_encode($isDeleted);
+	}
+	public function updatequestion(){
+		
+		$this->load->model('mdl_Examinations');
+		$updatequestion = $this->mdl_Examinations->updatequestion($_POST["data"]);
+		echo json_encode($updatequestion);
 	}
 
 	public function examine($id=false){

@@ -2,7 +2,7 @@
 <div class="row-userList">
     
         <div class="col-md-12">
-             <ul class="nav nav-tabs tab-nav-right" role="tablist" style="margin-bottom:50px;">
+             <ul class="nav nav-tabs tab-nav-right" role="tablist" style="margin-bottom:50px;margin-top:50px;">
                 
                 <li role="presentation" class="active" style="width:20%;">
                     <a href="#tab-professorlist" data-toggle="tab">
@@ -17,12 +17,12 @@
                         <span>Students</span>
                     </a>
                 </li>
-                <li role="presentation" style="width:20%;">
+                <!-- <li role="presentation" style="width:20%;">
                     <a href="#import_users" data-toggle="tab">
                         <i class="material-icons">file_download</i>
                         <span>Import</span>
                     </a>
-                </li>
+                </li> -->
             </ul>
 
             <!-- Tab panes -->
@@ -37,7 +37,7 @@
                             <tr>
                                 
                                 <td class="text-center font-roboto color-a2"></td>
-                                <td class="text-center font-roboto color-a2">CODE</td>
+                                <td class="text-center font-roboto color-a2">ID no.</td>
                                 <td class="text-center font-roboto color-a2">NAME</td>
                                 <td class="text-center font-roboto color-a2">POSITION</td>
                                 <td class="text-center font-roboto color-a2">PROGRAM</td>
@@ -96,7 +96,7 @@
                                 <tr>
                                     
                                     <td class="text-center font-roboto color-a2"></td>
-                                    <td class="text-center font-roboto color-a2">CODE</td>
+                                    <td class="text-center font-roboto color-a2">ID no.</td>
                                     <td class="text-center font-roboto color-a2">NAME</td>
                                     <td class="text-center font-roboto color-a2">PROGRAM</td>
                                     <td class="text-center font-roboto color-a2">COURSE</td>
@@ -145,7 +145,8 @@
                         </table>
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="import_users">
+                
+                <!-- <div role="tabpanel" class="tab-pane fade" id="import_users">
                     <div class="row">
                         <pre>
                             student - code,user,firstname, middlename, lastname, course, year level,department
@@ -165,7 +166,7 @@
                         <label class="control-label"><h3><b>Import File</b></h3></label>
                         <input id="input-import-users" name="usersFile" type="file" multiple class="file-loading">
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 </div>

@@ -6,7 +6,11 @@
         $secs = floor($Durationtime % 60);
         $timeFormat = sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
     }
-    
+    /*
+    echo "<pre>";
+    print_r($data);
+    echo "</pre>";
+    */
 ?>
 <!-- tab start -->
 <form method="POST" id="frm-examine">
@@ -31,7 +35,7 @@
                             </p>
                             <div class="card-footer">
                             
-                                <button type="button" onclick="goToFullScreen();" class="btn btn-primary btn-round button-fullscreen">Start</button>
+                                <button type="button" class="btn btn-primary btn-round button-fullscreen">Start</button>
                             </div>
                         </div>
                     </div>

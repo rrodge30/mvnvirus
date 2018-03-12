@@ -37,13 +37,13 @@
                 }
             ?>
             <div>
-                <p class="category"><?=ucfirst($displayUserLevel)?></p>
+                <p class="category">position:<?=ucfirst($displayUserLevel)?></p>
             </div>
             <?php
                 if($_SESSION["users"]["user_level"] == "2" || $_SESSION["users"]["user_level"] == "1"){
             ?>
             <div>
-                <p class="category"><?=ucfirst($_SESSION["users"][0]["department"])?></p>
+            <span class="category font-roboto" style="width:200px;"><p class="category">department :<?=ucfirst($_SESSION["users"][0]["department"])?></p>
             </div>
             <?php
                 }
@@ -53,13 +53,14 @@
                     $department = $_SESSION["users"][0]["department"];
                     $course = $_SESSION["users"][0]["course"];
                     $yearlevel = $_SESSION["users"][0]["year_level"];
+                    echo"<div>
+                        <p class='category'>course:$course</p>
+                    </div>";
                     echo "
                     
+                        
                         <div>
-                            <p class='category'>$course</p>
-                        </div>
-                        <div>
-                            <p class='category'>$yearlevel</p>
+                            <p class='category'>year level:$yearlevel</p>
                         </div>
                     ";
                 }

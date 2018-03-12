@@ -21,6 +21,7 @@
     <!--<link href= "assets/css/themify-icons.css" rel="stylesheet" type="text/css"/> -->
     <!-- <link href= "assets/css/material.css" rel="stylesheet" type="text/css"/> -->
     <link href= "assets/css/material-icons.css" rel="stylesheet" type="text/css"/>
+    <link href= "assets/css/chartist.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/fa.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
     <link href= "assets/css/datepicker.css" rel="stylesheet" type="text/css"/>
@@ -38,6 +39,7 @@
     <!--<link href= "assets/css/fileinput-rtl.min.css" rel="stylesheet" type="text/css"/> -->
     <link href= "assets/css/ripples.min.css" rel="stylesheet" type="text/css"/> 
     <link href= "assets/css/fonts.css" rel="stylesheet" type="text/css"/> 
+    <link href= "assets/css/lee.css" rel="stylesheet" type="text/css"/> 
     <link href= "assets/css/default.css" rel="stylesheet" type="text/css"/>
     <script src= "assets/js/jquery-3.1.0.min.js" type="text/javascript"></script>
     <script src= "assets/js/bootstrap.min.js" type="text/javascript"></script>
@@ -54,11 +56,18 @@
 
     <?php
         $userSession = "";
-        
+        $userPosition = "";
         if(array_key_exists('users',$_SESSION)){
             $userSession = $_SESSION['users']['user_level'];
         }else{
             
+        }
+        if(array_key_exists('users',$_SESSION)){
+            if($_SESSION["users"]["user_level"] == "2"){
+                if(isset($_SESSION["users"][0]["position"])){
+                    $userPosition = $_SESSION["users"][0]["position"];
+                }
+            }
         }
     ?>
     <script type="text/javascript">
@@ -68,6 +77,8 @@
         __currentPath += '/'+ __secondCurrentPath;
     }
     var __userSessionUserLevelData='<?php echo $userSession;?>';
+    var __userSessionPositionData = '<?php echo $userPosition;?>';
+
     </script>
     
 
@@ -78,3 +89,8 @@
 <?php
     }
 ?>
+<div id="loader-background">
+    <img src="assets/img/page-loader.gif" id="page-loader">
+</div>
+
+

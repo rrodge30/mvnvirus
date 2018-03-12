@@ -16,7 +16,7 @@ class Mdl_Users extends CI_Model {
         
         if($hasAdmin){
             $query = $this->db->where('user', $data['username'])
-            ->where('pass', $data['password'])
+            ->where('pass', md5($data['password']))
             ->join('user_leveltbl', 'users.user_level = user_leveltbl.user_level')
             ->get('users');
             $usersData = $query->first_row('array');
@@ -92,10 +92,6 @@ class Mdl_Users extends CI_Model {
     
     public function postregisteradmin($data=false){
        
-        if($data["pass"] != $data["confirmPass"]){
-            return array("password did not match",false);
-        }
-        
         $userLevelData = array(
                             0 => array(
                                         'user_level'=>"99",
@@ -246,7 +242,7 @@ class Mdl_Users extends CI_Model {
         //FOR SCHEDULE END (AUTO GENERATED)
 
         unset($data["confirmPass"]);
-        $isVpaaInserted = $this->db->insert('users',array('code' => "1234",'user'=>"vpaa",'pass'=>'1234','user_level'=>'3','status'=>'inactive'));
+        $isVpaaInserted = $this->db->insert('users',array('code' => "1234",'user'=>"vpaa",'pass'=>md5('1234'),'user_level'=>'3','status'=>'inactive'));
         if($isVpaaInserted){
             $last_insert = $this->db->insert_id();
             $isAdminInfoInserted = $this->db->insert('admin_informationtbl',array('firstname'=>'vpaa','id'=>$last_insert));
@@ -259,6 +255,7 @@ class Mdl_Users extends CI_Model {
         $data["user_level"] = "99";
         $data["status"] = "active";
         $data["code"] = "administrator";
+        $data["pass"] = md5($data["pass"]);
         $isUserAdminInserted = $this->db->insert('users',$data);
         if($isUserAdminInserted){
             $last_insert = $this->db->insert_id();
@@ -269,6 +266,7 @@ class Mdl_Users extends CI_Model {
                 $data["idusers"] = $last_insert;
                 $data["firstname"] = 'administrator';
                 $_SESSION["users"] = $data;
+                $_SESSION["users"]['image']="";
                 return array("welcome admin !", true);
             }else{
                 return array("Error Inserting admininfo",false);
@@ -280,6 +278,13 @@ class Mdl_Users extends CI_Model {
 
     public function insertUsers($data=array()){
         
+        $query = $this->db->where('user',$data['user'])
+                        ->limit(1)
+                        ->get('users');
+        if($isUserExist = $query->row_array()){
+            return false;
+        }
+
         if((array_key_exists('department',$data)) && (array_key_exists('position',$data)) && (array_key_exists('user_level',$data)) ){
             if($data["user_level"] == "2" && $data["position"] == "2"){// 2 if dean
                 $query = $this->db->join('teacher_informationtbl','users.idusers = teacher_informationtbl.id')
@@ -314,7 +319,7 @@ class Mdl_Users extends CI_Model {
                         $isDataValid = true;
                         $userInfo = array(  'code'=>$data['code'],
                                             'user'=>$data['user'],
-                                            'pass'=>$data['pass'],
+                                            'pass'=>md5($data['pass']),
                                             'user_level'=>$data['user_level'],
                                             'status'=>'inactive'
                                         );
@@ -462,6 +467,112 @@ class Mdl_Users extends CI_Model {
         return false;
     }
 
+    
+    public function getTeacherSubjectByUID($data=false){
+        $query=$this->db->join('subject_scheduletbl','subjecttbl.schedule = subject_scheduletbl.idschedule')
+                        ->get('subjecttbl');
+        $subjectList = $query->result_array();
+        
+        if($subjectList){
+            
+            for($i=0;$i<count($subjectList);$i++){
+                $query = $this->db->join('users','user_subjecttbl.UID = users.idusers','left')
+                                    ->where('users.user_level','2')
+                                    ->where('idsubject',$subjectList[$i]['idsubject'])
+                                    ->where('UID',$data)
+                                    ->limit(1)
+                                    ->get('user_subjecttbl');
+                if($userSubjectList = $query->row_array()){
+                    $subjectList[$i]["state"] = "subjectsList";
+                }else{
+                    $query = $this->db->join('users','user_subjecttbl.UID = users.idusers','left')
+                                    ->where('users.user_level','2')
+                                    ->where('idsubject',$subjectList[$i]['idsubject'])
+                                    ->where('UID !=',$data)
+                    ->limit(1)
+                    ->get('user_subjecttbl');
+                    if($isSubjectExist = $query->row_array()){
+                        array_splice($subjectList,$i,1);        
+                        $i--;
+                    }else{
+                        $subjectList[$i]['state'] = "availableSubjects";
+                    }
+                }
+            }
+        }
+        
+        return $subjectList;
+    }
+
+    public function getTeacherAvailableSubjects(){
+        $query=$this->db->join('subject_scheduletbl','subjecttbl.schedule = subject_scheduletbl.idschedule')
+                        ->get('subjecttbl');
+        $subjectList = $query->result_array();
+        
+        if($subjectList){
+            for($i=0;$i<count($subjectList);$i++){
+                $query = $this->db->join('users','user_subjecttbl.UID = users.idusers','left')
+                                    ->where('idsubject',$subjectList[$i]['idsubject'])
+                                    ->where('users.user_level','2')
+                                    ->limit(1)
+                                    ->get('user_subjecttbl');
+                if($userSubjectList = $query->row_array()){
+                    array_splice($subjectList,$i,1);
+                    $i--;
+                }else{
+                    $subjectList[$i]['state'] = "availableSubjects";
+                }
+            }
+        }
+
+        return $subjectList;
+    }
+    public function getStudentAvailableSubjects(){
+        $query=$this->db->join('subject_scheduletbl','subjecttbl.schedule = subject_scheduletbl.idschedule')
+                        ->get('subjecttbl');
+        $subjectList = $query->result_array();
+        
+        if($subjectList){
+            for($i=0;$i<count($subjectList);$i++){
+                
+                $subjectList[$i]['state'] = "availableSubjects";
+                
+            }
+        }
+
+        return $subjectList;
+    }
+
+    public function getStudentSubjectByUID($data=false){
+        $query=$this->db->join('subject_scheduletbl','subjecttbl.schedule = subject_scheduletbl.idschedule')
+                        ->get('subjecttbl');
+        $subjectList = $query->result_array();
+
+        
+        if($subjectList){
+            for($i=0;$i<count($subjectList);$i++){
+                $query = $this->db->where('idsubject',$subjectList[$i]['idsubject'])
+                                    ->where('UID',$data)
+                                    ->limit(1)
+                                    ->get('user_subjecttbl');
+                if($userSubjectList = $query->row_array()){
+                    $subjectList[$i]["state"] = "subjectsList";
+                }else{
+                    
+                    $subjectList[$i]['state'] = "availableSubjects";
+                    
+                }
+            }
+        }
+
+        return $subjectList;
+    }
+
+
+
+
+
+
     public function getUserAvailableSujbects($data=false){
       
         $query=$this->db->join('subject_scheduletbl','subjecttbl.schedule = subject_scheduletbl.idschedule')
@@ -475,7 +586,7 @@ class Mdl_Users extends CI_Model {
         $isSubjectAcquiredQuery = $this->db->join('users','user_subjecttbl.UID = users.idusers')
                                     ->get('user_subjecttbl');
         $isSubjectAcquired = $isSubjectAcquiredQuery->result_array();
-        if($userSubjectQuery){
+        if($userSubjectData){
             if(count($isSubjectAcquired) > 0){
                 foreach($isSubjectAcquired as $key=>$value){
                     $userSubjectAcquiredId['idsubject'][$key] = $value['idsubject'];
@@ -502,8 +613,10 @@ class Mdl_Users extends CI_Model {
                 
                         }else{
                             if($userSubjectAcquiredId['user_level'][$i] == "2"){
-                                array_splice($subjectList,$i,1);
-                                $i--;
+
+                                //array_splice($subjectList,$i,1);
+                                //$i--;
+                                $subjectList[$i]['state'] = "availableSubjects";
                             }else{
                                 $subjectList[$i]['state'] = "availableSubjects";
                             }
@@ -522,8 +635,9 @@ class Mdl_Users extends CI_Model {
                 
                         }else{
                             if($userSubjectAcquiredId['user_level'][$i] == "2"){
-                                array_splice($subjectList,$i,1);
-                                $i--;
+                                //array_splice($subjectList,$i,1);
+                                //$i--;
+                                $subjectList[$i]['state'] = "availableSubjects";
                             }else{
                                 $subjectList[$i]['state'] = "availableSubjects";
                             }
@@ -559,8 +673,9 @@ class Mdl_Users extends CI_Model {
                 
                         }else{
                             if($userSubjectAcquiredId['user_level'][$i] == "2"){
-                                array_splice($subjectList,$i,1);
-                                $i--;
+                                //array_splice($subjectList,$i,1);
+                                //$i--;
+                                $subjectList[$i]['state'] = "availableSubjects";
                             }else{
                                 $subjectList[$i]['state'] = "availableSubjects";
                             }
@@ -596,11 +711,20 @@ class Mdl_Users extends CI_Model {
     }
 
     public function updateUser($data=false){
-  
-    
-        $subjectIdData = explode(',', $data['idsubject']);
+        
+        $query = $this->db->where('idusers !=',$data["idusers"])
+                        ->where('user',$data['user'])
+                        ->get('users');
+        if($query->result_array()){
+            return false;
+        }
 
-        $subjectAvailableIdData = explode(',', $data['idsubject_available']);
+        if(isset($data['idsubject']) && isset($data['idsubject_available'])){
+            $subjectIdData = explode(',', $data['idsubject']);
+            
+            $subjectAvailableIdData = explode(',', $data['idsubject_available']);
+        }
+        
         
         if($getQuery = $this->db->where('idusers',$data['idusers'])->get('users')){            
             $userData = $getQuery->row_array();
@@ -615,7 +739,12 @@ class Mdl_Users extends CI_Model {
                     return false;
                 }
             }
-            
+            $getDepartment = $this->db->where('iddepartment',$data['department'])
+                        ->limit(1)
+                        ->get('departmenttbl');
+            $getDepartmentData = $getDepartment->row_array();
+
+            $data['department_name'] = $getDepartmentData['department_name'];
             if($userData['user_level'] == 1){
                 
                 if(array_key_exists('course',$data)){
@@ -634,11 +763,23 @@ class Mdl_Users extends CI_Model {
                     }
                     
                 }
+
+                $getCourse = $this->db->where('idcourse',$data['course'])
+                                    ->limit(1)
+                                    ->get('coursetbl');
+                $getCourseData = $getCourse->row_array();
+
+                
+                $data['course_name'] = $getCourseData['course_name'];
+                
+
                 $setStudentInformation = array( 
                                     'firstname'=>$data['firstname'],
                                     'middlename' => $data['middlename'],
                                     'lastname' => $data['lastname'],
-                                    'year_level' => $data['year_level']
+                                    'year_level' => $data['year_level'],
+                                    'department' => $data['department_name'],
+                                    'course' => $data['course_name']
                             );
                 $isUpdated = $this->db->set($setStudentInformation)->where('id',$data['idusers'])->update('student_informationtbl');
             }else if($userData['user_level'] == 2){
@@ -646,31 +787,47 @@ class Mdl_Users extends CI_Model {
                                     'middlename' => $data['middlename'],
                                     'lastname' => $data['lastname'],
                                     'position' => $data['position'],
+                                    'department' => $data['department_name']
                             );
                 $isUpdated = $this->db->set($setTeacherInformation)->where('id',$data['idusers'])->update('teacher_informationtbl');
             }
             
             if($isUpdated){
+                
                 $userSubjectQuery = $this->db->where('UID',$data['idusers'])
                     ->get('user_subjecttbl');
                 $userSubjectData = $userSubjectQuery->result_array();
-               
+                
                 if($userSubjectData){
                     foreach($userSubjectData as $key => $valueUser){
-                        if(count($subjectIdData) > 1){
+                        
+                        if(count($subjectIdData) > 0){
                             foreach($subjectIdData as $key=> $valueSubjectId){
-                                if($valueUser['UID'] != $valueSubjectId){
+                                if($valueUser['idsubject'] != $valueSubjectId){
                                     if($valueUser['UID'] == $data['idusers']){
+                                        if($valueSubjectId == "" || $valueSubjectId == null){
+                                            
+                                        }else{
+                                            $query = $this->db->where('idsubject',$valueSubjectId)
+                                                            ->where('UID',$data["idusers"])
+                                                            ->get('user_subjecttbl');
+                                            if($isUserSubjectExist = $query->result_array()){
+
+                                            }else{
+                                                $isSubjectInserted = $this->db->insert('user_subjecttbl',array('idsubject'=>$valueSubjectId,
+                                                'UID'=>$data['idusers'])
+                                                );
+                                            }
+
+                                        }
                                         
-                                        $isSubjectInserted = $this->db->insert('user_subjecttbl',array('idsubject'=>$valueSubjectId,
-                                        'UID'=>$data['idusers'])
-                                        );
                                     }
-                                   
                                 }
                             }
                         }
-                        if(count($subjectAvailableIdData) > 1){
+                        
+                        if(count($subjectAvailableIdData) > 0){
+                            
                             foreach($subjectAvailableIdData as $key => $valueSubjectId){
                                 if($valueUser['idsubject'] == $valueSubjectId){
                                     if($valueUser['UID'] == $data['idusers']){
@@ -685,15 +842,30 @@ class Mdl_Users extends CI_Model {
                     }
                 }else{
                     foreach($subjectIdData as $key=> $valueSubjectId){
-                        $isSubjectInserted = $this->db->insert('user_subjecttbl',array('idsubject'=>$valueSubjectId,
-                        'UID'=>$data['idusers'])
-                        );
+                        if($valueSubjectId == "" || $valueSubjectId == null){
+
+                        }else{
+                            $query = $this->db->where('idsubject',$valueSubjectId)
+                            ->where('UID',$data["idusers"])
+                            ->get('user_subjecttbl');
+                            if($isUserSubjectExist = $query->result_array()){
+
+                            }else{
+                                $isSubjectInserted = $this->db->insert('user_subjecttbl',array('idsubject'=>$valueSubjectId,
+                                'UID'=>$data['idusers'])
+                                );
+                            }
+                         
+                        }
                         
                     }
                     foreach($subjectAvailableIdData as $key => $valueSubjectId){
-                        $isSubjectDeleted = $this->db->where('UID',$data['idusers']) 
-                        ->where('idsubject',$valueSubjectId)
-                        ->delete('user_subjecttbl');
+                        if($valueSubjectId == "" || $valueSubjectId == null){
+                            $isSubjectDeleted = $this->db->where('UID',$data['idusers']) 
+                            ->where('idsubject',$valueSubjectId)
+                            ->delete('user_subjecttbl');
+                        }
+                        
                     }
                 }
                 return true;
@@ -705,9 +877,10 @@ class Mdl_Users extends CI_Model {
     }
 
     public function changePassword($data=array()){
-        $query = $this->db->set('pass',$data['newPassword'])->set('status','active')->where('idusers',$data['idusers'])->update('users');
+        
+        $query = $this->db->set('pass',md5($data['newPassword']))->set('status','active')->where('idusers',$data['idusers'])->update('users');
         if($query){ 
-            return $data['newPassword'];
+            return md5($data['newPassword']);
         }else
         {
             return false;

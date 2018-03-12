@@ -28,6 +28,12 @@ class Notifications extends MY_Controller {
 		$questionaireInfo = $this->mdl_notifications->approvequestionnaire($_POST["id"]);
 		echo json_encode($questionaireInfo);
 	}
+	public function disapprovequestionnaire($id=false)
+	{
+		$this->load->model('mdl_notifications');
+		$questionaireInfo = $this->mdl_notifications->disapprovequestionnaire($_POST);
+		echo json_encode($questionaireInfo);
+	}
  
 
 }

@@ -112,7 +112,7 @@
     	
             <div class="logo">
                 <a href="dashboard" class="simple-text">
-                    e Checker
+                    E-xaminationHUB
                 </a>
             </div>
             <div class="sidebar-wrapper">
@@ -226,7 +226,7 @@
                                 </li>';
                     }
 
-                    if(($m_notifications == '1') && ($_SESSION['users'][0]['position'] == "2")){
+                    if($m_notifications == '1'){
                         
                         echo '<li class="'.$notifications.'">
                                     <a href="notifications">
@@ -251,7 +251,7 @@
     </div>
 
     <div class="main-panel">
-        <nav class="navbar navbar-transparent navbar-absolute">
+        <nav class="navbar navbar-transparent navbar-absolute" style="width:100%;">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse">
@@ -260,7 +260,17 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><?=ucwords($currentPath);?></a>
+                    <a class="navbar-brand" style="cursor:auto;" onclick="history.go(-1); return false;"><i class="material-icons">arrow_back</i></a>
+                </div>
+                
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                    </button>
+                    <a class="navbar-brand" style="font-size:26px !important;" onclick="javascript:void(0);"><?=ucwords($currentPath);?></a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -270,17 +280,29 @@
                                 <p class="hidden-lg hidden-md">Dashboard</p>
                             </a>
                         </li>
-
-                        
                         
                         <!-- notification DEAN QUESTIONNAIRE VALIDATION -->
                         <?php
                             if($_SESSION["users"]["user_level"] == "2" && $_SESSION["users"][0]["position"] == "2"){
+                            
                         ?>
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="notifications">
                                 <i class="material-icons">notifications</i>
                                     <span class="notification"><?= $validationCount;?></span>
+                                <p class="hidden-lg hidden-md">Notifications</p>
+                            </a>
+                        </li>
+                        <?php
+                            }
+                        ?>
+                        <?php
+                            if($_SESSION["users"]["user_level"] == "2" && $_SESSION["users"][0]["position"] == "1"){
+                        ?>
+                        <li>
+                            <a href="notifications">
+                                <i class="material-icons">notifications</i>
+                                    <span class="notification"><?= $validationDisapprovedCount;?></span>
                                 <p class="hidden-lg hidden-md">Notifications</p>
                             </a>
                         </li>
@@ -319,6 +341,7 @@
                                                 $name = $_SESSION["users"][0]["firstname"];
                                             }
                                         }
+                                        echo '<a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">code</i>'.$_SESSION["users"]["code"].'</a>';
                                         echo '<a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">face</i>'.ucfirst($name).'</a>';
                                         
                                     ?>
@@ -342,8 +365,7 @@
                                         }
                                         echo '<a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">supervisor_account</i>'.ucfirst($displayUserLevel).'</a>';
                                     ?>
-                           
-                               
+                                    
                                     <?php
                                         if($_SESSION["users"]["user_level"] == "1" || $_SESSION["users"]["user_level"] == "2"){
                                             echo '<a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">view_quilt</i>'.ucfirst($_SESSION["users"][0]["department"]).'</a>';
@@ -357,9 +379,11 @@
                                         if($_SESSION["users"]["user_level"] == "1"){
                                             $course = $_SESSION["users"][0]["course"];
                                             $yearlevel = $_SESSION["users"][0]["year_level"];
+                                            
                                             echo '
                                                     <a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">book</i>'.ucfirst($course).'</a>
                                                 ';
+                                                
                                             echo '
                                                     <a href="javascript:void(0)"><i class="material-icons" style="margin-right:30px;">show_chart</i>'.ucfirst($yearlevel).'</a>
                                                 ';
@@ -385,18 +409,10 @@
                         </li>
                         
                     </ul>
-                    <form class="navbar-form navbar-right" role="search">
-                        <div class="form-group  is-empty">
-                            <input type="text" class="form-control" placeholder="Search">
-                            <span class="material-input"></span>
-                        </div>
-                        <button type="submit" class="btn btn-white btn-round btn-just-icon">
-                            <i class="material-icons">search</i>
-                            <div class="ripple-container"></div>
-                        </button>
-                    </form>
+                    
                 </div>
             </div>
         </nav>
         <div class="content">
             <div class="container-fluid">
+            

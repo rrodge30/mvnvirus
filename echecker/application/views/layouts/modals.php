@@ -41,6 +41,9 @@
 </div>
 
 <!-- modal start -->
+<?php
+    if(isset($data["questionaire_title"])){
+?>
 <div id="modal-static-examine" class="modal fade">
         <div class="modal-dialog" role="document" style="width:100% !important;height:100% !important;overflow-y:scrollable !important;z-index:999 !important;position:absolute !important;margin:0px !important;padding:0px !important;left:0px !important;right:0px !important;">
             <div class="modal-content">
@@ -88,18 +91,18 @@
                                     
                                 ?>
 
-                                
-                                
                                 <!-- tab header end -->
                             </ul>
-
+                            
                             <!-- Tab panes -->
                             <div class="tab-content col-md-12">
                                 
                                 <!-- tab content -->
                                 <?php
                                     if($data["questionaire_type"]){
-                                        /*echo '<pre>';
+
+                                        /*
+                                        echo '<pre>';
                                         print_r($data);
                                         echo '</pre>';
                                         */
@@ -109,8 +112,16 @@
                                                 //bouchie tabpanel start
                                             echo '
                                                 <div class="container col-md-12">
-                                                
-                                                <input type="hidden" name="idquestionaire" id="input-idquestionaire" value="'.$data["idquestionaire"].'">
+                                                ';
+                                            echo '
+                                                <div>
+                                                    <span class="category">TOTAL ITEM</span>'.$value["questionaire_type_total_item"].'
+                                                </div>
+                                                <div>
+                                                    <span class="category">POINTS PER ITEM</span>'.$value["questionaire_type_item_points"].'
+                                                </div>
+                                            ';    
+                                            echo    '<input type="hidden" name="idquestionaire" id="input-idquestionaire" value="'.$data["idquestionaire"].'">
                                                 
                                                     <div class="row col-md-12">
                                                         <div class="col-md-10 bhoechie-tab-container template'.$key.'">
@@ -165,12 +176,14 @@
                                                                                         </div>';
 
                                                                             }
+
                                                                             echo '<input type="hidden" name="idquestion" id="input-idquestion-tabno'.$key.'-'.$i.'" value="'.$data["questionaire_type"][$key]["question"][$i]["idquestion"].'">';
                                                                             
                                                                             echo '<span class="span-next-item'.$key.' item-'.$i.'">
-                                                                                    <button class="btn-success btn pull-right btn-next-item" form="frm-examine" data-tabno="'.$key.'" data-item="'.$i.'">
+                                                                                    <button class="btn-success btn pull-right btn-next-examination-item" form="frm-examine" data-tabno="'.$key.'" data-item="'.$i.'">
                                                                                         <span class="material-icons">playlist_add_check</span>
                                                                                     </button>
+                                                                                 
                                                                                 </span>';   
                                                                     echo '</div>';
                                                                 }   
@@ -195,12 +208,18 @@
                             </div>
                         </div>
                     </div>
+                    
                 <!--  body end-->
             </div>
             <div class="modal-footer">
-                
+            <button class="btn-information btn pull-right col-md-5 btn-submit-examine" type="button">
+                <span class="material-icons">check_circle</span>SUBMIT
+            </button>
             </div>
             </div>
         </div>
         </div>
+<?php
+    }
+?>
     <!-- modal end -->

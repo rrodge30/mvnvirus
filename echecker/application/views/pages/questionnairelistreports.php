@@ -9,33 +9,33 @@ echo "</pre>";
 <div class="user-subject-list">
 
     <?php 
-        
+        echo '<div style="margin:50px;margin-left:10px;">';
         if(isset($data[0]["subject_code"]) && isset($data[0]["subject_description"])){
             echo '<div class="row">
-                    <span>Subject Code:</span><span>'.$data[0]["subject_code"].'</span>
+                    <span class="col-md-3">Subject Code</span><span class="col-md-9">:'.$data[0]["subject_code"].'</span>
                 </div>
                 <div class="row">
-                        <span>Subject Description:</span><span>'.$data[0]["subject_description"].'</span>
+                        <span class="col-md-3">Subject Description</span><span class="col-md-9">:'.$data[0]["subject_description"].'</span>
                 </div>';
         }else if(isset($data["subject_code"]) && isset($data["subject_description"])){
-            echo '<div class="row">
-                    <span>Subject Code:</span><span>'.$data["subject_code"].'</span>
+            echo '<div class="row" style="">
+                    <span class="col-md-3">Subject Code:</span><span class="col-md-9">:'.$data["subject_code"].'</span>
                 </div>
                 <div class="row">
-                        <span>Subject Description:</span><span>'.$data["subject_description"].'</span>
+                        <span class="col-md-3">Subject Description</span><span class="col-md-9">:'.$data["subject_description"].'</span>
                 </div>';
         }
         if($data){
             if(isset($data["student_count"])){
                 echo '<div class="row">
-                        <span>Number of Students:</span><span>'.$data["student_count"].'</span>
+                        <span class="col-md-3">Number of Students</span><span class="col-md-9">:'.$data["student_count"].'</span>
                     </div>';
             
             }
         }
-      
+        echo "</div>";
     ?>
-    <span class="brand" style="font-size:20px;">QUESTIONNAIRE LIST:</span>
+    <span class="brand roboto" style="font-size:20px;">QUESTIONNAIRE LIST:</span>
     <table id="table-subjectList" class="table table-striped">        
         <thead>
             <tr>
@@ -54,15 +54,14 @@ echo "</pre>";
                         
                     }
 
-                    if($_SESSION["users"]["user_level"] == "2"){
+                    if($_SESSION["users"]["user_level"] != "1"){
 
                         echo '<td class="text-center font-roboto color-a2">NO. OF STUDENTS TAKE EXAM</td>';
                         echo '<td class="text-center font-roboto color-a2">PASSING RATE</td>';
                     }
 
                 ?>
-                
-                
+
                 <td class="text-center font-roboto color-a2">ACTION</td>
             </tr>
         </thead>
@@ -83,7 +82,7 @@ echo "</pre>";
                             $idsubject = $questionaire['idsubject'];
                             $percentage = "0";
                             if($score != "" && $score != null){
-                                $percentage = ((($score)/($total_score))*80)+(20);
+                                $percentage = number_format(((($score)/($total_score))*80)+(20),2);
                                 if($percentage >= 75){
                                     $remark = "Passed";
                                 }else{
@@ -111,7 +110,7 @@ echo "</pre>";
                                         
                                     }
                                     if($userPassCount > 0){
-                                        $passPercentage = ((($userPassCount))/(count($questionaire["user_questionnaire"]))*100);
+                                        $passPercentage = number_format(((($userPassCount))/(count($questionaire["user_questionnaire"]))*100),2);
                                     }else{
                                         $passPercentage = 0;
                                     }
@@ -134,7 +133,7 @@ echo "</pre>";
                                     echo "<td class='text-center font-roboto color-a2'>$percentage%</td>";
                                     echo "<td class='text-center font-roboto color-a2'>$remark</td>";
                                 }
-                                if($_SESSION["users"]["user_level"] == "2"){
+                                if($_SESSION["users"]["user_level"] != "1"){
                                 
                                     echo "<td class='text-center font-roboto color-a2'>$numberOfStudentsTake</td>";
                                     echo "<td class='text-center font-roboto color-a2'>$passPercentage%</td>";
@@ -165,7 +164,15 @@ echo "</pre>";
                                     </button>
                                 </form>
                             ";
+
+                            echo '<form action="reports/exportSubjectStudentsQuestionaireResult" method="POST" id="frm-exportSubjectStudentsQuestionaireResult'.$id.'">
+                                    <input type="hidden" name="idquestionaire" value="'.$id.'">
+                                    <button data-toggle="tooltip" data-placement="top" title="Export Questionnaire Result" class=" btn btn-success" type="submit" form="frm-exportSubjectStudentsQuestionaireResult'.$id.'">
+                                        <i class="material-icons">file_download</i>
+                                    </button>
+                                </form>';
                         }
+                        
                                                      
                         
     

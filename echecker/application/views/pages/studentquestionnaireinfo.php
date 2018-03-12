@@ -99,14 +99,20 @@
                         </div>
                         <div class="col-md-10">
                             <p class="category" id="reports-user-total-score">
-                                <?=$data["user_total_score"]?>
+                                <?php
+                                    if($data["user_total_score"] == "" || $data["user_total_score"] == null){
+                                        echo "0";
+                                    }else{
+                                        echo $data["user_total_score"];
+                                    }
+                                ?>
                             </p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-2">
                         <p class="category">
-                               TIME CONSUME
+                               TIME CONSUMED
                         </p>
                         </div>
                         <div class="col-md-10">
@@ -231,7 +237,7 @@
                                                                                
                                                                              
                                                                                     <h5 class="title">
-                                                                                        YOUR ANSWER:
+                                                                                        ANSWER:
                                                                                     </h5>
                                                                               
                                                                           
@@ -316,7 +322,7 @@
                                                                                             YOUR ANSWER:
                                                                                         </div>
                                                                                         
-                                                                                        <div class="col-md-12">';
+                                                                                        <div class="col-md-12 roboto margin5" style="margin:10px;">';
                                                                                 if(($data["questionaire_type"][$key]["question"][$i]["user_answer"] !== null) && !empty($data["questionaire_type"][$key]["question"][$i]["user_answer"])){
                                                                                     $userAnswer = $data["questionaire_type"][$key]["question"][$i]["user_answer"][0]["answer"];            
                                                                                     $arrGivenAnswer = $data["questionaire_type"][$key]["question"][$i]['answer'];

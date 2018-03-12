@@ -94,13 +94,40 @@ class Users extends MY_Controller {
         $result = $this->mdl_Users->getUserInfoById($_POST['id']);
         echo json_encode($result);
     }
-
+    
     public function getUserAvailableSubject(){
      
         $this->load->model('mdl_Users');
         $query = $this->mdl_Users->getUserAvailableSujbects($_POST['id']);
-        
+
         echo json_encode($query);
+    }
+    public function getTeacherAvailableSubjects(){
+     
+        $this->load->model('mdl_Users');
+        $getTeacherAvailableSubjects = $this->mdl_Users->getTeacherAvailableSubjects();
+
+        echo json_encode($getTeacherAvailableSubjects);
+    }
+    public function getStudentAvailableSubjects(){
+     
+        $this->load->model('mdl_Users');
+        $getStudentAvailableSubjects = $this->mdl_Users->getStudentAvailableSubjects();
+
+        echo json_encode($getStudentAvailableSubjects);
+    }
+    public function getStudentSubjectByUID(){
+     
+        $this->load->model('mdl_Users');
+        $getStudentSubjectByUID = $this->mdl_Users->getStudentSubjectByUID($_POST['id']);
+        echo json_encode($getStudentSubjectByUID);
+    }
+    public function getTeacherSubjectByUID(){
+     
+        $this->load->model('mdl_Users');
+        $getTeacherSubjectByUID = $this->mdl_Users->getTeacherSubjectByUID($_POST['id']);
+
+        echo json_encode($getTeacherSubjectByUID);
     }
 
     public function modalAddTeacher(){
@@ -141,7 +168,7 @@ class Users extends MY_Controller {
                         <input type="hidden" class="form-control input-class-subjectList" name="idsubject" aria-describedby="basic-addon1" required="required">
                         <input type="hidden" class="form-control input-class-available-subjectList" name="idsubject_available" aria-describedby="basic-addon1" required="required">
                         </form>';
-
+        $htmlbody .= '<div class="col-md-12 roboto text-center no-subject-div" style="display:none;">No Available Subjects</div>';
         $htmlfooter = '<button type="submit" form="mdl-frm-add-teacher" class="btn btn-primary btn-post-add-subject"><i class="material-icons">playlist_add_check</i></button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
         echo json_encode(array('body'=>$htmlbody,'footer'=>$htmlfooter));
@@ -184,7 +211,7 @@ class Users extends MY_Controller {
             <input type="hidden" class="form-control input-class-available-subjectList" name="idsubject_available" aria-describedby="basic-addon1" required="required">
             <input type="hidden" class="form-control input-class-subjectList" name="idsubject" aria-describedby="basic-addon1" required="required">
          </form>';
-        
+        $htmlbody .= '<div class="col-md-12 text-center roboto no-subject-div " style="display:none;">No Available Subjects</div>';
         $htmlfooter = '<button type="submit" form="mdl-frm-add-student" class="btn btn-primary btn-post-add-subject"><i class="material-icons">playlist_add_check</i></button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="material-icons">close</i></button>';
         echo json_encode(array('body'=>$htmlbody,'footer'=>$htmlfooter));
@@ -259,7 +286,7 @@ class Users extends MY_Controller {
                 <input type="hidden" class="form-control input-class-subjectList" name="idsubject" aria-describedby="basic-addon1" required="required">
                 <input type="hidden" class="form-control input-class-available-subjectList" name="idsubject_available" aria-describedby="basic-addon1" required="required">
             </form>';
-        
+        $htmlbody .= '<div class="col-md-12 text-center roboto no-subject-div" style="display:none;">No Available Subjects</div>';
         $htmlfooter = '<button type="submit" form="mdl-frm-update-user" class="btn btn-primary btn-post-user-update">Save changes</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
         echo json_encode(array('body'=>$htmlbody,'footer'=>$htmlfooter));

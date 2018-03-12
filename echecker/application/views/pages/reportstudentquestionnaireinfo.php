@@ -59,7 +59,6 @@
                                     <i class='material-icons'>remove_red_eye</i>
                                 </a>";
                      
-                        
     
                         echo " 
                                     

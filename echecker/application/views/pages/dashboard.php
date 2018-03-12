@@ -19,7 +19,8 @@
     echo "<pre>";
     print_r($_SESSION["users"]);
     echo "</pre>";
-*/
+    print_r($data);
+    */
 
 ?>
  
@@ -47,43 +48,106 @@
                                             </div>
                                         </div>
                                         </div>
+                                    <!-- CHART -->
+                                    <?php
+                                    
+                                        if($_SESSION["users"]["user_level"] == "3"){
+                                            echo '<div style="padding-top:50px;magin-top:50px;max-height:300px;overflow-y:auto;" class="report-charts-section">
+                                            
+                                                </div>';
+                                        }
+                                    ?>
+                                    <!-- CHART END -->
                                     <!-- questionnaireValidation -->
                                     
-                                    <div class="row" style="overflow-x:scroll;margin-left:50px;margin-top:25px;">
+                                    <div class="row" style="overflow-x:auto;margin-left:50px;margin-top:25px;">
                                         <?php
-                                            if($_SESSION["users"]["user_level"] == "2" && $_SESSION["users"][0]["position"] == "2")
-                                            if($data["questionnaireValidation"]){
-                                                foreach($data["questionnaireValidation"] as $key => $value){
-                                                    $questionnaire_title = $value["questionaire_title"];
-                                                    $questionnaire_description = $value["questionaire_description"];
-                                                    $teacher_firstname = $value["firstname"];
-                                                    $idquestionnaire = $value["idquestionaire"];
-                                                    echo '
-                                                        <div class="col-lg-3 col-md-6 col-sm-6">
-                                                            <div class="card card-stats">
-                                                                <div class="card-header" data-background-color="blue">
-                                                                    <i class="fa fa-bell"></i>
-                                                                    <span class="notification">'.($key+1).'</span>
-                                                                </div>
-                                                                <div class="card-content">
-                                                                <h3 class="title"><a href="notifications/viewquestionnaire/'.$idquestionnaire.'">'.$questionnaire_title.'</a></h3>
-                                                                    <p class="category">'.$questionnaire_description.'</p>
-                                                                </div>
-                                                                <div class="card-footer">
-                                                                    <div class="stats">
-                                                                        <i class="material-icons">update</i> New Questionnaire for Validation from <b>'.strtoupper($teacher_firstname).'</b>
+                                            if($_SESSION["users"]["user_level"] == "2" && $_SESSION["users"][0]["position"] == "2"){
+                                                
+
+                                                if($data["questionnaireValidation"]){
+                                                    foreach($data["questionnaireValidation"] as $key => $value){
+                                                        $questionnaire_title = $value["questionaire_title"];
+                                                        $questionnaire_description = $value["questionaire_description"];
+                                                        $teacher_firstname = $value["firstname"];
+                                                        $idquestionnaire = $value["idquestionaire"];
+                                                        echo '
+                                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                <div class="card card-stats">
+                                                                    <div class="card-header" data-background-color="blue">
+                                                                        <i class="fa fa-bell"></i>
+                                                                        <span class="notification">'.($key+1).'</span>
+                                                                    </div>
+                                                                    <div class="card-content">
+                                                                    <h3 class="title"><a href="notifications/viewquestionnaire/'.$idquestionnaire.'">'.$questionnaire_title.'</a></h3>
+                                                                        <p class="category">'.$questionnaire_description.'</p>
+                                                                    </div>
+                                                                    <div class="card-footer">
+                                                                        <div class="stats">
+                                                                            <i class="material-icons">update</i> New Questionnaire for Validation from <b>'.strtoupper($teacher_firstname).'</b>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    ';
+                                                        ';
+                                                        
+                                                    }
                                                     
+                                                }
+                                            }elseif($_SESSION["users"]["user_level"] == "2" && $_SESSION["users"][0]["position"] == "1"){
+                                                if($data["questionnaireValidation"]){
+                                                    foreach($data["questionnaireValidation"] as $key => $value){
+                                                        $questionnaire_title = $value["questionaire_title"];
+                                                        $questionnaire_description = $value["questionaire_description"];
+                                                        $teacher_firstname = $value["firstname"];
+                                                        $idquestionnaire = $value["idquestionaire"];
+                                                        echo '
+                                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                <div class="card card-stats">
+                                                                    <div class="card-header" data-background-color="blue">
+                                                                        <i class="fa fa-bell"></i>
+                                                                        <span class="notification">'.($key+1).'</span>
+                                                                    </div>
+                                                                    <div class="card-content">
+                                                                    <h3 class="title"><a href="notifications/viewquestionnaire/'.$idquestionnaire.'">'.$questionnaire_title.'</a></h3>
+                                                                        <p class="category">'.$questionnaire_description.'</p>
+                                                                    </div>
+                                                                    <div class="card-footer">
+                                                                        <div class="stats">
+                                                                            <i class="material-icons">update</i> New Questionnaire Disapproval
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ';
+                                                        
+                                                    }
                                                 }
                                             }
                                         ?>
                                         </div>
                                     <!-- NOTIFICATION END -->
-                                    
+                                        <div class="row" style="margin:50px;">
+                                        <?php
+                                        if(isset($_SESSION["users"][0]["position"])){
+                                            if($_SESSION["users"]["user_level"] == "2" && $_SESSION["users"][0]["position"] == "2"){
+                                                echo '<div class="row report-chart-list" style="margin-top:50px;">
+                                                
+                                                            <div style="" class="report-charts-section" >
+                                                                
+                                                            </div>
+                                                        </div>  
+                                                        <div class="row">
+                                                            <button data-toggle="tooltip" data-placement="top" title="Hide Chart" class="btn-report-show-departmentlist-table btn btn-info">
+                                                                <span>HIDE CHART</span><i class="material-icons">keyboard_arrow_up</i>
+                                                            </button>
+                                                        </div>';
+                                            
+                                            }
+                                        }
+                                            
+                                        ?>
+                                        </div>
                                         <div class="row" style="margin:50px;">
                                             <?php
                                                 if($_SESSION['users']['user_level'] == '99' || $_SESSION['users']['user_level'] == '3'){

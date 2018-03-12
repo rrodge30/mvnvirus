@@ -15,6 +15,7 @@ class Dashboard extends MY_Controller {
         $scheduleData = $this->Mdl_dashboards->getMessage();
 
         $questionnaireNotifications = $this->Mdl_dashboards->getQuestionnaireDataForValidation();
+  
         $this->_view('dashboard',array('questionnaireValidation'=>$questionnaireNotifications,'message' =>$scheduleData));
         
 	}

@@ -47,10 +47,18 @@ class MY_Controller extends CI_Controller {
                 $identifier = $this->mdl_dashboards->adminSettingIdentifier();
                 $path["identifier"] = $identifier;
             }
+
             if($_SESSION["users"]["user_level"] == "2" && $_SESSION["users"][0]["position"] == "2"){
+                
                 $this->load->model('mdl_dashboards');
                 $validationCount = $this->mdl_dashboards->getNumberOfQuestionnaireValidation();
                 $path["validationCount"] = $validationCount;
+            }
+            if($_SESSION["users"]["user_level"] == "2" && $_SESSION["users"][0]["position"] == "1"){
+
+                $this->load->model('mdl_dashboards');
+                $validationDisapprovedCount = $this->mdl_dashboards->getNumberOfQuestionnaireValidation();
+                $path["validationDisapprovedCount"] = $validationDisapprovedCount;
             }
             /*
             echo "<pre>";
