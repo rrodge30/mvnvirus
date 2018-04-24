@@ -1,0 +1,36 @@
+/* CUSTOM DATA TABLES */
+select.form-control-sm{
+    height: calc(1.68125rem + 7px) !important;
+}
+
+select.form-control{
+    height: calc(2.19rem + 10px) !important;
+}
+
+/* DATATABLE LIST ITEM (HOME) */
+#frm-table-list input[type=search].col-md-6{
+    margin-right:-15px;
+}
+
+.btn-add-item{
+    height: 25px;
+    width: 25px;
+    margin-top: 15px;
+    margin-left: 15px;
+    float:left;
+    padding:0;
+}
+
+.custom-select{
+    height: calc(2.19rem + 12px);
+}
+
+/* CUSTOM NAVBAR */
+
+.navbar{
+    border-radius: 0;
+}
+
+.text-center{
+    text-align: center;
+}
